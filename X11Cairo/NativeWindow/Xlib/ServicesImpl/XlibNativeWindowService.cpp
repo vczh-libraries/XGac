@@ -9,14 +9,14 @@ namespace vl
         {
             namespace xlib
             {
-                XlibNativeWindowService::XlibNativeWindowService (char const *display)
+                XlibNativeWindowService::XlibNativeWindowService (char const *displayString)
                 {
                     this->display = XOpenDisplay(display);
                 }
 
                 XlibNativeWindowService::~XlibNativeWindowService ()
                 {
-                    XCloseDisplay(display)
+                    XCloseDisplay(display);
                 }
             }
         }

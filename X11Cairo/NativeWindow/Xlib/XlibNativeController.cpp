@@ -1,5 +1,6 @@
 #include "XlibNativeController.h"
 #include "ServicesImpl/XlibNativeWindowService.h"
+#include "../Common/ServiceImpl/PosixAsyncService.h"
 
 namespace vl
 {
@@ -40,7 +41,10 @@ namespace vl
 
 	                virtual INativeDialogService *DialogService ();
 
-	                virtual WString GetOSVersion ();
+	                virtual WString GetOSVersion ()
+	                {
+		                return WString(L"Linux");
+	                }
 
 	                virtual WString GetExecutablePath ();
                 };

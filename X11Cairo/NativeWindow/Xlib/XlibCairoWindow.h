@@ -1,8 +1,8 @@
-#ifndef __XCB_CAIRO_WINDOW_H
-#define __XCB_CAIRO_WINDOW_H
+#ifndef __XLIB_CAIRO_WINDOW_H
+#define __XLIB_CAIRO_WINDOW_H
 
+#include "XlibIncludes.h"
 #include <GacUI.h>
-#include <X11/Xlib.h>
 
 namespace vl
 {
@@ -16,7 +16,7 @@ namespace vl
 			    {
 			    protected:
 				    Display* display;
-				    Window* window;
+				    Window window;
 
 			    public:
 				    virtual Rect GetBounds ();

@@ -8,6 +8,15 @@ namespace vl
         {
             namespace xlib
             {
+                void XlibCairoWindow::Show ()
+                {
+                    XMapWindow(display, window);
+                }
+
+                void XlibCairoWindow::Hide ()
+                {
+                    XUnmapWindow(display, window);
+                }
             }
         }
     }

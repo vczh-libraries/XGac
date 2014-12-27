@@ -1,4 +1,7 @@
-#include <X11/Xlib.h>
+#ifndef __XLIB_NATIVE_WINDOW_SERVICE_H
+#define __XLIB_NATIVE_WINDOW_SERVICE_H
+
+#include "../XlibIncludes.h"
 #include <GacUI.h>
 
 namespace vl
@@ -15,7 +18,7 @@ namespace vl
 					Display* display;
 
 				public:
-					XlibNativeWindowService (const char *display = NULL);
+					XlibNativeWindowService (const char *displayString = NULL);
 
 					~XlibNativeWindowService ();
 
@@ -33,3 +36,5 @@ namespace vl
         }
     }
 }
+
+#endif
