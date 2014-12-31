@@ -11,8 +11,12 @@ namespace vl
 		{
 			namespace xlib
 			{
-			    extern INativeController *CreateXCBCairoNativeController (const char *displayname = NULL);
-			    extern void DestroyXCBCairoNativeController (INativeController *controller);
+				extern INativeController *CreateXlibCairoNativeController(const char *displayname = NULL);
+
+				extern void DestroyXlibCairoNativeController(INativeController *controller);
+
+
+				extern void X11CairoMain();
 			}
 		}
 	}

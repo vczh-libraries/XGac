@@ -1,54 +1,129 @@
 #include "XlibNativeController.h"
 #include "ServicesImpl/XlibNativeWindowService.h"
+#include "ServicesImpl/XlibNativeScreenService.h"
 #include "../Common/ServiceImpl/PosixAsyncService.h"
+
+#include "XlibIncludes.h"
 
 namespace vl
 {
-    namespace presentation
-    {
-        namespace x11cairo
-        {
-            namespace xlib
-            {
-                class XlibNativeController : public Object, public virtual INativeController
-                {
-                protected:
+	namespace presentation
+	{
+		namespace x11cairo
+		{
+			namespace xlib
+			{
+				class XlibNativeController : public Object, public virtual INativeController
+				{
+				protected:
+					//Xlib Display
+					Display *display;
 
-                public:
-	                XlibNativeController (const char *display = NULL)
-	                {
-	                }
+					//Native Services
+					INativeCallbackService *callbackService;
+					INativeResourceService *resourceService;
+					PosixAsyncService *asyncService;
+					INativeClipboardService *clipboardService;
+					INativeImageService *imageService;
+					XlibNativeScreenService *screenService;
+					XlibNativeWindowService *windowService;
+					INativeInputService *inputService;
+					INativeDialogService *dialogService;
 
-	                virtual ~XlibNativeController ()
-	                {
-	                }
+				public:
+					XlibNativeController(const char *displayString = NULL)
+					{
+						display = XOpenDisplay(displayString);
 
-	                virtual INativeCallbackService *CallbackService ();
+						asyncService = new PosixAsyncService();
+						//screenService = new XlibNativeScreenService(display);
+						windowService = new XlibNativeWindowService(display);
+					}
 
-	                virtual INativeResourceService *ResourceService ();
+					virtual ~XlibNativeController()
+					{
+						XCloseDisplay(display);
+					}
 
-	                virtual INativeAsyncService *AsyncService ();
+					virtual INativeCallbackService *CallbackService()
+					{
+						//TODO
+						return NULL;
+					}
 
-	                virtual INativeClipboardService *ClipboardService ();
+					virtual INativeResourceService *ResourceService()
+					{
+						//TODO
+						return NULL;
+					}
 
-	                virtual INativeImageService *ImageService ();
+					virtual INativeAsyncService *AsyncService()
+					{
+						return asyncService;
+					}
 
-	                virtual INativeScreenService *ScreenService ();
+					virtual INativeClipboardService *ClipboardService()
+					{
+						//TODO
+						return NULL;
+					}
 
-	                virtual INativeWindowService *WindowService ();
+					virtual INativeImageService *ImageService()
+					{
+						//TODO
+						return NULL;
+					}
 
-	                virtual INativeInputService *InputService ();
+					virtual INativeScreenService *ScreenService()
+					{
+						//TODO
+						return NULL;
+					}
 
-	                virtual INativeDialogService *DialogService ();
+					virtual INativeWindowService *WindowService()
+					{
+						return windowService;
+					}
 
-	                virtual WString GetOSVersion ()
-	                {
-		                return WString(L"Linux");
-	                }
+					virtual INativeInputService *InputService()
+					{
+						//TODO
+						return NULL;
+					}
 
-	                virtual WString GetExecutablePath ();
-                };
-            }
-        }
-    }
+					virtual INativeDialogService *DialogService()
+					{
+						//TODO
+						return NULL;
+					}
+
+					virtual WString GetOSVersion()
+					{
+						return WString(L"Linux");
+					}
+
+					virtual WString GetExecutablePath()
+					{
+						//TODO
+						return WString();
+					}
+				};
+
+				INativeController *CreateXlibCairoNativeController(const char *displayname = NULL)
+				{
+					return new XlibNativeController(displayname);
+				}
+
+
+				void DestroyXlibCairoNativeController(INativeController *controller)
+				{
+					delete controller;
+				}
+
+
+				void X11CairoMain();
+
+			}
+		}
+	}
 }

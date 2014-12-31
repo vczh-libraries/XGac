@@ -3,6 +3,8 @@
 
 #include "../XlibIncludes.h"
 #include <GacUI.h>
+#include "../XlibCairoWindow.h"
+#include "../../Common/ServiceImpl/PosixAsyncService.h"
 
 namespace vl
 {
@@ -16,11 +18,13 @@ namespace vl
 				{
 				protected:
 					Display* display;
+					PosixAsyncService* asyncService;
+					vl::collections::List<XlibCairoWindow*> windows;
 
 				public:
-					XlibNativeWindowService (const char *displayString = NULL);
+					XlibNativeWindowService (Display* display);
 
-					~XlibNativeWindowService ();
+					virtual ~XlibNativeWindowService ();
 
 					virtual INativeWindow *CreateNativeWindow ();
 

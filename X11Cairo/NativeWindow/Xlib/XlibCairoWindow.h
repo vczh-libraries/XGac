@@ -12,133 +12,141 @@ namespace vl
 		{
 			namespace xlib
 			{
-			    class XlibCairoWindow : public Object, public INativeWindow
-			    {
-			    protected:
-				    Display* display;
-				    Window window;
+				class XlibCairoWindow : public Object, public INativeWindow
+				{
+				protected:
+					Display *display;
+					Window window;
 
-			    public:
-				    virtual Rect GetBounds ();
+				public:
+					XlibCairoWindow(Display *display);
 
-				    virtual void SetBounds (const Rect &bounds);
+					virtual ~XlibCairoWindow();
 
-				    virtual Size GetClientSize ();
+					Display *GetDisplay();
 
-				    virtual void SetClientSize (Size size);
+					Window GetWindow();
 
-				    virtual Rect GetClientBoundsInScreen ();
+					virtual Rect GetBounds();
 
-				    virtual WString GetTitle ();
+					virtual void SetBounds(const Rect &bounds);
 
-				    virtual void SetTitle (WString title);
+					virtual Size GetClientSize();
 
-				    virtual INativeCursor *GetWindowCursor ();
+					virtual void SetClientSize(Size size);
 
-				    virtual void SetWindowCursor (INativeCursor *cursor);
+					virtual Rect GetClientBoundsInScreen();
 
-				    virtual Point GetCaretPoint ();
+					virtual WString GetTitle();
 
-				    virtual void SetCaretPoint (Point point);
+					virtual void SetTitle(WString title);
 
-				    virtual INativeWindow *GetParent ();
+					virtual INativeCursor *GetWindowCursor();
 
-				    virtual void SetParent (INativeWindow *parent);
+					virtual void SetWindowCursor(INativeCursor *cursor);
 
-				    virtual bool GetAlwaysPassFocusToParent ();
+					virtual Point GetCaretPoint();
 
-				    virtual void SetAlwaysPassFocusToParent (bool value);
+					virtual void SetCaretPoint(Point point);
 
-				    virtual void EnableCustomFrameMode ();
+					virtual INativeWindow *GetParent();
 
-				    virtual void DisableCustomFrameMode ();
+					virtual void SetParent(INativeWindow *parent);
 
-				    virtual bool IsCustomFrameModeEnabled ();
+					virtual bool GetAlwaysPassFocusToParent();
 
-				    virtual WindowSizeState GetSizeState ();
+					virtual void SetAlwaysPassFocusToParent(bool value);
 
-				    virtual void Show ();
+					virtual void EnableCustomFrameMode();
 
-				    virtual void ShowDeactivated ();
+					virtual void DisableCustomFrameMode();
 
-				    virtual void ShowRestored ();
+					virtual bool IsCustomFrameModeEnabled();
 
-				    virtual void ShowMaximized ();
+					virtual WindowSizeState GetSizeState();
 
-				    virtual void ShowMinimized ();
+					virtual void Show();
 
-				    virtual void Hide ();
+					virtual void ShowDeactivated();
 
-				    virtual bool IsVisible ();
+					virtual void ShowRestored();
 
-				    virtual void Enable ();
+					virtual void ShowMaximized();
 
-				    virtual void Disable ();
+					virtual void ShowMinimized();
 
-				    virtual bool IsEnabled ();
+					virtual void Hide();
 
-				    virtual void SetFocus ();
+					virtual bool IsVisible();
 
-				    virtual bool IsFocused ();
+					virtual void Enable();
 
-				    virtual void SetActivate ();
+					virtual void Disable();
 
-				    virtual bool IsActivated ();
+					virtual bool IsEnabled();
 
-				    virtual void ShowInTaskBar ();
+					virtual void SetFocus();
 
-				    virtual void HideInTaskBar ();
+					virtual bool IsFocused();
 
-				    virtual bool IsAppearedInTaskBar ();
+					virtual void SetActivate();
 
-				    virtual void EnableActivate ();
+					virtual bool IsActivated();
 
-				    virtual void DisableActivate ();
+					virtual void ShowInTaskBar();
 
-				    virtual bool IsEnabledActivate ();
+					virtual void HideInTaskBar();
 
-				    virtual bool RequireCapture ();
+					virtual bool IsAppearedInTaskBar();
 
-				    virtual bool ReleaseCapture ();
+					virtual void EnableActivate();
 
-				    virtual bool IsCapturing ();
+					virtual void DisableActivate();
 
-				    virtual bool GetMaximizedBox ();
+					virtual bool IsEnabledActivate();
 
-				    virtual void SetMaximizedBox (bool visible);
+					virtual bool RequireCapture();
 
-				    virtual bool GetMinimizedBox ();
+					virtual bool ReleaseCapture();
 
-				    virtual void SetMinimizedBox (bool visible);
+					virtual bool IsCapturing();
 
-				    virtual bool GetBorder ();
+					virtual bool GetMaximizedBox();
 
-				    virtual void SetBorder (bool visible);
+					virtual void SetMaximizedBox(bool visible);
 
-				    virtual bool GetSizeBox ();
+					virtual bool GetMinimizedBox();
 
-				    virtual void SetSizeBox (bool visible);
+					virtual void SetMinimizedBox(bool visible);
 
-				    virtual bool GetIconVisible ();
+					virtual bool GetBorder();
 
-				    virtual void SetIconVisible (bool visible);
+					virtual void SetBorder(bool visible);
 
-				    virtual bool GetTitleBar ();
+					virtual bool GetSizeBox();
 
-				    virtual void SetTitleBar (bool visible);
+					virtual void SetSizeBox(bool visible);
 
-				    virtual bool GetTopMost ();
+					virtual bool GetIconVisible();
 
-				    virtual void SetTopMost (bool topmost);
+					virtual void SetIconVisible(bool visible);
 
-				    virtual void SupressAlt ();
+					virtual bool GetTitleBar();
 
-				    virtual bool InstallListener (INativeWindowListener *listener);
+					virtual void SetTitleBar(bool visible);
 
-				    virtual bool UninstallListener (INativeWindowListener *listener);
+					virtual bool GetTopMost();
 
-				    virtual void RedrawContent ();
-			    };
+					virtual void SetTopMost(bool topmost);
+
+					virtual void SupressAlt();
+
+					virtual bool InstallListener(INativeWindowListener *listener);
+
+					virtual bool UninstallListener(INativeWindowListener *listener);
+
+					virtual void RedrawContent();
+				};
 			}
 		}
 	}

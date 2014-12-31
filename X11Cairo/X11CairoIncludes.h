@@ -1,12 +1,10 @@
 #ifndef __X11_CAIRO_INCLUDES_H
 #define __X11_CAIRO_INCLUDES_H
 
-extern void SetupX11CairoRenderer();
+#ifndef GAC_CAIRO_XCB
 
-#ifdef GAC_CAIRO_XCB
-
-#include "XCB/XCBNativeController.h"
-#include "XCB/XCBCairoWindow.h"
+#include "Xlib/XLibNativeController.h"
+#include "Xlib/XlibCairoWindow.h"
 
 #endif
 
