@@ -4,6 +4,7 @@
 #include "../Common/ServiceImpl/PosixAsyncService.h"
 
 #include "XlibIncludes.h"
+#include "ServicesImpl/XlibNativeInputService.h"
 
 namespace vl
 {
@@ -27,7 +28,7 @@ namespace vl
 					INativeImageService *imageService;
 					XlibNativeScreenService *screenService;
 					XlibNativeWindowService *windowService;
-					INativeInputService *inputService;
+					XlibNativeInputService *inputService;
 					INativeDialogService *dialogService;
 
 				public:
@@ -42,6 +43,7 @@ namespace vl
 
 						asyncService = new PosixAsyncService();
 						//screenService = new XlibNativeScreenService(display);
+						inputService = new XlibNativeInputService();
 						windowService = new XlibNativeWindowService(display, asyncService);
 					}
 
@@ -92,8 +94,7 @@ namespace vl
 
 					virtual INativeInputService *InputService()
 					{
-						//TODO
-						return NULL;
+						return inputService;
 					}
 
 					virtual INativeDialogService *DialogService()

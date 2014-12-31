@@ -11,10 +11,10 @@ namespace vl
 		{
 			namespace xlib
 			{
-				XlibNativeWindowService::XlibNativeWindowService(Display *display, PosixAsyncService* asyncService)
+				XlibNativeWindowService::XlibNativeWindowService(Display *display): display(display)
 				{
-					this->display = display;
-					this->asyncService = asyncService;
+					asyncService = dynamic_cast<PosixAsyncService*>(GetCurrentController()->AsyncService());
+					if(!asyncService) throw new Exception(L"Invalid Async Service");
 				}
 
 				XlibNativeWindowService::~XlibNativeWindowService()
