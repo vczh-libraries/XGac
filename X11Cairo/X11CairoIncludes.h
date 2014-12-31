@@ -3,8 +3,9 @@
 
 #ifndef GAC_CAIRO_XCB
 
-#include "Xlib/XLibNativeController.h"
-#include "Xlib/XlibCairoWindow.h"
+#include "NativeWindow/Xlib/XlibNativeController.h"
+#include "NativeWindow/Xlib/XlibCairoWindow.h"
+#include "X11CairoSetup.h"
 
 #endif
 

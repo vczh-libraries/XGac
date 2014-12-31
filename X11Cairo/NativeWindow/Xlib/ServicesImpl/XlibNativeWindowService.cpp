@@ -1,6 +1,7 @@
 #include "XlibNativeWindowService.h"
 #include "../../Common/ServiceImpl/PosixAsyncService.h"
 
+using namespace vl::presentation;
 
 namespace vl
 {
@@ -23,20 +24,29 @@ namespace vl
 				INativeWindow *XlibNativeWindowService::CreateNativeWindow()
 				{
 					XlibCairoWindow *window = new XlibCairoWindow(display);
-					asyncService->
 					windows.Add(window);
+
+					return window;
 				}
 
 				void XlibNativeWindowService::DestroyNativeWindow(INativeWindow *window)
 				{
 					if (window)
 					{
-						windows.Remove(window);
-						delete window;
+						XlibCairoWindow* actualWindow = dynamic_cast<XlibCairoWindow*>(window);
+						if(actualWindow)
+						{
+							windows.Remove(actualWindow);
+							delete window;
+						}
+						else
+						{
+							throw Exception(L"Wrong Window Type");
+						}
 					}
 				}
 
-				void XlibNativeWindowService::GetMainWindow()
+				INativeWindow* XlibNativeWindowService::GetMainWindow()
 				{
 					if(windows.Count() > 0)
 					{
@@ -54,15 +64,16 @@ namespace vl
 				void XlibNativeWindowService::Run(INativeWindow *window)
 				{
 					XEvent* event;
-					XlibCairoWindow* window = dynamic_cast<XlibCairoWindow*>(window)
+					XlibCairoWindow* actualWindow = dynamic_cast<XlibCairoWindow*>(window);
 					if(!window)
 					{
 						throw Exception(L"Invalid Window Type");
 					}
-					do
+					while(true)
 					{
-						XWindowEvent(window->GetDisplay(), window->GetWindow(), 0, event);
+						XWindowEvent(actualWindow->GetDisplay(), actualWindow->GetWindow(), 0, event);
 						asyncService->ExecuteAsyncTasks();
+						XFlush(actualWindow->GetDisplay());
 					}
 				}
 			}

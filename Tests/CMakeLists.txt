@@ -1,12 +1,13 @@
-cmake_minimum_required(VERSION 2.8.4)
+cmake_minimum_required(VERSION 2.8.12)
 project(XGacTests)
 find_package(PkgConfig REQUIRED)
 include_directories("../Public/Source")
 include_directories("../X11Cairo")
 
 pkg_check_modules(DEPENDENCIES REQUIRED x11 cairo cairo-xlib pango pangocairo)
-include_directories(${DEPENDENCIES_INCLUDE_PATHS})
 
+include_directories(${DEPENDENCIES_INCLUDE_PATHS})
+link_directories(${DEPENDENCIES_LIBRARY_DIRS})
 
 if(APPLE)
     link_directories("/opt/X11/lib")
@@ -14,6 +15,7 @@ if(APPLE)
     include_directories("/opt/X11/include")
     find_library(OS_LIBRARIES CoreFoundation)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__APPLE__")
+    set(DEPENDENCIES_LIBRARIES X11 ${DEPENDENCIES_LIBRARIES})
 else()
     set(OS_LIBRARIES)
 endif()
@@ -38,3 +40,4 @@ set(GACUI_X11CAIRO_XLIB_FILES
 set(HELLOWORLD_SOURCE_FILES HelloWorld.cpp)
 add_executable(HelloWorld ${HELLOWORLD_SOURCE_FILES} ${GACUI_COMMON_FILES} ${GACUI_X11CAIRO_COMMON_FILES} ${GACUI_X11CAIRO_XLIB_FILES})
 target_link_libraries(HelloWorld pthread ${DEPENDENCIES_LIBRARIES} ${OS_LIBRARIES})
+

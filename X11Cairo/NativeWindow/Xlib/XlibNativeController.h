@@ -3,6 +3,8 @@
 
 #include <GacUI.h>
 
+using namespace vl::presentation;
+
 namespace vl
 {
 	namespace presentation

@@ -33,11 +33,16 @@ namespace vl
 				public:
 					XlibNativeController(const char *displayString = NULL)
 					{
+						XSetErrorHandler(NULL);
 						display = XOpenDisplay(displayString);
+						if(!display)
+						{
+							throw Exception(L"Unable to open display.");
+						}
 
 						asyncService = new PosixAsyncService();
 						//screenService = new XlibNativeScreenService(display);
-						windowService = new XlibNativeWindowService(display);
+						windowService = new XlibNativeWindowService(display, asyncService);
 					}
 
 					virtual ~XlibNativeController()
@@ -109,19 +114,22 @@ namespace vl
 					}
 				};
 
-				INativeController *CreateXlibCairoNativeController(const char *displayname = NULL)
+				vl::presentation::INativeController *CreateXlibCairoNativeController(const char *displayname)
 				{
 					return new XlibNativeController(displayname);
 				}
 
 
-				void DestroyXlibCairoNativeController(INativeController *controller)
+				void DestroyXlibCairoNativeController(vl::presentation::INativeController *controller)
 				{
 					delete controller;
 				}
 
 
-				void X11CairoMain();
+				void X11CairoMain()
+				{
+					GuiApplicationMain();
+				}
 
 			}
 		}

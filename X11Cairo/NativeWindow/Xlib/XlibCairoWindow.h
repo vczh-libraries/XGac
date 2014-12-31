@@ -17,6 +17,9 @@ namespace vl
 				protected:
 					Display *display;
 					Window window;
+					WString title;
+
+					void UpdateTitle();
 
 				public:
 					XlibCairoWindow(Display *display);

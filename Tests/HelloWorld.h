@@ -20,6 +20,7 @@ public:
 		this->SetClientSize(vl::presentation::Size(640, 480));
 		this->MoveToScreenCenter();
 
+		/*
 		GuiControl* label = g::NewLabel();
 		label->SetText(L"Welcome to GacUI Library!");
 		{
@@ -30,6 +31,7 @@ public:
 			label->SetFont(font);
 		}
 		this->AddChild(label);
+		*/
 	}
 
 	~HelloWorldWindow()
