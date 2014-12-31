@@ -6,7 +6,7 @@
 
 void SetupX11CairoRenderer(const char* displayname)
 {
-	setlocale("LC_ALL", "");
+	setlocale(LC_ALL, "");
 
 	INativeController* controller = vl::presentation::x11cairo::xlib::CreateXlibCairoNativeController(displayname);
 	SetCurrentController(controller);

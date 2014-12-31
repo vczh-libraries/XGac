@@ -22,7 +22,7 @@ namespace vl
 					vl::collections::List<XlibCairoWindow*> windows;
 
 				public:
-					XlibNativeWindowService (Display* display);
+					XlibNativeWindowService (Display* display, PosixAsyncService* asyncService);
 
 					virtual ~XlibNativeWindowService ();
 

@@ -1,4 +1,5 @@
 #include "XlibNativeWindowService.h"
+#include "../XlibNativeController.h"
 #include "../../Common/ServiceImpl/PosixAsyncService.h"
 
 using namespace vl::presentation;
@@ -11,10 +12,10 @@ namespace vl
 		{
 			namespace xlib
 			{
-				XlibNativeWindowService::XlibNativeWindowService(Display *display): display(display)
+				XlibNativeWindowService::XlibNativeWindowService(Display* display, PosixAsyncService* asyncService):
+					display(display),
+					asyncService(asyncService)
 				{
-					asyncService = dynamic_cast<PosixAsyncService*>(GetCurrentController()->AsyncService());
-					if(!asyncService) throw new Exception(L"Invalid Async Service");
 				}
 
 				XlibNativeWindowService::~XlibNativeWindowService()

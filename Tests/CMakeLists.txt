@@ -36,6 +36,7 @@ set(GACUI_X11CAIRO_XLIB_FILES
 	"../X11Cairo/NativeWindow/Xlib/ServicesImpl/XlibNativeWindowService.cpp"
 	"../X11Cairo/NativeWindow/Xlib/ServicesImpl/XlibNativeScreenService.cpp"
 	"../X11Cairo/NativeWindow/Xlib/ServicesImpl/XlibNativeInputService.cpp"
+	"../X11Cairo/NativeWindow/Xlib/ServicesImpl/XlibNativeCallbackService.cpp"
 	)
 
 set(HELLOWORLD_SOURCE_FILES HelloWorld.cpp)
