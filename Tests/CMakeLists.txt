@@ -27,7 +27,7 @@ set(GACUI_COMMON_FILES "../Public/Source/Vlpp.cpp" "../Public/Source/VlppWorkflo
 set(GACUI_X11CAIRO_COMMON_FILES
 	"../X11Cairo/X11CairoSetup.cpp"
 	"../X11Cairo/GraphicsElement/GuiGraphicsX11Cairo.cpp"
-	"../X11Cairo/NativeWindow/Common/ServiceImpl/PosixAsyncService.cpp"
+	"../X11Cairo/NativeWindow/Common/ServicesImpl/PosixAsyncService.cpp"
 	)
 
 set(GACUI_X11CAIRO_XLIB_FILES

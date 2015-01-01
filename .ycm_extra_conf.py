@@ -37,10 +37,11 @@ import ycm_core
 flags = [
 '-Wall',
 '-Wextra',
-'-Werror',
 '-Wno-long-long',
 '-Wno-variadic-macros',
 '-fexceptions',
+'-Wno-unused-variable',
+'-Wno-unused-parameter',
 # THIS IS IMPORTANT! Without a "-std=<something>" flag, clang won't know which
 # language to use when compiling headers. So it will guess. Badly. So C++
 # headers will be compiled as C headers. You don't want that so ALWAYS specify
@@ -64,6 +65,8 @@ flags = [
 '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include',
 '-isystem',
 '/opt/X11/include',
+'-isystem',
+'/usr/local/include/pango-1.0',
 '-I',
 './Public/Source'
 ]
