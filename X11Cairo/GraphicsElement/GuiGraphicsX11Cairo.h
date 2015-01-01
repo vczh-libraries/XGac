@@ -1,5 +1,5 @@
-#ifndef __GUI_GRAPHICS_X11_CAIRO_H
-#define __GUI_GRAPHICS_X11_CAIRO_H
+#ifndef __GAC_GUI_GRAPHICS_X11_CAIRO_H
+#define __GAC_GUI_GRAPHICS_X11_CAIRO_H
 
 #include <GacUI.h>
 #include "CairoPangoIncludes.h"
@@ -27,18 +27,8 @@ namespace vl
 				GuiX11CairoElement();
 
 			public:
-				~GuiCoreGraphicsElement();
-
+				~GuiX11CairoElement();
 			};
-		}
-		namespace elements_x11cairo
-		{
-			class IX11CairoRenderTarget: public elements::IGuiGraphicsRenderTarget
-			{
-			public:
-				virtual cairo_surface_t* GetCairoSurface() = 0;
-			};
-
 		}
 	}
 }
