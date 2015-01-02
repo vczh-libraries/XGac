@@ -1,7 +1,8 @@
-#ifndef __XLIB_CAIRO_WINDOW_H
-#define __XLIB_CAIRO_WINDOW_H
+#ifndef __GAC_XLIB_CAIRO_WINDOW_H
+#define __GAC_XLIB_CAIRO_WINDOW_H
 
 #include "XlibIncludes.h"
+#include "../Common/X11CairoWindow.h"
 #include <GacUI.h>
 
 namespace vl
@@ -12,12 +13,13 @@ namespace vl
 		{
 			namespace xlib
 			{
-				class XlibCairoWindow : public Object, public INativeWindow
+				class XlibCairoWindow : public Object, public IX11CairoWindow
 				{
 				protected:
 					Display *display;
 					Window window;
 					WString title;
+					elements::IGuiGraphicsRenderTarget* renderTarget;
 
 					void UpdateTitle();
 
@@ -26,10 +28,16 @@ namespace vl
 
 					virtual ~XlibCairoWindow();
 
+					//Internal methods
 					Display *GetDisplay();
 
 					Window GetWindow();
 
+					void SetRenderTarget(elements::IGuiGraphicsRenderTarget*);
+
+					elements::IGuiGraphicsRenderTarget* GetRenderTarget();
+
+					//GacUI Implementations
 					virtual Rect GetBounds();
 
 					virtual void SetBounds(const Rect &bounds);

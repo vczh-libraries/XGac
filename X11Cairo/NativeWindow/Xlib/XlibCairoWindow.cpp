@@ -10,7 +10,8 @@ namespace vl
             {
                 XlibCairoWindow::XlibCairoWindow(Display *display):
                         display(display),
-                        title()
+                        title(),
+						renderTarget(nullptr)
                 {
                     this->display = display;
                     window = XCreateWindow(display, XRootWindow(display, 0), 0, 0, 200, 200, CopyFromParent, InputOutput, CopyFromParent, CopyFromParent, 0, NULL);
@@ -33,6 +34,16 @@ namespace vl
                 {
                     return display;
                 }
+
+				void XlibCairoWindow::SetRenderTarget(elements::IGuiGraphicsRenderTarget* target)
+				{
+					renderTarget = target;
+				}
+
+				elements::IGuiGraphicsRenderTarget* XlibCairoWindow::GetRenderTarget()
+				{
+					return renderTarget;
+				}
 
                 void XlibCairoWindow::UpdateTitle()
                 {

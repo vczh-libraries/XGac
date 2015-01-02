@@ -1,10 +1,10 @@
-#ifndef __XLIB_NATIVE_WINDOW_SERVICE_H
-#define __XLIB_NATIVE_WINDOW_SERVICE_H
+#ifndef __GAC_XLIB_NATIVE_WINDOW_SERVICE_H
+#define __GAC_XLIB_NATIVE_WINDOW_SERVICE_H
 
 #include "../XlibIncludes.h"
 #include <GacUI.h>
 #include "../XlibCairoWindow.h"
-#include "../../Common/ServiceImpl/PosixAsyncService.h"
+#include "../../Common/ServicesImpl/PosixAsyncService.h"
 
 namespace vl
 {

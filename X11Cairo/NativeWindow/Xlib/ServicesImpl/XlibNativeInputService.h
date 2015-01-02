@@ -1,5 +1,5 @@
-#ifndef __XLIB_NATIVE_INPUT_SERVICE_H
-#define __XLIB_NATIVE_INPUT_SERVICE_H
+#ifndef __GAC_XLIB_NATIVE_INPUT_SERVICE_H
+#define __GAC_XLIB_NATIVE_INPUT_SERVICE_H
 
 #include <GacUI.h>
 #include "../XlibIncludes.h"

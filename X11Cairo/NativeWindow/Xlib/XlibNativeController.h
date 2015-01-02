@@ -1,5 +1,5 @@
-#ifndef __XLIB_NATIVE_CONTROLLER
-#define __XLIB_NATIVE_CONTROLLER
+#ifndef __GAC_XLIB_NATIVE_CONTROLLER
+#define __GAC_XLIB_NATIVE_CONTROLLER
 
 #include <GacUI.h>
 
@@ -16,7 +16,6 @@ namespace vl
 				extern INativeController *CreateXlibCairoNativeController(const char *displayname = NULL);
 
 				extern void DestroyXlibCairoNativeController(INativeController *controller);
-
 
 				extern void X11CairoMain();
 			}
