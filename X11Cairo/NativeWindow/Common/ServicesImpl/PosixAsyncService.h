@@ -4,8 +4,8 @@
 //  Copyright (c) 2014 Robert Bu. All rights reserved.
 //
 
-#ifndef __POSIX_ASYNC_SERVICE_H
-#define __POSIX_ASYNC_SERVICE_H
+#ifndef __GAC_X11CAIRO_POSIX_ASYNC_SERVICE_H
+#define __GAC_X11CAIRO_POSIX_ASYNC_SERVICE_H
 
 #include <GacUI.h>
 

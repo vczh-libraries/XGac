@@ -1,5 +1,5 @@
-#ifndef __GAC_GUI_GRAPHICS_X11_CAIRO_H
-#define __GAC_GUI_GRAPHICS_X11_CAIRO_H
+#ifndef __GAC_X11CAIRO_GUI_GRAPHICS_X11_CAIRO_H
+#define __GAC_X11CAIRO_GUI_GRAPHICS_X11_CAIRO_H
 
 #include <GacUI.h>
 #include "CairoPangoIncludes.h"

@@ -1,5 +1,5 @@
-#ifndef __GAC_X11_CAIRO_WINDOW_H
-#define __GAC_X11_CAIRO_WINDOW_H
+#ifndef __GAC_X11CAIRO_X11_CAIRO_WINDOW_H
+#define __GAC_X11CAIRO_X11_CAIRO_WINDOW_H
 
 #include <GacUI.h>
 

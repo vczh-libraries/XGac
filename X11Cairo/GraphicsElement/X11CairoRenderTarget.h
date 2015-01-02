@@ -1,5 +1,5 @@
-#ifndef __GAC_X11_CAIRO_RENDER_TARGET_H
-#define __GAC_X11_CAIRO_RENDER_TARGET_H
+#ifndef __GAC_X11CAIRO_X11_CAIRO_RENDER_TARGET_H
+#define __GAC_X11CAIRO_X11_CAIRO_RENDER_TARGET_H
 
 #include <GacUI.h>
 #include "CairoPangoIncludes.h"

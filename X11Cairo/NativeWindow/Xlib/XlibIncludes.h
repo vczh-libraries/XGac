@@ -1,5 +1,5 @@
-#ifndef __GAC_XLIB_INCLUDES_H
-#define __GAC_XLIB_INCLUDES_H
+#ifndef __GAC_X11CAIRO_XLIB_INCLUDES_H
+#define __GAC_X11CAIRO_XLIB_INCLUDES_H
 
 extern "C"
 {

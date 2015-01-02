@@ -1,5 +1,5 @@
-#ifndef __GAC_CAIRO_PANGO_INCLUDES_H
-#define __GAC_CAIRO_PANGO_INCLUDES_H
+#ifndef __GAC_X11CAIRO_CAIRO_PANGO_INCLUDES_H
+#define __GAC_X11CAIRO_CAIRO_PANGO_INCLUDES_H
 
 #include <cairo/cairo.h>
 #include <cairo/cairo-xlib.h>

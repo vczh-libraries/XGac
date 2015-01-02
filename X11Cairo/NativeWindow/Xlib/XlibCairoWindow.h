@@ -1,5 +1,5 @@
-#ifndef __GAC_XLIB_CAIRO_WINDOW_H
-#define __GAC_XLIB_CAIRO_WINDOW_H
+#ifndef __GAC_X11CAIRO_XLIB_CAIRO_WINDOW_H
+#define __GAC_X11CAIRO_XLIB_CAIRO_WINDOW_H
 
 #include "XlibIncludes.h"
 #include "../Common/X11CairoWindow.h"
