@@ -18,7 +18,7 @@ public:
 
 		this->SetText(title);
 		this->SetClientSize(vl::presentation::Size(640, 480));
-		this->MoveToScreenCenter();
+		//this->MoveToScreenCenter();
 
 		/*
 		GuiControl* label = g::NewLabel();

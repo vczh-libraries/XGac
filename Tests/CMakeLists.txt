@@ -20,6 +20,8 @@ else()
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 
 set(GACUI_COMMON_FILES "../Public/Source/Vlpp.cpp" "../Public/Source/VlppWorkflow.cpp" "../Public/Source/GacUI.cpp" "../Public/Source/GacUIReflection.cpp")
 
@@ -28,6 +30,7 @@ set(GACUI_X11CAIRO_COMMON_FILES
 	"../X11Cairo/GraphicsElement/GuiGraphicsX11Cairo.cpp"
 	"../X11Cairo/GraphicsElement/X11CairoRenderTarget.cpp"
 	"../X11Cairo/GraphicsElement/X11CairoResourceManager.cpp"
+	"../X11Cairo/GraphicsElement/Renderers/GuiSolidBackgroundElementRenderer.cpp"
 	"../X11Cairo/NativeWindow/Common/ServicesImpl/PosixAsyncService.cpp"
 	)
 
@@ -38,6 +41,7 @@ set(GACUI_X11CAIRO_XLIB_FILES
 	"../X11Cairo/NativeWindow/Xlib/ServicesImpl/XlibNativeScreenService.cpp"
 	"../X11Cairo/NativeWindow/Xlib/ServicesImpl/XlibNativeInputService.cpp"
 	"../X11Cairo/NativeWindow/Xlib/ServicesImpl/XlibNativeCallbackService.cpp"
+	"../X11Cairo/NativeWindow/Xlib/ServicesImpl/XlibNativeResourceService.cpp"
 	)
 
 set(HELLOWORLD_SOURCE_FILES HelloWorld.cpp)

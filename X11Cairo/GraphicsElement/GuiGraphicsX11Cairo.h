@@ -3,6 +3,7 @@
 
 #include <GacUI.h>
 #include "CairoPangoIncludes.h"
+#include "Renderers/X11CairoRenderers.h"
 
 namespace vl
 {
@@ -29,6 +30,10 @@ namespace vl
 			public:
 				~GuiX11CairoElement();
 			};
+		}
+		namespace elements_x11cairo
+		{
+			extern void RegisterX11CairoElementRenderers();
 		}
 	}
 }

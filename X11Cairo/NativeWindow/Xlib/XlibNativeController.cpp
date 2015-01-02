@@ -1,6 +1,7 @@
 #include "XlibNativeController.h"
 #include "ServicesImpl/XlibNativeWindowService.h"
 #include "ServicesImpl/XlibNativeScreenService.h"
+#include "ServicesImpl/XlibNativeResourceService.h"
 #include "../Common/ServicesImpl/PosixAsyncService.h"
 
 #include "XlibIncludes.h"
@@ -23,7 +24,7 @@ namespace vl
 
 					//Native Services
 					XlibNativeCallbackService *callbackService;
-					INativeResourceService *resourceService;
+					XlibNativeResourceService *resourceService;
 					PosixAsyncService *asyncService;
 					INativeClipboardService *clipboardService;
 					INativeImageService *imageService;
@@ -47,6 +48,7 @@ namespace vl
 						inputService = new XlibNativeInputService();
 						windowService = new XlibNativeWindowService(display, asyncService);
 						callbackService = new XlibNativeCallbackService();
+						resourceService = new XlibNativeResourceService();
 					}
 
 					virtual ~XlibNativeController()
@@ -61,8 +63,7 @@ namespace vl
 
 					virtual INativeResourceService *ResourceService()
 					{
-						//TODO
-						return NULL;
+						return resourceService;
 					}
 
 					virtual INativeAsyncService *AsyncService()

@@ -14,7 +14,20 @@ namespace vl
 						renderTarget(nullptr)
                 {
                     this->display = display;
-                    window = XCreateWindow(display, XRootWindow(display, 0), 0, 0, 200, 200, CopyFromParent, InputOutput, CopyFromParent, CopyFromParent, 0, NULL);
+                    window = XCreateWindow(
+							display,                 //Display
+							XRootWindow(display, 0), //Root Display
+							0,                       //X
+						   	0,                       //Y
+							400,                     //Width
+							200,                     //Height
+							2,                       //Border Width
+							CopyFromParent,          //Depth
+							InputOutput,             //Class
+						   	CopyFromParent,          //Visual
+							0,                       //Value Mask
+							NULL                     //Attributes
+							);
                     Show();
                     UpdateTitle();
                     XSync(display, false);

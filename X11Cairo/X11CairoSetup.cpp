@@ -1,5 +1,6 @@
 #include "X11CairoSetup.h"
 #include "GraphicsElement/X11CairoResourceManager.h"
+#include "GraphicsElement/GuiGraphicsX11Cairo.h"
 #include <locale.h>
 
 #ifndef GAC_CAIRO_XCB
@@ -13,6 +14,7 @@ void SetupX11CairoRenderer(const char* displayname)
 	SetCurrentController(controller);
 
 	vl::presentation::x11cairo::RegisterX11CairoResourceManager();
+	vl::presentation::elements_x11cairo::RegisterX11CairoElementRenderers(); 
 
 	vl::presentation::x11cairo::xlib::X11CairoMain();
 

@@ -7,6 +7,10 @@ namespace vl
 	{
 		namespace elements_x11cairo
 		{
+			void RegisterX11CairoElementRenderers()
+			{
+				GuiSolidBackgroundElementRenderer::Register();
+			}
 		}
 	}
 }
