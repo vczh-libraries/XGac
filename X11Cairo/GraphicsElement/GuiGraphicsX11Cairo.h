@@ -8,7 +8,7 @@ namespace vl
 {
 	namespace presentation
 	{
-		namespace x11cairo
+		namespace elements
 		{
 			class GuiX11CairoElement;
 
@@ -19,7 +19,7 @@ namespace vl
 
 			};
 
-			class GuiX11CairoElement: public Object, public IGuiGraphicsElement, public Description<GuiX11CairoElement>
+			class GuiX11CairoElement: public Object, public elements::IGuiGraphicsElement, public Description<GuiX11CairoElement>
 			{
 				DEFINE_GUI_GRAPHICS_ELEMENT(GuiX11CairoElement, L"X11CairoElement");
 

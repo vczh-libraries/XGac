@@ -6,7 +6,7 @@ include_directories("../X11Cairo")
 
 pkg_check_modules(DEPENDENCIES REQUIRED x11 cairo cairo-xlib pango pangocairo)
 
-include_directories(${DEPENDENCIES_INCLUDE_PATHS})
+include_directories(${DEPENDENCIES_INCLUDE_DIRS})
 link_directories(${DEPENDENCIES_LIBRARY_DIRS})
 
 if(APPLE)
@@ -15,7 +15,6 @@ if(APPLE)
     include_directories("/opt/X11/include")
     find_library(OS_LIBRARIES CoreFoundation)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__APPLE__")
-    set(DEPENDENCIES_LIBRARIES X11 ${DEPENDENCIES_LIBRARIES})
 else()
     set(OS_LIBRARIES)
 endif()
@@ -27,6 +26,8 @@ set(GACUI_COMMON_FILES "../Public/Source/Vlpp.cpp" "../Public/Source/VlppWorkflo
 set(GACUI_X11CAIRO_COMMON_FILES
 	"../X11Cairo/X11CairoSetup.cpp"
 	"../X11Cairo/GraphicsElement/GuiGraphicsX11Cairo.cpp"
+	"../X11Cairo/GraphicsElement/X11CairoRenderTarget.cpp"
+	"../X11Cairo/GraphicsElement/X11CairoResourceManager.cpp"
 	"../X11Cairo/NativeWindow/Common/ServicesImpl/PosixAsyncService.cpp"
 	)
 

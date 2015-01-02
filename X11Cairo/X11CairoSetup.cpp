@@ -1,4 +1,5 @@
 #include "X11CairoSetup.h"
+#include "GraphicsElement/X11CairoResourceManager.h"
 #include <locale.h>
 
 #ifndef GAC_CAIRO_XCB
@@ -10,6 +11,8 @@ void SetupX11CairoRenderer(const char* displayname)
 
 	INativeController* controller = vl::presentation::x11cairo::xlib::CreateXlibCairoNativeController(displayname);
 	SetCurrentController(controller);
+
+	vl::presentation::x11cairo::RegisterX11CairoResourceManager();
 
 	vl::presentation::x11cairo::xlib::X11CairoMain();
 

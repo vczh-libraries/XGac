@@ -42,6 +42,7 @@ flags = [
 '-fexceptions',
 '-Wno-unused-variable',
 '-Wno-unused-parameter',
+'-Wno-unknown-pragmas',
 # THIS IS IMPORTANT! Without a "-std=<something>" flag, clang won't know which
 # language to use when compiling headers. So it will guess. Badly. So C++
 # headers will be compiled as C headers. You don't want that so ALWAYS specify
@@ -67,6 +68,8 @@ flags = [
 '/opt/X11/include',
 '-isystem',
 '/usr/local/include/pango-1.0',
+'-isystem',
+'/usr/local/include/glib-2.0',
 '-I',
 './Public/Source'
 ]

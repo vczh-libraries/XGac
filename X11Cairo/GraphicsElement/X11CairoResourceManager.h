@@ -1,5 +1,5 @@
-#ifndef __X11_CAIRO_RESOURCE_MANAGER_H
-#define __X11_CAIRO_RESOURCE_MANAGER_H
+#ifndef __GAC_X11_CAIRO_RESOURCE_MANAGER_H
+#define __GAC_X11_CAIRO_RESOURCE_MANAGER_H
 
 #include <GacUI.h>
 namespace vl
@@ -12,7 +12,7 @@ namespace vl
 			{
 			};
 
-			extern void RegisterX11CairoResrouceManager();
+			extern void RegisterX11CairoResourceManager();
 		}
 	}
 }
