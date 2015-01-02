@@ -1,9 +1,10 @@
 #ifndef __GAC_X11CAIRO_XLIB_NATIVE_WINDOW_SERVICE_H
 #define __GAC_X11CAIRO_XLIB_NATIVE_WINDOW_SERVICE_H
 
-#include "../XlibIncludes.h"
 #include <GacUI.h>
+#include "../XlibIncludes.h"
 #include "../XlibCairoWindow.h"
+#include "XlibNativeCallbackService.h"
 #include "../../Common/ServicesImpl/PosixAsyncService.h"
 
 namespace vl
@@ -19,10 +20,12 @@ namespace vl
 				protected:
 					Display* display;
 					PosixAsyncService* asyncService;
+					XlibNativeCallbackService* callbackService;
 					vl::collections::List<XlibCairoWindow*> windows;
+					bool timerFlag;
 
 				public:
-					XlibNativeWindowService (Display* display, PosixAsyncService* asyncService);
+					XlibNativeWindowService (Display* display, PosixAsyncService* asyncService, XlibNativeCallbackService* callbackService);
 
 					virtual ~XlibNativeWindowService ();
 

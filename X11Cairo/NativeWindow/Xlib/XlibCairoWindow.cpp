@@ -28,6 +28,7 @@ namespace vl
 							0,                       //Value Mask
 							NULL                     //Attributes
 							);
+
                     Show();
                     UpdateTitle();
                     XSync(display, false);
@@ -87,13 +88,25 @@ namespace vl
 
                 Size XlibCairoWindow::GetClientSize()
                 {
-                    //TODO
-                    return Size();
+					Window winDontCare;
+					unsigned int uintDontCare = 0;
+					int intDontCare = 0;
+					unsigned int width = 0, height = 0;
+					XGetGeometry(display, window,
+							&winDontCare,      //Root
+							&intDontCare,     //X
+							&intDontCare,     //Y
+							&width,           //Width
+							&height,          //Height
+							&uintDontCare,    //Border Width
+							&uintDontCare     //Depth
+							);
+					return Size(width, height);
                 }
 
                 void XlibCairoWindow::SetClientSize(Size size)
                 {
-                    //TODO
+					XResizeWindow(display, window, size.x, size.y);
                 }
 
                 Rect XlibCairoWindow::GetClientBoundsInScreen()

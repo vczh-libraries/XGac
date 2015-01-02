@@ -18,6 +18,7 @@ namespace vl
 			protected:
 				GuiSolidBackgroundElement* renderElement;
 				IX11CairoRenderTarget* target;
+				cairo_t* cairoContext;
 
 			public:
 				GuiSolidBackgroundElementRenderer();

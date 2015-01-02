@@ -24,13 +24,12 @@ namespace vl
 			private:
 				cairo_surface_t* surface;
 				XlibCairoWindow* window;
-				Size size;
 
 			public:
 				X11CairoXlibRenderTarget(XlibCairoWindow* window):
-					window(window),
-					size(window->GetClientSize())
+					window(window)
 				{
+					Size size = window->GetClientSize();
 					surface = cairo_xlib_surface_create(window->GetDisplay(), window->GetWindow(), DefaultVisual(window->GetDisplay(), 0), size.x, size.y);
 					if(!surface)
 						throw Exception(L"Failed to create Cairo Surface");
@@ -47,20 +46,13 @@ namespace vl
 					return surface;
 				}
 
-				void Resize(Size size)
-				{
-					this->size = size;
-					cairo_xlib_surface_set_size(surface, size.x, size.y);
-				}
-
-				Size GetSize()
-				{
-					return size;
-				}
-
 				void StartRendering()
 				{
-					//TODO
+					if(window)
+					{
+						Size size = window->GetClientSize();
+						cairo_xlib_surface_set_size(surface, size.x, size.y);
+					}
 				}
 
 				bool StopRendering()
@@ -88,7 +80,7 @@ namespace vl
 				bool IsClipperCoverWholeTarget()
 				{
 					//TODO
-					return true;
+					return false;
 				}
 			};
 

@@ -25,9 +25,6 @@ namespace vl
 						renderTarget = dynamic_cast<IX11CairoRenderTarget*>(xWindow->GetRenderTarget());
 					}
 
-					if(xWindow->GetClientSize() != renderTarget->GetSize())
-						renderTarget->Resize(xWindow->GetClientSize());
-
 					return renderTarget;
 				}
 				void RecreateRenderTarget(INativeWindow* window)

@@ -6,6 +6,11 @@ extern "C"
 #include <X11/Xlib.h>
 }
 
+const Bool XLIB_TRUE = True;
+const Bool XLIB_FALSE = False;
+const Status XLIB_SUCCESS = Success;
+const Status XLIB_NONE = None;
+
 #undef True
 #undef False
 #undef Success

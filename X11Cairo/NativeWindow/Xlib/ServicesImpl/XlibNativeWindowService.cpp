@@ -1,6 +1,7 @@
 #include "XlibNativeWindowService.h"
 #include "../XlibNativeController.h"
-#include "../../Common/ServicesImpl/PosixAsyncService.h"
+
+#include <unistd.h>
 
 using namespace vl::presentation;
 
@@ -12,9 +13,10 @@ namespace vl
 		{
 			namespace xlib
 			{
-				XlibNativeWindowService::XlibNativeWindowService(Display* display, PosixAsyncService* asyncService):
+				XlibNativeWindowService::XlibNativeWindowService(Display* display, PosixAsyncService* asyncService, XlibNativeCallbackService* callbackService):
 					display(display),
-					asyncService(asyncService)
+					asyncService(asyncService),
+					callbackService(callbackService)
 				{
 				}
 
@@ -64,17 +66,36 @@ namespace vl
 
 				void XlibNativeWindowService::Run(INativeWindow *window)
 				{
-					XEvent* event;
+					XEvent event;
 					XlibCairoWindow* actualWindow = dynamic_cast<XlibCairoWindow*>(window);
+
+					Atom WM_DELETE_WINDOW = XInternAtom(display, "WM_DELETE_WINDOW", XLIB_FALSE);
+					XSetWMProtocols(actualWindow->GetDisplay(), actualWindow->GetWindow(), &WM_DELETE_WINDOW, 1);
+
 					if(!window)
 					{
 						throw Exception(L"Invalid Window Type");
 					}
 					while(true)
 					{
-						XWindowEvent(actualWindow->GetDisplay(), actualWindow->GetWindow(), 0, event);
+						while(XPending(actualWindow->GetDisplay()))
+						{
+							XNextEvent(actualWindow->GetDisplay(), &event);
+							switch(event.type)
+							{
+								case ClientMessage:
+									XFlush(actualWindow->GetDisplay());
+									return;
+								default:
+									break;
+							}
+						}
+
 						asyncService->ExecuteAsyncTasks();
+						callbackService->CheckTimer();
 						XFlush(actualWindow->GetDisplay());
+
+						pause();
 					}
 				}
 			}

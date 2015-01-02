@@ -1,5 +1,7 @@
 #include "XlibNativeCallbackService.h"
 
+using namespace vl::collections;
+
 namespace vl
 {
 	namespace presentation
@@ -10,13 +12,29 @@ namespace vl
 			{
 				bool XlibNativeCallbackService::InstallListener(INativeControllerListener* listener)
 				{
-					//TODO
+					listeners.Add(listener);
 					return true;
 				}
 				bool XlibNativeCallbackService::UninstallListener(INativeControllerListener* listener)
 				{
-					//TODO
-					return true;
+					return listeners.Remove(listener);
+				}
+
+				void XlibNativeCallbackService::SetTimer()
+				{
+					flag = true;
+				}
+
+				void XlibNativeCallbackService::CheckTimer()
+				{
+					if(flag)
+					{
+						flag = false;
+						FOREACH( INativeControllerListener*, i, listeners)
+						{
+							i->GlobalTimer();
+						}
+					}
 				}
 			}
 		}

@@ -2,6 +2,7 @@
 #define __GAC_X11CAIRO_XLIB_NATIVE_INPUT_SERVICE_H
 
 #include <GacUI.h>
+#include <sys/time.h>
 #include "../XlibIncludes.h"
 
 namespace vl
@@ -14,6 +15,11 @@ namespace vl
 			{
 				class XlibNativeInputService: public Object, public INativeInputService
 				{
+				protected:
+					bool timerEnabled;
+					const int timerInterval = 33333;
+
+				public:
 					virtual void					StartHookMouse();
 					virtual void					StopHookMouse();
 					virtual bool					IsHookingMouse();
@@ -27,6 +33,8 @@ namespace vl
 					
 					virtual WString					GetKeyName(vint code);
 					virtual vint					GetKey(const WString& name);
+
+					static void                     TimerSignalHandler();
 				};
 			}
 		}

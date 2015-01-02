@@ -27,12 +27,18 @@ namespace vl
 
 				void XlibNativeInputService::StartTimer()
 				{
-					//TODO
+					struct itimerval timer;
+					timer.it_interval.tv_usec = timerInterval;
+					timer.it_interval.tv_sec = 0;
+					timer.it_value.tv_usec = timerInterval;
+					timer.it_value.tv_sec = 0;
+					if(setitimer(ITIMER_REAL, &timer, NULL))
+						throw Exception(L"Failed to setup timer");
 				}
 
 				void XlibNativeInputService::StopTimer()
 				{
-					//TODO
+					setitimer(ITIMER_REAL, NULL, NULL);
 				}
 
 				bool XlibNativeInputService::IsTimerEnabled()

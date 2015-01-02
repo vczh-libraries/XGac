@@ -46,9 +46,14 @@ namespace vl
 						asyncService = new PosixAsyncService();
 						//screenService = new XlibNativeScreenService(display);
 						inputService = new XlibNativeInputService();
-						windowService = new XlibNativeWindowService(display, asyncService);
 						callbackService = new XlibNativeCallbackService();
+						windowService = new XlibNativeWindowService(display, asyncService, callbackService);
 						resourceService = new XlibNativeResourceService();
+
+						if(signal(SIGALRM, XlibNativeController::TimerSignalHandler))
+						{
+							throw Exception(L"Unable to set signal handler");
+						}
 					}
 
 					virtual ~XlibNativeController()
@@ -114,6 +119,18 @@ namespace vl
 					{
 						//TODO
 						return WString();
+					}
+
+					static void TimerSignalHandler(int signal)
+					{
+						if(XlibNativeController* controller = dynamic_cast<XlibNativeController*>(GetCurrentController()))
+						{
+							XlibNativeCallbackService* callbackService = dynamic_cast<XlibNativeCallbackService*>(controller->CallbackService());
+							if(callbackService)
+							{
+								callbackService->SetTimer();
+							}
+						}
 					}
 				};
 

@@ -15,8 +15,16 @@ namespace vl
 			{
 				class XlibNativeCallbackService: public Object, public INativeCallbackService
 				{
+				protected:
+					collections::List<INativeControllerListener*> listeners;
+					bool flag;
+
+				public:
 					virtual bool					InstallListener(INativeControllerListener* listener);
 					virtual bool					UninstallListener(INativeControllerListener* listener);
+
+					void CheckTimer();
+					void SetTimer();
 				};
 			}
 		}
