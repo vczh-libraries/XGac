@@ -75,12 +75,8 @@ namespace vl
 
 				attrList = pango_attr_list_new();
 				
-				pango_attr_list_insert(attrList, font.underline ?
-					pango_attr_underline_color_new(
-						color.r,
-						color.g,
-						color.b) :
-					pango_attr_underline_new(PANGO_UNDERLINE_NONE)
+				pango_attr_list_insert(attrList, pango_attr_underline_new(
+							font.underline ? PANGO_UNDERLINE_SINGLE : PANGO_UNDERLINE_NONE)
 					);
 
 				pango_attr_list_insert(attrList, pango_attr_strikethrough_new (
@@ -88,6 +84,10 @@ namespace vl
 							)
 						);
 
+				pango_attr_list_insert(attrList, pango_attr_weight_new (
+							font.bold ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_MEDIUM
+							)
+						);
 			}
 
 			void GuiSolidLabelElementRenderer::RenderTargetChangedInternal(IX11CairoRenderTarget* oldRT, IX11CairoRenderTarget* newRT)

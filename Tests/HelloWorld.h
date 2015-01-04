@@ -22,12 +22,16 @@ public:
 
 		
 		GuiControl* label = g::NewLabel();
-		label->SetText(L"Welcome to GacUI Library!\n𩰪㦲𦰗𠀼 𣂕𣴑𣱳𦁚");
+		label->SetText(L"Welcome to GacUI Library!");
 		{
 			FontProperties font;
 			font.fontFamily = L"Sans";
 			font.size = 40;
 			font.antialias = true;
+			font.italic = true;
+			font.underline = true;
+			font.strikeline = true;
+			font.bold = true;
 			label->SetFont(font);
 		}
 		this->AddChild(label);
