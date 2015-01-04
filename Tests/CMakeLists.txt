@@ -37,6 +37,7 @@ set(GACUI_X11CAIRO_COMMON_FILES
 set(GACUI_X11CAIRO_XLIB_FILES
 	"../X11Cairo/NativeWindow/Xlib/XlibNativeController.cpp"
 	"../X11Cairo/NativeWindow/Xlib/XlibCairoWindow.cpp"
+	"../X11Cairo/NativeWindow/Xlib/XlibScreen.cpp"
 	"../X11Cairo/NativeWindow/Xlib/ServicesImpl/XlibNativeWindowService.cpp"
 	"../X11Cairo/NativeWindow/Xlib/ServicesImpl/XlibNativeScreenService.cpp"
 	"../X11Cairo/NativeWindow/Xlib/ServicesImpl/XlibNativeInputService.cpp"

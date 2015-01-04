@@ -69,7 +69,7 @@ namespace vl
 					XEvent event;
 					XlibCairoWindow* actualWindow = dynamic_cast<XlibCairoWindow*>(window);
 
-					Atom WM_DELETE_WINDOW = XInternAtom(display, "WM_DELETE_WINDOW", XLIB_FALSE);
+					Atom WM_DELETE_WINDOW = XInternAtom(display, "WM_DELETE_WINDOW", XLIB_TRUE);
 					XSetWMProtocols(actualWindow->GetDisplay(), actualWindow->GetWindow(), &WM_DELETE_WINDOW, 1);
 
 					if(!window)
