@@ -11,9 +11,9 @@ namespace vl
 		namespace elements_x11cairo
 		{
 			using namespace elements;
-			class GuiColorizedTextElementRenderer: public Object, public IGuiGraphicsRenderer
+			class GuiSolidLabelElementRenderer: public Object, public IGuiGraphicsRenderer
 			{
-				DEFINE_GUI_GRAPHICS_RENDERER(GuiColorizedTextElement, GuiColorizedTextElementRenderer, IX11CairoRenderTarget);
+				DEFINE_GUI_GRAPHICS_RENDERER(GuiSolidLabelElement, GuiSolidLabelElementRenderer, IX11CairoRenderTarget);
 
 			protected:
 				cairo_t* cairoContext;
@@ -21,7 +21,7 @@ namespace vl
 				PangoAttrList* attrList;
 
 			public:
-				GuiColorizedTextElementRenderer();
+				GuiSolidLabelElementRenderer();
 
 				void InitializeInternal();
 				void FinalizeInternal();

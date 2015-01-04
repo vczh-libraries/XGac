@@ -2,6 +2,6 @@
 #define __GAC_X11CAIRO_X11_CAIRO_RENDERERS_H
 
 #include "GuiSolidBackgroundElementRenderer.h"
-#include "GuiColorizedTextElementRenderer.h"
+#include "GuiSolidLabelElementRenderer.h"
 
 #endif

@@ -25,7 +25,7 @@ public:
 		label->SetText(L"Welcome to GacUI Library!");
 		{
 			FontProperties font;
-			font.fontFamily = L"Segoe UI";
+			font.fontFamily = L"Sans";
 			font.size = 40;
 			font.antialias = true;
 			label->SetFont(font);

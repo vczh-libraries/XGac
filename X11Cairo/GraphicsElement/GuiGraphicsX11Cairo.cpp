@@ -10,7 +10,7 @@ namespace vl
 			void RegisterX11CairoElementRenderers()
 			{
 				GuiSolidBackgroundElementRenderer::Register();
-				GuiColorizedTextElementRenderer::Register();
+				GuiSolidLabelElementRenderer::Register();
 			}
 		}
 	}

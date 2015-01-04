@@ -31,7 +31,7 @@ set(GACUI_X11CAIRO_COMMON_FILES
 	"../X11Cairo/GraphicsElement/X11CairoRenderTarget.cpp"
 	"../X11Cairo/GraphicsElement/X11CairoResourceManager.cpp"
 	"../X11Cairo/GraphicsElement/Renderers/GuiSolidBackgroundElementRenderer.cpp"
-	"../X11Cairo/GraphicsElement/Renderers/GuiColorizedTextElementRenderer.cpp"
+	"../X11Cairo/GraphicsElement/Renderers/GuiSolidLabelElementRenderer.cpp"
 	"../X11Cairo/NativeWindow/Common/ServicesImpl/PosixAsyncService.cpp"
 	)
 
