@@ -14,7 +14,10 @@ namespace vl
             {
                 class XlibNativeScreenService: public Object, public INativeScreenService
                 {
+				protected:
+					Display* display;
                 public:
+					XlibNativeScreenService(Display* display);
                     virtual vint					GetScreenCount();
                     virtual INativeScreen*			GetScreen(vint index);
                     virtual INativeScreen*			GetScreen(INativeWindow* window);

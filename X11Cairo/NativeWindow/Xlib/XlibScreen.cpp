@@ -9,6 +9,14 @@ namespace vl
         {
             namespace xlib
             {
+				XlibScreen::XlibScreen(Display* display, Screen* screen, int id)
+					: display (display),
+					screen (screen),
+					id (id)
+				{
+
+				}
+
 				Rect XlibScreen::GetBounds()
 				{
 					//TODO

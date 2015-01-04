@@ -17,8 +17,9 @@ namespace vl
 				protected:
 					Display* display;
 					Screen* screen;
+					int id;
 				public:
-					XlibScreen(Display* display, Screen* screen);
+					XlibScreen(Display* display, Screen* screen, int id);
 					Rect				GetBounds();
 					Rect				GetClientBounds();
 					WString				GetName();

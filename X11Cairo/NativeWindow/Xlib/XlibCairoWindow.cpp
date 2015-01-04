@@ -1,3 +1,4 @@
+#include <limits.h>
 #include "XlibCairoWindow.h"
 
 namespace vl
@@ -11,7 +12,8 @@ namespace vl
                 XlibCairoWindow::XlibCairoWindow(Display *display):
                         display(display),
                         title(),
-						renderTarget(nullptr)
+						renderTarget(nullptr),
+						resizable (false)
                 {
                     this->display = display;
                     window = XCreateWindow(
@@ -38,6 +40,30 @@ namespace vl
                 {
                     XDestroyWindow(display, window);
                 }
+
+
+				void XlibCairoWindow::UpdateResizable()
+				{
+					XSizeHints *hints = XAllocSizeHints();
+					Size currentSize = GetClientSize();
+					XGetNormalHints(display, window, hints);
+					if(resizable)
+					{
+						hints->min_width = currentSize.x;
+						hints->min_height = currentSize.y;
+						hints->max_width = currentSize.x;
+						hints->max_height = currentSize.y;
+					}
+					else
+					{
+						hints->min_width = 0;
+						hints->min_height = 0;
+						hints->max_width = INT_MAX;
+						hints->max_height = INT_MAX;
+					}
+					XSetNormalHints(display, window, hints);
+					XFree(hints);
+				}
 
                 Window XlibCairoWindow::GetWindow()
                 {
@@ -78,30 +104,22 @@ namespace vl
                 Rect XlibCairoWindow::GetBounds()
                 {
                     //TODO
-                    return Rect();
+					XWindowAttributes attr;
+					XGetWindowAttributes(display, window, &attr);
+                    return Rect(attr.x, attr.y, attr.x + attr.width, attr.y + attr.height);
                 }
 
                 void XlibCairoWindow::SetBounds(const Rect &bounds)
                 {
                     //TODO
+					XMoveResizeWindow(display, window, bounds.x1, bounds.y1, bounds.Width(), bounds.Height());
                 }
 
                 Size XlibCairoWindow::GetClientSize()
                 {
-					Window winDontCare;
-					unsigned int uintDontCare = 0;
-					int intDontCare = 0;
-					unsigned int width = 0, height = 0;
-					XGetGeometry(display, window,
-							&winDontCare,      //Root
-							&intDontCare,     //X
-							&intDontCare,     //Y
-							&width,           //Width
-							&height,          //Height
-							&uintDontCare,    //Border Width
-							&uintDontCare     //Depth
-							);
-					return Size(width, height);
+					XWindowAttributes attr;
+					XGetWindowAttributes(display, window, &attr);
+					return Size(attr.width, attr.height);
                 }
 
                 void XlibCairoWindow::SetClientSize(Size size)
@@ -341,13 +359,13 @@ namespace vl
 
                 bool XlibCairoWindow::GetSizeBox()
                 {
-                    //TODO
-                    return true;
+                    return resizable;
                 }
 
                 void XlibCairoWindow::SetSizeBox(bool visible)
                 {
-                    //TODO
+					resizable = visible;
+					UpdateResizable();
                 }
 
                 bool XlibCairoWindow::GetIconVisible()

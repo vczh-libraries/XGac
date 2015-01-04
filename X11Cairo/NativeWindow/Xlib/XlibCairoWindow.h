@@ -20,8 +20,10 @@ namespace vl
 					Window window;
 					WString title;
 					elements::IGuiGraphicsRenderTarget* renderTarget;
+					bool resizable;
 
 					void UpdateTitle();
+					void UpdateResizable();
 
 				public:
 					XlibCairoWindow(Display *display);

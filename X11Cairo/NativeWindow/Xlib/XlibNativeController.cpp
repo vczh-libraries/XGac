@@ -48,7 +48,7 @@ namespace vl
 						}
 
 						asyncService = new PosixAsyncService();
-						//screenService = new XlibNativeScreenService(display);
+						screenService = new XlibNativeScreenService(display);
 						inputService = new XlibNativeInputService();
 						callbackService = new XlibNativeCallbackService();
 						windowService = new XlibNativeWindowService(display, asyncService, callbackService);
@@ -62,6 +62,13 @@ namespace vl
 
 					virtual ~XlibNativeController()
 					{
+						delete resourceService;
+						delete windowService;
+						delete callbackService;
+						delete inputService;
+						delete screenService;
+						delete asyncService;
+
 						XCloseDisplay(display);
 					}
 
@@ -94,8 +101,7 @@ namespace vl
 
 					virtual INativeScreenService *ScreenService()
 					{
-						//TODO
-						return NULL;
+						return screenService;
 					}
 
 					virtual INativeWindowService *WindowService()
