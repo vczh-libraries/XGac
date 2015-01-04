@@ -16,6 +16,7 @@ namespace vl
 			void GuiSolidLabelElementRenderer::InitializeInternal()
 			{
 				pangoFontDesc = pango_font_description_new();
+				OnElementStateChanged();
 			}
 
 			void GuiSolidLabelElementRenderer::FinalizeInternal()
@@ -47,6 +48,8 @@ namespace vl
 
 					cairo_move_to(cairoContext, bounds.x1, bounds.y1);
 					pango_cairo_update_layout(cairoContext, layout);
+					int w, h;
+
 					pango_cairo_show_layout(cairoContext, layout);
 
 					g_object_unref(layout);
@@ -58,8 +61,9 @@ namespace vl
 				FontProperties font = element->GetFont();
 				Color color = element->GetColor();
 				
-				pango_font_description_set_family(pangoFontDesc, wtoa(font.fontFamily).Buffer());
-				pango_font_description_set_size(pangoFontDesc, font.size);
+				AString family = wtoa(font.fontFamily);
+				pango_font_description_set_family(pangoFontDesc, family.Buffer());
+				pango_font_description_set_absolute_size(pangoFontDesc, font.size * PANGO_SCALE);
 
 				if(font.italic) pango_font_description_set_style(pangoFontDesc, PANGO_STYLE_ITALIC);
 				else pango_font_description_set_style(pangoFontDesc, PANGO_STYLE_NORMAL);

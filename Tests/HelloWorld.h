@@ -18,11 +18,11 @@ public:
 
 		this->SetText(title);
 		this->SetClientSize(vl::presentation::Size(640, 480));
-		this->MoveToScreenCenter();
+		//this->MoveToScreenCenter();
 
 		
 		GuiControl* label = g::NewLabel();
-		label->SetText(L"Welcome to GacUI Library!");
+		label->SetText(L"Welcome to GacUI Library!\n𩰪㦲𦰗𠀼 𣂕𣴑𣱳𦁚");
 		{
 			FontProperties font;
 			font.fontFamily = L"Sans";
