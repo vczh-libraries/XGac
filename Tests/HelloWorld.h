@@ -21,7 +21,7 @@ public:
 		//this->MoveToScreenCenter();
 
 		
-		GuiControl* label = g::NewLabel();
+		GuiLabel* label = g::NewLabel();
 		label->SetText(L"Welcome to GacUI Library!");
 		{
 			FontProperties font;
@@ -32,6 +32,7 @@ public:
 			font.underline = true;
 			font.strikeline = true;
 			font.bold = true;
+			label->SetTextColor(Color(0, 0, 255));
 			label->SetFont(font);
 		}
 		this->AddChild(label);
