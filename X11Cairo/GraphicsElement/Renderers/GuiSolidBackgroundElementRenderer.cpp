@@ -8,9 +8,8 @@ namespace vl
 		namespace elements_x11cairo
 		{
 			GuiSolidBackgroundElementRenderer::GuiSolidBackgroundElementRenderer():
-				cairoContext(nullptr)
+				minSize(1, 1), cairoContext(NULL)
 			{
-				minSize = Size(1, 1);
 			}
 
 
