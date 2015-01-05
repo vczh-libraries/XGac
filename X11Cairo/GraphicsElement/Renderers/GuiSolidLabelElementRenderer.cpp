@@ -58,7 +58,8 @@ namespace vl
 					pango_cairo_update_layout(cairoContext, layout);
 					int w, h;
 
-					pango_cairo_show_layout(cairoContext, layout);
+					pango_cairo_layout_path(cairoContext, layout);
+					cairo_fill(cairoContext);
 
 					g_object_unref(layout);
 				}
