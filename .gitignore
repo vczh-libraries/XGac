@@ -2,3 +2,4 @@ Tests/.idea
 .idea
 *.pyc
 *.swp
+*.DS_Store
