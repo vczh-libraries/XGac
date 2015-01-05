@@ -101,6 +101,7 @@ namespace vl
 							switch(event.type)
 							{
 								case ButtonPress:
+									printf("Reached\n");
 									if((evWindow = FindWindow(event.xbutton.subwindow)) != NULL)
 										evWindow->MouseDownEvent(
 												event.xbutton.button == Button1 ? X11CAIRO_LBUTTON : X11CAIRO_RBUTTON,

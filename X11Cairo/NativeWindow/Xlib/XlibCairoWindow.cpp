@@ -33,6 +33,11 @@ namespace vl
 							NULL                     //Attributes
 							);
 
+					Atom WM_DELETE_WINDOW = XInternAtom(display, "WM_DELETE_WINDOW", XLIB_FALSE);
+
+					XSelectInput(display, window, PointerMotionMask | ButtonPressMask | ButtonReleaseMask | KeyPressMask | KeyReleaseMask);
+					XSetWMProtocols(display, window, &WM_DELETE_WINDOW, 1);
+
                     Show();
                     UpdateTitle();
                     XSync(display, false);
