@@ -11,6 +11,8 @@ namespace vl
 			{
 				GuiSolidBackgroundElementRenderer::Register();
 				GuiSolidLabelElementRenderer::Register();
+				GuiSolidBorderElementRenderer::Register();
+				GuiGradientBackgroundElementRenderer::Register();
 			}
 		}
 	}

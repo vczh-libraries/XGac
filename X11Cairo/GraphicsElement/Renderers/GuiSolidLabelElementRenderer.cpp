@@ -39,6 +39,14 @@ namespace vl
 					pango_layout_set_font_description(layout, pangoFontDesc);
 					pango_layout_set_attributes(layout, attrList);
 					pango_layout_set_text(layout, text.Buffer(), text.Length());
+					pango_layout_set_alignment(layout, 
+							element->GetHorizontalAlignment() == Alignment::Left ? PANGO_ALIGN_LEFT :
+							element->GetHorizontalAlignment() == Alignment::Center ? PANGO_ALIGN_CENTER :
+							element->GetHorizontalAlignment() == Alignment::Right ? PANGO_ALIGN_RIGHT :
+							PANGO_ALIGN_LEFT
+							);
+					pango_layout_set_width(layout, bounds.Width() * PANGO_SCALE);
+					pango_layout_set_height(layout, bounds.Height() * PANGO_SCALE);
 					
 					cairo_set_source_rgb(cairoContext, 
 							1.0 * color.r / 255, 

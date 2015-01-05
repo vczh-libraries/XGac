@@ -1,5 +1,5 @@
-#ifndef __GAC_X11CAIRO_GUI_SOLID_BACKGROUND_ELEMENT_RENDERER_H
-#define __GAC_X11CAIRO_GUI_SOLID_BACKGROUND_ELEMENT_RENDERER_H
+#ifndef __GAC_X11CAIRO_GUI_GRADIENT_BACKGROUND_ELEMENT_RENDERER_H
+#define __GAC_X11CAIRO_GUI_GRADIENT_BACKGROUND_ELEMENT_RENDERER_H
 
 #include <GacUI.h>
 #include "../X11CairoRenderTarget.h"
@@ -11,15 +11,15 @@ namespace vl
 		namespace elements_x11cairo
 		{
 			using namespace elements;
-			class GuiSolidBackgroundElementRenderer: public Object, public IGuiGraphicsRenderer
+			class GuiGradientBackgroundElementRenderer: public Object, public IGuiGraphicsRenderer
 			{
-				DEFINE_GUI_GRAPHICS_RENDERER(GuiSolidBackgroundElement, GuiSolidBackgroundElementRenderer, IX11CairoRenderTarget);
+				DEFINE_GUI_GRAPHICS_RENDERER(GuiGradientBackgroundElement, GuiGradientBackgroundElementRenderer, IX11CairoRenderTarget);
 
 			protected:
 				cairo_t* cairoContext;
 
 			public:
-				GuiSolidBackgroundElementRenderer();
+				GuiGradientBackgroundElementRenderer();
 
 				void InitializeInternal();
 				void FinalizeInternal();
@@ -33,4 +33,5 @@ namespace vl
 
 
 #endif
+
 

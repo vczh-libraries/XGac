@@ -17,11 +17,9 @@ namespace vl
 
 			protected:
 				cairo_t* cairoContext;
-				PangoFontDescription* pangoFontDesc;
-				PangoAttrList* attrList;
 
 			public:
-				GuiSolidLabelElementRenderer();
+				GuiSolidBorderElementRenderer();
 
 				void InitializeInternal();
 				void FinalizeInternal();

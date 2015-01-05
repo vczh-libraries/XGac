@@ -3,5 +3,7 @@
 
 #include "GuiSolidBackgroundElementRenderer.h"
 #include "GuiSolidLabelElementRenderer.h"
+#include "GuiSolidBorderElementRenderer.h"
+#include "GuiGradientBackgroundElementRenderer.h"
 
 #endif

@@ -22,8 +22,18 @@ namespace vl
 
 				FontProperties XlibNativeResourceService::GetDefaultFont()
 				{
-					//TODO
-					return FontProperties();
+					FontProperties prop;
+					{
+						prop.fontFamily = L"Sans";
+						prop.size = 12;
+						prop.italic = false;
+						prop.bold = false;
+						prop.underline = false;
+						prop.strikeline = false;
+						prop.antialias = true;
+						prop.verticalAntialias = true;
+					}
+					return prop;
 				}
 
 				void XlibNativeResourceService::SetDefaultFont(const FontProperties& value)
