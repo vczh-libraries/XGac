@@ -9,14 +9,14 @@ pkg_check_modules(DEPENDENCIES REQUIRED x11 cairo cairo-xlib pango pangocairo)
 include_directories(${DEPENDENCIES_INCLUDE_DIRS})
 link_directories(${DEPENDENCIES_LIBRARY_DIRS})
 
+set(OS_LIBRARIES "pthread")
 if(APPLE)
     link_directories("/opt/X11/lib")
     link_directories("/usr/local/Cellar/gettext/0.19.3_1/lib")
     include_directories("/opt/X11/include")
-    find_library(OS_LIBRARIES CoreFoundation)
+	find_library(COREFOUNDATION_LIBRARIES CoreFoundation)
+	set(OS_LIBRARIES ${COREFOUNDATION_LIBRARIES} ${OS_LIBRARIES})
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__APPLE__")
-else()
-    set(OS_LIBRARIES)
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -46,7 +46,13 @@ set(GACUI_X11CAIRO_XLIB_FILES
 	"../X11Cairo/NativeWindow/Xlib/ServicesImpl/XlibNativeResourceService.cpp"
 	)
 
-set(HELLOWORLD_SOURCE_FILES HelloWorld.cpp)
-add_executable(HelloWorld ${HELLOWORLD_SOURCE_FILES} ${GACUI_COMMON_FILES} ${GACUI_X11CAIRO_COMMON_FILES} ${GACUI_X11CAIRO_XLIB_FILES})
-target_link_libraries(HelloWorld pthread ${DEPENDENCIES_LIBRARIES} ${OS_LIBRARIES})
+set(TEST_SOURCES ${GACUI_COMMON_FILES} ${GACUI_X11CAIRO_COMMON_FILES} ${GACUI_X11CAIRO_XLIB_FILES})
+set(TEST_LIBRARIES ${DEPENDENCIES_LIBRARIES} ${OS_LIBRARIES})
 
+set(HELLOWORLD_SOURCE_FILES "HelloWorld/HelloWorld.cpp")
+add_executable(HelloWorld ${HELLOWORLD_SOURCE_FILES} ${TEST_SOURCES})
+target_link_libraries(HelloWorld ${TEST_LIBRARIES})
+
+set(CONTROLS_BUTTON_ENABLEDISABLE_SOURCE_FILES "./Controls.Button.EnableDisable/Controls.Button.EnableDisable.cpp")
+add_executable(Controls.Button.EnableDisable ${CONTROLS_BUTTON_ENABLEDISABLE_SOURCE_FILES} ${TEST_SOURCES})
+target_link_libraries(Controls.Button.EnableDisable ${TEST_LIBRARIES})

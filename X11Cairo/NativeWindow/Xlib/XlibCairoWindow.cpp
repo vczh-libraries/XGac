@@ -1,6 +1,8 @@
 #include <limits.h>
 #include "XlibCairoWindow.h"
 
+using namespace vl::collections;
+
 namespace vl
 {
     namespace presentation
@@ -90,6 +92,90 @@ namespace vl
                     AString narrow = wtoa(title);
                     XStoreName(display, window, narrow.Buffer());
                 }
+
+				void XlibCairoWindow::MouseUpEvent(MouseButtons button, Point position)
+				{
+					NativeWindowMouseInfo info;
+					{
+						info.x = position.x;
+						info.y = position.y;
+						info.left = (button == X11CAIRO_LBUTTON) ? true : false;
+						info.right = (button == X11CAIRO_RBUTTON) ? true : false;
+					}
+					switch(button)
+					{
+						case X11CAIRO_LBUTTON:
+							FOREACH(INativeWindowListener*, i, listeners)
+							{
+								i->LeftButtonUp(info);
+							}
+							break;
+
+						case X11CAIRO_RBUTTON:
+							FOREACH(INativeWindowListener*, i, listeners)
+							{
+								i->RightButtonUp(info);
+							}
+							break;
+					}
+				}
+
+				void XlibCairoWindow::MouseDownEvent(MouseButtons button, Point position)
+				{
+					NativeWindowMouseInfo info;
+					{
+						info.x = position.x;
+						info.y = position.y;
+						info.left = (button == X11CAIRO_LBUTTON) ? true : false;
+						info.right = (button == X11CAIRO_RBUTTON) ? true : false;
+					}
+					switch(button)
+					{
+						case X11CAIRO_LBUTTON:
+							FOREACH(INativeWindowListener*, i, listeners)
+							{
+								i->LeftButtonDown(info);
+							}
+							break;
+
+						case X11CAIRO_RBUTTON:
+							FOREACH(INativeWindowListener*, i, listeners)
+							{
+								i->RightButtonDown(info);
+							}
+							break;
+					}
+				}
+
+				void XlibCairoWindow::MouseMoveEvent(Point position)
+				{
+					NativeWindowMouseInfo info;
+					{
+						info.x = position.x;
+						info.y = position.y;
+					}
+
+					FOREACH(INativeWindowListener*, i, listeners)
+					{
+						i->MouseMoving(info);
+					}
+				}
+				
+				void XlibCairoWindow::MouseEnterEvent()
+				{
+					FOREACH(INativeWindowListener*, i, listeners)
+					{
+						i->MouseEntered();
+					}
+				}
+
+				void XlibCairoWindow::MouseLeaveEvent()
+				{
+					FOREACH(INativeWindowListener*, i, listeners)
+					{
+						i->MouseLeaved();
+					}
+				}
 
                 void XlibCairoWindow::Show ()
                 {
@@ -408,14 +494,13 @@ namespace vl
 
                 bool XlibCairoWindow::InstallListener(INativeWindowListener *listener)
                 {
-                    //TODO
-                    return false;
+					listeners.Add(listener);
+					return true;
                 }
 
                 bool XlibCairoWindow::UninstallListener(INativeWindowListener *listener)
                 {
-                    //TODO
-                    return false;
+					return listeners.Remove(listener);
                 }
 
                 void XlibCairoWindow::RedrawContent()

@@ -24,6 +24,8 @@ namespace vl
 					vl::collections::List<XlibCairoWindow*> windows;
 					bool timerFlag;
 
+					XlibCairoWindow* FindWindow(Window win);
+
 				public:
 					XlibNativeWindowService (Display* display, PosixAsyncService* asyncService, XlibNativeCallbackService* callbackService);
 

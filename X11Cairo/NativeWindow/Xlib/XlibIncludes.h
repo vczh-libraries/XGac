@@ -17,4 +17,6 @@ const Status XLIB_NONE = None;
 #undef Success
 #undef None
 
+#include "XlibCommons.h"
+
 #endif

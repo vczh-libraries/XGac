@@ -1,9 +1,9 @@
 #ifndef __GAC_X11CAIRO_XLIB_CAIRO_WINDOW_H
 #define __GAC_X11CAIRO_XLIB_CAIRO_WINDOW_H
 
+#include <GacUI.h>
 #include "XlibIncludes.h"
 #include "../Common/X11CairoWindow.h"
-#include <GacUI.h>
 
 namespace vl
 {
@@ -21,6 +21,7 @@ namespace vl
 					WString title;
 					elements::IGuiGraphicsRenderTarget* renderTarget;
 					bool resizable;
+					collections::List<INativeWindowListener*> listeners;
 
 					void UpdateTitle();
 					void UpdateResizable();
@@ -32,12 +33,17 @@ namespace vl
 
 					//Internal methods
 					Display *GetDisplay();
-
 					Window GetWindow();
 
 					void SetRenderTarget(elements::IGuiGraphicsRenderTarget*);
 
 					elements::IGuiGraphicsRenderTarget* GetRenderTarget();
+
+					void MouseUpEvent(MouseButtons button, Point position);
+					void MouseDownEvent(MouseButtons button, Point position);
+					void MouseMoveEvent(Point position);
+					void MouseEnterEvent();
+					void MouseLeaveEvent();
 
 					//GacUI Implementations
 					virtual Rect GetBounds();

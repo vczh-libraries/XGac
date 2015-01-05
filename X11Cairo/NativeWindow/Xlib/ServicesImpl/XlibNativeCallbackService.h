@@ -25,6 +25,9 @@ namespace vl
 
 					void CheckTimer();
 					void SetTimer();
+					void MouseUpEvent(MouseButtons button, Point position);
+					void MouseDownEvent(MouseButtons button, Point position);
+					void MouseMoveEvent(Point position);
 				};
 			}
 		}
