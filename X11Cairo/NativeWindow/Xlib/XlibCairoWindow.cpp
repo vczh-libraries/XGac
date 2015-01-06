@@ -37,7 +37,7 @@ namespace vl
 
 					Atom WM_DELETE_WINDOW = XInternAtom(display, "WM_DELETE_WINDOW", XLIB_FALSE);
 
-					XSelectInput(display, window, PointerMotionMask | ButtonPressMask | ButtonReleaseMask | KeyPressMask | KeyReleaseMask);
+					XSelectInput(display, window, PointerMotionMask | ButtonPressMask | ButtonReleaseMask | KeyPressMask | KeyReleaseMask | StructureNotifyMask | SubstructureNotifyMask);
 					XSetWMProtocols(display, window, &WM_DELETE_WINDOW, 1);
 
 					CheckDoubleBuffer();
@@ -49,6 +49,7 @@ namespace vl
 
                 XlibCairoWindow::~XlibCairoWindow()
                 {
+					delete renderTarget;
                     XDestroyWindow(display, window);
                 }
 
@@ -57,12 +58,19 @@ namespace vl
 					int major, minor;
 					if(XdbeQueryExtension(display, &major, &minor))
 					{
-						backBuffer = XdbeAllocateBackBufferName(display, window, XdbeUndefined);
+						RebuildDoubleBuffer();
 						if(backBuffer != XLIB_NONE)
 						{
 							doubleBuffer = true;
 						}
 					}
+				}
+
+				void XlibCairoWindow::RebuildDoubleBuffer()
+				{
+					if(backBuffer != XLIB_NONE)
+						XdbeDeallocateBackBufferName(display, backBuffer);
+					backBuffer = XdbeAllocateBackBufferName(display, window, XdbeUndefined);
 				}
 
 				XdbeBackBuffer XlibCairoWindow::GetBackBuffer()
@@ -73,6 +81,22 @@ namespace vl
 				bool XlibCairoWindow::GetDoubleBuffer()
 				{
 					return doubleBuffer;
+				}
+
+				void XlibCairoWindow::SwapBuffer()
+				{
+					if(doubleBuffer)
+					{
+						XdbeBackBufferAttributes* attributes = XdbeGetBackBufferAttributes(display, backBuffer);
+						XdbeSwapInfo info;
+						{
+							info.swap_window = window;
+							info.swap_action = XdbeUndefined;
+						}
+
+						XdbeSwapBuffers(display, &info, 1);
+						XFree(attributes);
+					}
 				}
 
 				void XlibCairoWindow::UpdateResizable()
@@ -123,6 +147,17 @@ namespace vl
                     AString narrow = wtoa(title);
                     XStoreName(display, window, narrow.Buffer());
                 }
+
+				void XlibCairoWindow::ResizeEvent(int width, int height)
+				{
+					RebuildDoubleBuffer();
+					Rect newBound = GetBounds();
+					FOREACH(INativeWindowListener*, i, listeners)
+					{
+						i->Moving(newBound, true);
+						i->Moved();
+					}
+				}
 
 				void XlibCairoWindow::MouseUpEvent(MouseButtons button, Point position)
 				{

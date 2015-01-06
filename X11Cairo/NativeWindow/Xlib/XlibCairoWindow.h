@@ -26,7 +26,6 @@ namespace vl
 
 					void UpdateTitle();
 					void UpdateResizable();
-					void CheckDoubleBuffer();
 
 				public:
 					XlibCairoWindow(Display *display);
@@ -36,8 +35,11 @@ namespace vl
 					//Internal methods
 					Display *GetDisplay();
 					Window GetWindow();
+					void CheckDoubleBuffer();
+					void RebuildDoubleBuffer();
 					bool GetDoubleBuffer();
 					XdbeBackBuffer GetBackBuffer();
+					void SwapBuffer();
 
 					void SetRenderTarget(elements::IGuiGraphicsRenderTarget*);
 
@@ -48,6 +50,7 @@ namespace vl
 					void MouseMoveEvent(Point position);
 					void MouseEnterEvent();
 					void MouseLeaveEvent();
+					void ResizeEvent(int width, int height);
 
 					//GacUI Implementations
 					virtual Rect GetBounds();

@@ -135,6 +135,11 @@ namespace vl
 									XFlush(actualWindow->GetDisplay());
 									return;
 
+								case ConfigureNotify:
+									if((evWindow = FindWindow(event.xconfigure.window)) != NULL)
+										evWindow->ResizeEvent(event.xconfigure.width, event.xconfigure.height);
+									break;
+
 								default:
 									break;
 							}

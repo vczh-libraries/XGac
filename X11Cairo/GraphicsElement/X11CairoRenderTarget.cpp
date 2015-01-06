@@ -19,7 +19,7 @@ namespace vl
 		{
 
 #ifndef GAC_CAIRO_XCB
-			class X11CairoXlibRenderTarget: public IX11CairoRenderTarget
+			class X11CairoXlibRenderTarget: public IX11CairoRenderTarget, INativeWindowListener
 			{
 			private:
 				cairo_surface_t* surface;
@@ -42,10 +42,13 @@ namespace vl
 					if(!surface)
 						throw Exception(L"Failed to create Cairo Surface");
 
+					window->InstallListener(this);
+
 				}
 
 				virtual ~X11CairoXlibRenderTarget()
 				{
+					window->UninstallListener(this);
 					cairo_surface_destroy(surface);
 				}
 
@@ -56,24 +59,13 @@ namespace vl
 
 				void StartRendering()
 				{
-					if(window)
-					{
-						Size size = window->GetClientSize();
-						cairo_xlib_surface_set_size(surface, size.x, size.y);
-					}
 				}
 
 				bool StopRendering()
 				{
 					if(window->GetDoubleBuffer())
 					{
-						XdbeSwapInfo info;
-						{
-							info.swap_window = window->GetWindow();
-							info.swap_action = XdbeUndefined;
-						}
-
-						XdbeSwapBuffers(window->GetDisplay(), &info, 1);
+						window->SwapBuffer();
 					}
 
 					return true;
@@ -100,6 +92,58 @@ namespace vl
 					//TODO
 					return false;
 				}
+
+
+				void Moving(Rect& bounds, bool fixSizeOnly) 
+				{ 
+					Size size = window->GetClientSize();
+					if(window->GetDoubleBuffer())
+					{
+						cairo_xlib_surface_set_drawable(surface, window->GetBackBuffer(), size.x, size.y);
+					}
+					else
+					{
+						cairo_xlib_surface_set_size(surface, size.x, size.y);
+					}
+				}
+
+				HitTestResult		HitTest(Point location) { return BorderNoSizing; }
+				void				Moved() { }
+				void				Enabled() { }
+				void				Disabled() { }
+				void				GotFocus() { }
+				void				LostFocus() { }
+				void				Activated() { }
+				void				Deactivated() { }
+				void				Opened() { }
+				void				Closing(bool& cancel) { }
+				void				Closed() { }
+				void				Paint() { }
+				void				Destroying() { }
+				void				Destroyed() { }
+
+				void				LeftButtonDown(const NativeWindowMouseInfo& info) { }
+				void				LeftButtonUp(const NativeWindowMouseInfo& info) { }
+				void				LeftButtonDoubleClick(const NativeWindowMouseInfo& info) { }
+				void				RightButtonDown(const NativeWindowMouseInfo& info) { }
+				void				RightButtonUp(const NativeWindowMouseInfo& info) { }
+				void				RightButtonDoubleClick(const NativeWindowMouseInfo& info) { }
+				void				MiddleButtonDown(const NativeWindowMouseInfo& info) { }
+				void				MiddleButtonUp(const NativeWindowMouseInfo& info) { }
+				void				MiddleButtonDoubleClick(const NativeWindowMouseInfo& info) { }
+				void				HorizontalWheel(const NativeWindowMouseInfo& info) { }
+				void				VerticalWheel(const NativeWindowMouseInfo& info) { }
+				void				MouseMoving(const NativeWindowMouseInfo& info) { }
+				void				MouseEntered() { }
+				void				MouseLeaved() { }
+
+				void				KeyDown(const NativeWindowKeyInfo& info) { }
+				void				KeyUp(const NativeWindowKeyInfo& info) { }
+				void				SysKeyDown(const NativeWindowKeyInfo& info) { }
+				void				SysKeyUp(const NativeWindowKeyInfo& info) { }
+				void				Char(const NativeWindowCharInfo& info) { }
+
+
 			};
 
 			IX11CairoRenderTarget* CreateX11CairoRenderTarget(IX11CairoWindow* window)
