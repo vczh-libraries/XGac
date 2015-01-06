@@ -15,7 +15,9 @@ namespace vl
                         display(display),
                         title(),
 						renderTarget(nullptr),
-						resizable (false)
+						resizable (false),
+						doubleBuffer(false),
+						backBuffer(XLIB_NONE)
                 {
                     this->display = display;
                     window = XCreateWindow(
@@ -38,6 +40,8 @@ namespace vl
 					XSelectInput(display, window, PointerMotionMask | ButtonPressMask | ButtonReleaseMask | KeyPressMask | KeyReleaseMask);
 					XSetWMProtocols(display, window, &WM_DELETE_WINDOW, 1);
 
+					CheckDoubleBuffer();
+
                     Show();
                     UpdateTitle();
                     XSync(display, false);
@@ -48,6 +52,28 @@ namespace vl
                     XDestroyWindow(display, window);
                 }
 
+				void XlibCairoWindow::CheckDoubleBuffer()
+				{
+					int major, minor;
+					if(XdbeQueryExtension(display, &major, &minor))
+					{
+						backBuffer = XdbeAllocateBackBufferName(display, window, XdbeUndefined);
+						if(backBuffer != XLIB_NONE)
+						{
+							doubleBuffer = true;
+						}
+					}
+				}
+
+				XdbeBackBuffer XlibCairoWindow::GetBackBuffer()
+				{
+					return backBuffer;
+				}
+
+				bool XlibCairoWindow::GetDoubleBuffer()
+				{
+					return doubleBuffer;
+				}
 
 				void XlibCairoWindow::UpdateResizable()
 				{

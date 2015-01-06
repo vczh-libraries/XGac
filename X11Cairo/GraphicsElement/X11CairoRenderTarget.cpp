@@ -30,7 +30,15 @@ namespace vl
 					window(window)
 				{
 					Size size = window->GetClientSize();
-					surface = cairo_xlib_surface_create(window->GetDisplay(), window->GetWindow(), DefaultVisual(window->GetDisplay(), 0), size.x, size.y);
+					if(window->GetDoubleBuffer())
+					{
+						surface = cairo_xlib_surface_create(window->GetDisplay(), window->GetBackBuffer(), DefaultVisual(window->GetDisplay(), 0), size.x, size.y);
+					}
+					else
+					{
+						surface = cairo_xlib_surface_create(window->GetDisplay(), window->GetWindow(), DefaultVisual(window->GetDisplay(), 0), size.x, size.y);
+					}
+
 					if(!surface)
 						throw Exception(L"Failed to create Cairo Surface");
 
@@ -57,7 +65,17 @@ namespace vl
 
 				bool StopRendering()
 				{
-					//TODO
+					if(window->GetDoubleBuffer())
+					{
+						XdbeSwapInfo info;
+						{
+							info.swap_window = window->GetWindow();
+							info.swap_action = XdbeUndefined;
+						}
+
+						XdbeSwapBuffers(window->GetDisplay(), &info, 1);
+					}
+
 					return true;
 				}
 

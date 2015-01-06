@@ -20,11 +20,13 @@ namespace vl
 					Window window;
 					WString title;
 					elements::IGuiGraphicsRenderTarget* renderTarget;
-					bool resizable;
+					bool resizable, doubleBuffer;
 					collections::List<INativeWindowListener*> listeners;
+					XdbeBackBuffer backBuffer;
 
 					void UpdateTitle();
 					void UpdateResizable();
+					void CheckDoubleBuffer();
 
 				public:
 					XlibCairoWindow(Display *display);
@@ -34,6 +36,8 @@ namespace vl
 					//Internal methods
 					Display *GetDisplay();
 					Window GetWindow();
+					bool GetDoubleBuffer();
+					XdbeBackBuffer GetBackBuffer();
 
 					void SetRenderTarget(elements::IGuiGraphicsRenderTarget*);
 
