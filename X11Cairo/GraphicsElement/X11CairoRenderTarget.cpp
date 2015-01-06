@@ -70,7 +70,7 @@ namespace vl
 						XdbeSwapInfo info;
 						{
 							info.swap_window = window->GetWindow();
-							info.swap_action = XdbeCopied;
+							info.swap_action = XdbeUndefined;
 						}
 
 						XdbeSwapBuffers(window->GetDisplay(), &info, 1);
