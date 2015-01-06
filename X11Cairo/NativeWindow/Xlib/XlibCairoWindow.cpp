@@ -57,7 +57,7 @@ namespace vl
 					int major, minor;
 					if(XdbeQueryExtension(display, &major, &minor))
 					{
-						backBuffer = XdbeAllocateBackBufferName(display, window, XdbeUndefined);
+						backBuffer = XdbeAllocateBackBufferName(display, window, XdbeCopied);
 						if(backBuffer != XLIB_NONE)
 						{
 							doubleBuffer = true;

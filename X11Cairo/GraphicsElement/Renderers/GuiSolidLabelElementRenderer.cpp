@@ -46,7 +46,6 @@ namespace vl
 							PANGO_ALIGN_LEFT
 							);
 					pango_layout_set_width(layout, bounds.Width() * PANGO_SCALE);
-					pango_layout_set_height(layout, bounds.Height() * PANGO_SCALE);
 					
 					cairo_set_source_rgb(cairoContext, 
 							1.0 * color.r / 255, 
@@ -54,9 +53,22 @@ namespace vl
 							1.0 * color.b / 255
 							);
 
-					cairo_move_to(cairoContext, bounds.x1, bounds.y1);
 					pango_cairo_update_layout(cairoContext, layout);
-					int w, h;
+					int layoutWidth, layoutHeight;
+
+					pango_layout_get_pixel_size( layout, &layoutWidth, &layoutHeight);
+					switch(element->GetVerticalAlignment())
+					{
+					case Alignment::Top:
+						cairo_move_to(cairoContext, bounds.x1, bounds.y1);
+						break;
+					case Alignment::Center:
+						cairo_move_to(cairoContext, bounds.x1, bounds.y1 + (bounds.Height() - layoutHeight) / 2);
+						break;
+					case Alignment::Bottom:
+						cairo_move_to(cairoContext, bounds.x1, bounds.y1 + (bounds.Height() - layoutHeight));
+						break;
+					}
 
 					pango_cairo_layout_path(cairoContext, layout);
 					cairo_fill(cairoContext);
