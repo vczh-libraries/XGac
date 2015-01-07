@@ -45,7 +45,7 @@ namespace vl
 							element->GetHorizontalAlignment() == Alignment::Right ? PANGO_ALIGN_RIGHT :
 							PANGO_ALIGN_LEFT
 							);
-					pango_layout_set_width(layout, bounds.Width() * PANGO_SCALE);
+					if(element->GetWrapLine()) pango_layout_set_width(layout, bounds.Width() * PANGO_SCALE);
 					
 					cairo_set_source_rgb(cairoContext, 
 							1.0 * color.r / 255, 
@@ -55,20 +55,36 @@ namespace vl
 
 					pango_cairo_update_layout(cairoContext, layout);
 					int layoutWidth, layoutHeight;
+					int plotX1, plotY1;
 
 					pango_layout_get_pixel_size( layout, &layoutWidth, &layoutHeight);
+					switch(element->GetHorizontalAlignment())
+					{
+					case Alignment::Left:
+						plotX1 = bounds.x1;
+						break;
+					case Alignment::Center:
+						plotX1 = bounds.x1 + (bounds.Width() - layoutWidth) / 2;
+						break;
+					case Alignment::Right:
+						plotX1 = bounds.x1 + (bounds.Width() - layoutWidth);
+						break;
+					}
+
 					switch(element->GetVerticalAlignment())
 					{
 					case Alignment::Top:
-						cairo_move_to(cairoContext, bounds.x1, bounds.y1);
+						plotY1 = bounds.y1;
 						break;
 					case Alignment::Center:
-						cairo_move_to(cairoContext, bounds.x1, bounds.y1 + (bounds.Height() - layoutHeight) / 2);
+						plotY1 = bounds.y1 + (bounds.Height() - layoutHeight) / 2;
 						break;
 					case Alignment::Bottom:
-						cairo_move_to(cairoContext, bounds.x1, bounds.y1 + (bounds.Height() - layoutHeight));
+						plotY1 = bounds.y1 + (bounds.Height() - layoutHeight);
 						break;
 					}
+
+					cairo_move_to(cairoContext, plotX1, plotY1);
 
 					pango_cairo_layout_path(cairoContext, layout);
 					cairo_fill(cairoContext);

@@ -58,3 +58,7 @@ target_link_libraries(HelloWorld ${TEST_LIBRARIES})
 set(CONTROLS_BUTTON_ENABLEDISABLE_SOURCE_FILES "./Controls.Button.EnableDisable/Controls.Button.EnableDisable.cpp")
 add_executable(Controls.Button.EnableDisable ${CONTROLS_BUTTON_ENABLEDISABLE_SOURCE_FILES} ${TEST_SOURCES})
 target_link_libraries(Controls.Button.EnableDisable ${TEST_LIBRARIES})
+
+set(CONTROLS_BUTTON_CHECKANDRADIO_SOURCE_FILES "./Controls.Button.CheckAndRadio/Controls.Button.CheckAndRadio.cpp")
+add_executable(Controls.Button.CheckAndRadio ${CONTROLS_BUTTON_CHECKANDRADIO_SOURCE_FILES} ${TEST_SOURCES})
+target_link_libraries(Controls.Button.CheckAndRadio ${TEST_LIBRARIES})
