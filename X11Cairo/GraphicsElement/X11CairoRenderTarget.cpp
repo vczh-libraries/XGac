@@ -1,4 +1,4 @@
-#include <stack>
+#include <vector>
 
 #include "X11CairoRenderTarget.h"
 #include "X11CairoResourceManager.h"
@@ -27,7 +27,7 @@ namespace vl
 				cairo_surface_t* surface;
 				cairo_t* context;
 				XlibCairoWindow* window;
-				std::stack<Rect> clippers;
+				std::vector<Rect> clippers;
 
 
 			public:
@@ -88,25 +88,22 @@ namespace vl
 				void PushClipper(Rect clipper)
 				{
 					cairo_save(context);
+					clippers.push_back(clipper);
 
-					clippers.push(clipper);
-
-					cairo_set_fill_rule(context, CAIRO_FILL_RULE_EVEN_ODD);
 					cairo_rectangle(context, clipper.x1, clipper.y1, clipper.Width(), clipper.Height());
+					cairo_reset_clip(context);
 					cairo_clip(context);
-
-					cairo_set_fill_rule(context, CAIRO_FILL_RULE_WINDING);
 				}
 
 				void PopClipper()
 				{
-					clippers.pop();
+					clippers.pop_back();
 					cairo_restore(context);
 				}
 
 				Rect GetClipper()
 				{
-					return clippers.top();
+					return clippers.back();
 				}
 
 				bool IsClipperCoverWholeTarget()

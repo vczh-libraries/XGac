@@ -32,11 +32,11 @@ namespace vl
 					{
 						case ElementShape::Rectangle:
 							//Add 0.5 to make this line pass through the center of pixel
-							cairo_rectangle(cairoContext, 0.5 + bounds.x1, 0.5 + bounds.y1, 0.5 + bounds.Width(),0.5 + bounds.Height());
+							cairo_rectangle(cairoContext, 0.5 + bounds.x1, 0.5 + bounds.y1, - 1.0 + bounds.Width(), - 1.0 + bounds.Height());
 							break;
 						case ElementShape::Ellipse:
-							cairo_translate(cairoContext, bounds.x1 + bounds.Width() / 2, bounds.y1 + bounds.Height() / 2);
-							cairo_scale(cairoContext, bounds.Width() / 2, bounds.Height() / 2);
+							cairo_translate(cairoContext, bounds.x1 + bounds.Width() / 2 + 0.5, bounds.y1 + bounds.Height() / 2 + 0.5);
+							cairo_scale(cairoContext, bounds.Width() / 2 - 0.5, bounds.Height() / 2 - 0.5);
 							cairo_arc(cairoContext, 0.0, 0.0, 1.0, 0.0, 2 * M_PI);
 							cairo_identity_matrix(cairoContext);
 							break;

@@ -23,7 +23,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 
-#add_definitions(-DGAC_X11_DOUBLEBUFFER)
+add_definitions(-DGAC_X11_DOUBLEBUFFER)
 
 set(GACUI_COMMON_FILES "../Public/Source/Vlpp.cpp" "../Public/Source/VlppWorkflow.cpp" "../Public/Source/GacUI.cpp" "../Public/Source/GacUIReflection.cpp")
 
