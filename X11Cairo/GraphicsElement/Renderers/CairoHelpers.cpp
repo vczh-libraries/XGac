@@ -77,8 +77,11 @@ namespace vl
 					cairo_pattern_add_color_stop_rgba(pattern, 0, 1.0 * color1.r / 255, 1.0 * color1.g / 255, 1.0 * color1.b / 255, 1.0 * color1.a / 255);
 					cairo_pattern_add_color_stop_rgba(pattern, 1, 1.0 * color2.r / 255, 1.0 * color2.g / 255, 1.0 * color2.b / 255, 1.0 * color2.a / 255);
 
-					cairo_pattern_add_color_stop_rgba(pattern, 0.49, 1.0 * color1.r / 255, 1.0 * color1.g / 255, 1.0 * color1.b / 255, 1.0 * color1.a / 255);
-					cairo_pattern_add_color_stop_rgba(pattern, 0.51, 1.0 * color2.r / 255, 1.0 * color2.g / 255, 1.0 * color2.b / 255, 1.0 * color2.a / 255);
+					if(!smooth)
+					{
+						cairo_pattern_add_color_stop_rgba(pattern, 0.49, 1.0 * color1.r / 255, 1.0 * color1.g / 255, 1.0 * color1.b / 255, 1.0 * color1.a / 255);
+						cairo_pattern_add_color_stop_rgba(pattern, 0.51, 1.0 * color2.r / 255, 1.0 * color2.g / 255, 1.0 * color2.b / 255, 1.0 * color2.a / 255);
+					}
 					cairo_set_source(cairoContext, pattern);
 
 					cairo_fill(cairoContext);
