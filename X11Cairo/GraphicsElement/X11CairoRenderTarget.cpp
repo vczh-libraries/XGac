@@ -1,3 +1,5 @@
+#include <stack>
+
 #include "X11CairoRenderTarget.h"
 #include "X11CairoResourceManager.h"
 
@@ -23,7 +25,10 @@ namespace vl
 			{
 			private:
 				cairo_surface_t* surface;
+				cairo_t* context;
 				XlibCairoWindow* window;
+				std::stack<Rect> clippers;
+
 
 			public:
 				X11CairoXlibRenderTarget(XlibCairoWindow* window):
@@ -39,8 +44,10 @@ namespace vl
 						surface = cairo_xlib_surface_create(window->GetDisplay(), window->GetWindow(), DefaultVisual(window->GetDisplay(), 0), size.x, size.y);
 					}
 
-					if(!surface)
-						throw Exception(L"Failed to create Cairo Surface");
+					context = cairo_create(surface);
+
+					if(!surface || !context)
+						throw Exception(L"Failed to create Cairo Surface / Context");
 
 					window->InstallListener(this);
 
@@ -49,12 +56,19 @@ namespace vl
 				virtual ~X11CairoXlibRenderTarget()
 				{
 					window->UninstallListener(this);
+
+					cairo_destroy(context);
 					cairo_surface_destroy(surface);
 				}
 
 				cairo_surface_t* GetCairoSurface()
 				{
 					return surface;
+				}
+
+				cairo_t* GetCairoContext()
+				{
+					return context;
 				}
 
 				void StartRendering()
@@ -73,26 +87,38 @@ namespace vl
 
 				void PushClipper(Rect clipper)
 				{
-					//TODO
+					cairo_save(context);
+
+					clippers.push(clipper);
+
+					cairo_set_fill_rule(context, CAIRO_FILL_RULE_EVEN_ODD);
+					cairo_rectangle(context, clipper.x1, clipper.y1, clipper.Width(), clipper.Height());
+					cairo_clip(context);
+
+					cairo_set_fill_rule(context, CAIRO_FILL_RULE_WINDING);
 				}
 
 				void PopClipper()
 				{
-					//TODO
+					clippers.pop();
+					cairo_restore(context);
 				}
 
 				Rect GetClipper()
 				{
-					//TODO
-					return Rect();
+					return clippers.top();
 				}
 
 				bool IsClipperCoverWholeTarget()
 				{
-					//TODO
-					return false;
-				}
+					double x1, x2, y1, y2;
+					Size size = window->GetClientSize();
+					Rect boundsWin(0, 0, size.x, size.y);
+					cairo_clip_extents(context, &x1, &y1, &x2, &y2);
+					Rect boundsClip(x1, x2, y1, y2);
 
+					return (boundsWin == boundsClip);
+				}
 
 				void Moving(Rect& bounds, bool fixSizeOnly) 
 				{ 

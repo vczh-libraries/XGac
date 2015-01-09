@@ -39,9 +39,9 @@ namespace vl
 
 			void GuiSolidBorderElementRenderer::RenderTargetChangedInternal(IX11CairoRenderTarget* oldRT, IX11CairoRenderTarget* newRT)
 			{
-				if(cairoContext)
-					cairo_destroy(cairoContext);
-				if(newRT) cairoContext = cairo_create(newRT->GetCairoSurface());
+				if(newRT)
+					cairoContext = newRT->GetCairoContext();
+				else cairoContext = NULL;
 			}
 		}
 	}

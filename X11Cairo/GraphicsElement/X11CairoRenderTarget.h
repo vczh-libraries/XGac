@@ -15,6 +15,7 @@ namespace vl
 			{
 			public:
 				virtual cairo_surface_t* GetCairoSurface() = 0;
+				virtual cairo_t* GetCairoContext() = 0;
 			};
 
 			extern IX11CairoRenderTarget* CreateX11CairoRenderTarget(x11cairo::IX11CairoWindow* window);

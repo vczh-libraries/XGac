@@ -31,6 +31,7 @@ namespace vl
 			{
 				if(cairoContext)
 				{
+					cairo_save(cairoContext);
 					PangoLayout *layout = pango_cairo_create_layout(cairoContext);
 
 					Color color = element->GetColor();
@@ -95,6 +96,7 @@ namespace vl
 					cairo_fill(cairoContext);
 
 					g_object_unref(layout);
+					cairo_restore(cairoContext);
 				}
 			}
 
@@ -134,9 +136,9 @@ namespace vl
 
 			void GuiSolidLabelElementRenderer::RenderTargetChangedInternal(IX11CairoRenderTarget* oldRT, IX11CairoRenderTarget* newRT)
 			{
-				if(cairoContext)
-					cairo_destroy(cairoContext);
-				if(newRT) cairoContext = cairo_create(newRT->GetCairoSurface());
+				if(newRT)
+					cairoContext = newRT->GetCairoContext();
+				else cairoContext = NULL;
 			}
 		}
 	}
