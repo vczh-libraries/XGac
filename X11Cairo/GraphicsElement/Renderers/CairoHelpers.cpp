@@ -45,7 +45,7 @@ namespace vl
 
 				void SolidFill(cairo_t* cairoContext, Color color)
 				{
-					cairo_set_source_rgb(cairoContext, 1.0 * color.r / 255, 1.0 * color.g / 255, 1.0 * color.b / 255);
+					cairo_set_source_rgba(cairoContext, 1.0 * color.r / 255, 1.0 * color.g / 255, 1.0 * color.b / 255, 1.0 * color.a / 255);
 					cairo_fill(cairoContext);
 				}
 
@@ -74,11 +74,11 @@ namespace vl
 							throw Exception(L"Illegal gradient direction");
 					}
 
-					cairo_pattern_add_color_stop_rgb(pattern, 0, 1.0 * color1.r / 255, 1.0 * color1.g / 255, 1.0 * color1.b / 255);
-					cairo_pattern_add_color_stop_rgb(pattern, 1, 1.0 * color2.r / 255, 1.0 * color2.g / 255, 1.0 * color2.b / 255);
+					cairo_pattern_add_color_stop_rgba(pattern, 0, 1.0 * color1.r / 255, 1.0 * color1.g / 255, 1.0 * color1.b / 255, 1.0 * color1.a / 255);
+					cairo_pattern_add_color_stop_rgba(pattern, 1, 1.0 * color2.r / 255, 1.0 * color2.g / 255, 1.0 * color2.b / 255, 1.0 * color2.a / 255);
 
-					cairo_pattern_add_color_stop_rgb(pattern, 0.49, 1.0 * color1.r / 255, 1.0 * color1.g / 255, 1.0 * color1.b / 255);
-					cairo_pattern_add_color_stop_rgb(pattern, 0.51, 1.0 * color2.r / 255, 1.0 * color2.g / 255, 1.0 * color2.b / 255);
+					cairo_pattern_add_color_stop_rgba(pattern, 0.49, 1.0 * color1.r / 255, 1.0 * color1.g / 255, 1.0 * color1.b / 255, 1.0 * color1.a / 255);
+					cairo_pattern_add_color_stop_rgba(pattern, 0.51, 1.0 * color2.r / 255, 1.0 * color2.g / 255, 1.0 * color2.b / 255, 1.0 * color2.a / 255);
 					cairo_set_source(cairoContext, pattern);
 
 					cairo_fill(cairoContext);

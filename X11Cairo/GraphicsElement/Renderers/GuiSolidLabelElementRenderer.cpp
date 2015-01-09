@@ -51,10 +51,11 @@ namespace vl
 							);
 					if(element->GetWrapLine()) pango_layout_set_width(layout, bounds.Width() * PANGO_SCALE);
 					
-					cairo_set_source_rgb(cairoContext, 
+					cairo_set_source_rgba(cairoContext, 
 							1.0 * color.r / 255, 
 							1.0 * color.g / 255, 
-							1.0 * color.b / 255
+							1.0 * color.b / 255,
+							1.0 * color.a / 255
 							);
 
 					pango_cairo_update_layout(cairoContext, layout);
