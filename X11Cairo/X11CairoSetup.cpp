@@ -3,7 +3,7 @@
 #include "GraphicsElement/GuiGraphicsX11Cairo.h"
 #include <locale.h>
 
-#ifndef GAC_CAIRO_XCB
+#ifndef GAC_X11_XCB
 #include "NativeWindow/Xlib/XlibNativeController.h"
 
 void SetupX11CairoRenderer(const char* displayname)

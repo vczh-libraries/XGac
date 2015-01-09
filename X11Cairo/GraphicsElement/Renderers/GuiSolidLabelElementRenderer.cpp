@@ -1,4 +1,5 @@
 #include "GuiSolidLabelElementRenderer.h"
+#include "CairoHelpers.h"
 
 using namespace vl::collections;
 using namespace vl::presentation::elements::text;
@@ -34,7 +35,10 @@ namespace vl
 
 					Color color = element->GetColor();
 					FontProperties font = element->GetFont();
-					AString text = wtoa(element->GetText());
+
+					WString wtext = (font.fontFamily == L"Webdings") ? helpers::WebdingsMap(element->GetText()) : element->GetText();
+
+					AString text = wtoa(wtext);
 
 					pango_layout_set_font_description(layout, pangoFontDesc);
 					pango_layout_set_attributes(layout, attrList);

@@ -16,12 +16,14 @@ if(APPLE)
     include_directories("/opt/X11/include")
 	find_library(COREFOUNDATION_LIBRARIES CoreFoundation)
 	set(OS_LIBRARIES ${COREFOUNDATION_LIBRARIES} ${OS_LIBRARIES})
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__APPLE__")
+	add_definitions(-D__APPLE__)
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
+
+add_definitions(-DGAC_X11_DOUBLEBUFFER)
 
 set(GACUI_COMMON_FILES "../Public/Source/Vlpp.cpp" "../Public/Source/VlppWorkflow.cpp" "../Public/Source/GacUI.cpp" "../Public/Source/GacUIReflection.cpp")
 
@@ -30,6 +32,7 @@ set(GACUI_X11CAIRO_COMMON_FILES
 	"../X11Cairo/GraphicsElement/GuiGraphicsX11Cairo.cpp"
 	"../X11Cairo/GraphicsElement/X11CairoRenderTarget.cpp"
 	"../X11Cairo/GraphicsElement/X11CairoResourceManager.cpp"
+	"../X11Cairo/GraphicsElement/Renderers/CairoHelpers.cpp"
 	"../X11Cairo/GraphicsElement/Renderers/GuiSolidBackgroundElementRenderer.cpp"
 	"../X11Cairo/GraphicsElement/Renderers/GuiSolidLabelElementRenderer.cpp"
 	"../X11Cairo/GraphicsElement/Renderers/GuiSolidBorderElementRenderer.cpp"
@@ -48,17 +51,20 @@ set(GACUI_X11CAIRO_XLIB_FILES
 	"../X11Cairo/NativeWindow/Xlib/ServicesImpl/XlibNativeResourceService.cpp"
 	)
 
-set(TEST_SOURCES ${GACUI_COMMON_FILES} ${GACUI_X11CAIRO_COMMON_FILES} ${GACUI_X11CAIRO_XLIB_FILES})
-set(TEST_LIBRARIES ${DEPENDENCIES_LIBRARIES} ${OS_LIBRARIES})
+add_library(GacUI STATIC ${GACUI_COMMON_FILES})
+add_library(GacUIX11Cairo STATIC ${GACUI_X11CAIRO_COMMON_FILES} ${GACUI_X11CAIRO_XLIB_FILES})
+
+set(DEPENDENCIES_LIBRARIES ${DEPENDENCIES_LIBRARIES} ${OS_LIBRARIES})
+set(GACUI_LIBRARIES "GacUI" "GacUIX11Cairo")
 
 set(HELLOWORLD_SOURCE_FILES "HelloWorld/HelloWorld.cpp")
-add_executable(HelloWorld ${HELLOWORLD_SOURCE_FILES} ${TEST_SOURCES})
-target_link_libraries(HelloWorld ${TEST_LIBRARIES})
+add_executable(HelloWorld ${HELLOWORLD_SOURCE_FILES})
+target_link_libraries(HelloWorld ${DEPENDENCIES_LIBRARIES} ${GACUI_LIBRARIES})
 
 set(CONTROLS_BUTTON_ENABLEDISABLE_SOURCE_FILES "./Controls.Button.EnableDisable/Controls.Button.EnableDisable.cpp")
-add_executable(Controls.Button.EnableDisable ${CONTROLS_BUTTON_ENABLEDISABLE_SOURCE_FILES} ${TEST_SOURCES})
-target_link_libraries(Controls.Button.EnableDisable ${TEST_LIBRARIES})
+add_executable(Controls.Button.EnableDisable ${CONTROLS_BUTTON_ENABLEDISABLE_SOURCE_FILES})
+target_link_libraries(Controls.Button.EnableDisable ${DEPENDENCIES_LIBRARIES} ${GACUI_LIBRARIES})
 
 set(CONTROLS_BUTTON_CHECKANDRADIO_SOURCE_FILES "./Controls.Button.CheckAndRadio/Controls.Button.CheckAndRadio.cpp")
-add_executable(Controls.Button.CheckAndRadio ${CONTROLS_BUTTON_CHECKANDRADIO_SOURCE_FILES} ${TEST_SOURCES})
-target_link_libraries(Controls.Button.CheckAndRadio ${TEST_LIBRARIES})
+add_executable(Controls.Button.CheckAndRadio ${CONTROLS_BUTTON_CHECKANDRADIO_SOURCE_FILES})
+target_link_libraries(Controls.Button.CheckAndRadio ${DEPENDENCIES_LIBRARIES} ${GACUI_LIBRARIES})

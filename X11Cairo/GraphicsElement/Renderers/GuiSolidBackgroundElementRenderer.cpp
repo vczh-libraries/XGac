@@ -1,4 +1,5 @@
 #include "GuiSolidBackgroundElementRenderer.h"
+#include "CairoHelpers.h"
 
 
 namespace vl
@@ -25,9 +26,10 @@ namespace vl
 			{
 				Color color = element->GetColor();
 
-				cairo_set_source_rgb(cairoContext, 1.0 * color.r / 255, 1.0 * color.g / 255, 1.0 * color.b / 255);
-				cairo_rectangle(cairoContext, bounds.x1, bounds.y1, bounds.Width(), bounds.Height());
-				cairo_fill(cairoContext);
+				cairo_save(cairoContext);
+				helpers::PathGenerate(cairoContext, element->GetShape(), bounds);
+				helpers::SolidFill(cairoContext, color);
+				cairo_restore(cairoContext);
 			}
 
 			void GuiSolidBackgroundElementRenderer::OnElementStateChanged()

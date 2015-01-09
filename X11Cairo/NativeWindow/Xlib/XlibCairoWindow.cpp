@@ -55,6 +55,7 @@ namespace vl
 
 				void XlibCairoWindow::CheckDoubleBuffer()
 				{
+#ifdef GAC_X11_DOUBLEBUFFER
 					int major, minor;
 					if(XdbeQueryExtension(display, &major, &minor))
 					{
@@ -64,6 +65,7 @@ namespace vl
 							doubleBuffer = true;
 						}
 					}
+#endif
 				}
 
 				void XlibCairoWindow::RebuildDoubleBuffer()

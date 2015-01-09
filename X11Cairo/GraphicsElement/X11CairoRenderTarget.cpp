@@ -6,7 +6,7 @@ using namespace vl::presentation::x11cairo;
 using namespace vl::presentation::elements;
 using namespace vl::presentation::elements_x11cairo;
 
-#ifndef GAC_CAIRO_XCB
+#ifndef GAC_X11_XCB
 #include "../NativeWindow/Xlib/XlibCairoWindow.h"
 using namespace vl::presentation::x11cairo::xlib;
 #endif
@@ -18,7 +18,7 @@ namespace vl
 		namespace elements_x11cairo
 		{
 
-#ifndef GAC_CAIRO_XCB
+#ifndef GAC_X11_XCB
 			class X11CairoXlibRenderTarget: public IX11CairoRenderTarget, INativeWindowListener
 			{
 			private:
