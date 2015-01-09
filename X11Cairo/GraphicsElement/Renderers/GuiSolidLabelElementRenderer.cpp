@@ -10,7 +10,7 @@ namespace vl
 		namespace elements_x11cairo
 		{
 			GuiSolidLabelElementRenderer::GuiSolidLabelElementRenderer()
-				: minSize(1, 1), cairoContext(NULL), pangoFontDesc(NULL), attrList(NULL)
+				: minSize(1, 1), cairoContext(NULL), pangoFontDesc(NULL), attrList(NULL), layout(NULL)
 			{
 			}
 
@@ -32,26 +32,9 @@ namespace vl
 				if(cairoContext)
 				{
 					cairo_save(cairoContext);
-					PangoLayout *layout = pango_cairo_create_layout(cairoContext);
-
 					Color color = element->GetColor();
 					FontProperties font = element->GetFont();
 
-					WString wtext = (font.fontFamily == L"Webdings") ? helpers::WebdingsMap(element->GetText()) : element->GetText();
-
-					AString text = wtoa(wtext);
-
-					pango_layout_set_font_description(layout, pangoFontDesc);
-					pango_layout_set_attributes(layout, attrList);
-					pango_layout_set_text(layout, text.Buffer(), text.Length());
-					pango_layout_set_alignment(layout, 
-							element->GetHorizontalAlignment() == Alignment::Left ? PANGO_ALIGN_LEFT :
-							element->GetHorizontalAlignment() == Alignment::Center ? PANGO_ALIGN_CENTER :
-							element->GetHorizontalAlignment() == Alignment::Right ? PANGO_ALIGN_RIGHT :
-							PANGO_ALIGN_LEFT
-							);
-					if(element->GetWrapLine()) pango_layout_set_width(layout, bounds.Width() * PANGO_SCALE);
-					
 					cairo_set_source_rgba(cairoContext, 
 							1.0 * color.r / 255, 
 							1.0 * color.g / 255, 
@@ -59,6 +42,7 @@ namespace vl
 							1.0 * color.a / 255
 							);
 
+					if(element->GetWrapLine()) pango_layout_set_width(layout, bounds.Width() * PANGO_SCALE);
 					pango_cairo_update_layout(cairoContext, layout);
 					int layoutWidth, layoutHeight;
 					int plotX1, plotY1;
@@ -95,7 +79,6 @@ namespace vl
 					pango_cairo_layout_path(cairoContext, layout);
 					cairo_fill(cairoContext);
 
-					g_object_unref(layout);
 					cairo_restore(cairoContext);
 				}
 			}
@@ -104,6 +87,7 @@ namespace vl
 			{
 				FontProperties font = element->GetFont();
 				Color color = element->GetColor();
+				int layoutWidth, layoutHeight;
 				
 				AString family = wtoa(font.fontFamily);
 				pango_font_description_set_family(pangoFontDesc, family.Buffer());
@@ -132,12 +116,48 @@ namespace vl
 							font.bold ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_MEDIUM
 							)
 						);
+
+				if(layout)
+				{
+					g_object_unref(layout);
+					layout = NULL;
+				}
+
+				if(cairoContext)
+				{
+					layout = pango_cairo_create_layout(cairoContext);
+
+					WString wtext = (font.fontFamily == L"Webdings") ? helpers::WebdingsMap(element->GetText()) : element->GetText();
+					AString text = wtoa(wtext);
+
+					pango_layout_set_font_description(layout, pangoFontDesc);
+					pango_layout_set_attributes(layout, attrList);
+					pango_layout_set_text(layout, text.Buffer(), text.Length());
+					pango_layout_set_alignment(layout, 
+							element->GetHorizontalAlignment() == Alignment::Left ? PANGO_ALIGN_LEFT :
+							element->GetHorizontalAlignment() == Alignment::Center ? PANGO_ALIGN_CENTER :
+							element->GetHorizontalAlignment() == Alignment::Right ? PANGO_ALIGN_RIGHT :
+							PANGO_ALIGN_LEFT
+							);
+
+
+					pango_cairo_update_layout(cairoContext, layout);
+
+
+					pango_layout_get_pixel_size( layout, &layoutWidth, &layoutHeight);
+
+					minSize.x = layoutWidth;
+					minSize.y = layoutHeight;
+				}
 			}
 
 			void GuiSolidLabelElementRenderer::RenderTargetChangedInternal(IX11CairoRenderTarget* oldRT, IX11CairoRenderTarget* newRT)
 			{
 				if(newRT)
+				{
 					cairoContext = newRT->GetCairoContext();
+					OnElementStateChanged();
+				}
 				else cairoContext = NULL;
 			}
 		}

@@ -19,6 +19,7 @@ namespace vl
 				cairo_t* cairoContext;
 				PangoFontDescription* pangoFontDesc;
 				PangoAttrList* attrList;
+				PangoLayout *layout;
 
 			public:
 				GuiSolidLabelElementRenderer();
