@@ -78,3 +78,7 @@ set(CONTROLS_LISTBOX_NAMESELECTOR_SOURCE_FILES "./Controls.ListBox.NameSelector/
 add_executable(Controls.ListBox.NameSelector ${CONTROLS_LISTBOX_NAMESELECTOR_SOURCE_FILES})
 target_link_libraries(Controls.ListBox.NameSelector ${DEPENDENCIES_LIBRARIES} ${GACUI_LIBRARIES})
 
+set(CONTROLS_SCROLL_COLORPICKER_SOURCE_FILES "./Controls.Scroll.ColorPicker/Controls.Scroll.ColorPicker.cpp")
+add_executable(Controls.Scroll.ColorPicker ${CONTROLS_SCROLL_COLORPICKER_SOURCE_FILES})
+target_link_libraries(Controls.Scroll.ColorPicker ${DEPENDENCIES_LIBRARIES} ${GACUI_LIBRARIES})
+

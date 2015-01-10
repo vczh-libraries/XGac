@@ -47,7 +47,7 @@ namespace vl
 				cairo_close_path(cairoContext);
 
 				helpers::ColorSet(cairoContext, bg);
-				cairo_fill_preserve(cairoContext);
+				//cairo_fill_preserve(cairoContext);
 
 				helpers::PathStroke(cairoContext, border, 1.0);
 
