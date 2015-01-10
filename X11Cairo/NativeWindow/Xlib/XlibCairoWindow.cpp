@@ -169,6 +169,8 @@ namespace vl
 						info.y = position.y;
 						info.left = (button == X11CAIRO_LBUTTON) ? true : false;
 						info.right = (button == X11CAIRO_RBUTTON) ? true : false;
+						info.shift = false;
+						info.ctrl = false;
 					}
 					switch(button)
 					{
@@ -196,6 +198,8 @@ namespace vl
 						info.y = position.y;
 						info.left = (button == X11CAIRO_LBUTTON) ? true : false;
 						info.right = (button == X11CAIRO_RBUTTON) ? true : false;
+						info.shift = false;
+						info.ctrl = false;
 					}
 					switch(button)
 					{
