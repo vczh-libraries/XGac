@@ -5,5 +5,6 @@
 #include "GuiSolidLabelElementRenderer.h"
 #include "GuiSolidBorderElementRenderer.h"
 #include "GuiGradientBackgroundElementRenderer.h"
+#include "GuiPolygonElementRenderer.h"
 
 #endif

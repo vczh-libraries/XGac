@@ -13,6 +13,7 @@ namespace vl
 				GuiSolidLabelElementRenderer::Register();
 				GuiSolidBorderElementRenderer::Register();
 				GuiGradientBackgroundElementRenderer::Register();
+				GuiPolygonElementRenderer::Register();
 			}
 		}
 	}

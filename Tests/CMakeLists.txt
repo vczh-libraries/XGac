@@ -37,6 +37,7 @@ set(GACUI_X11CAIRO_COMMON_FILES
 	"../X11Cairo/GraphicsElement/Renderers/GuiSolidLabelElementRenderer.cpp"
 	"../X11Cairo/GraphicsElement/Renderers/GuiSolidBorderElementRenderer.cpp"
 	"../X11Cairo/GraphicsElement/Renderers/GuiGradientBackgroundElementRenderer.cpp"
+	"../X11Cairo/GraphicsElement/Renderers/GuiPolygonElementRenderer.cpp"
 	"../X11Cairo/NativeWindow/Common/ServicesImpl/PosixAsyncService.cpp"
 	)
 
@@ -68,3 +69,12 @@ target_link_libraries(Controls.Button.EnableDisable ${DEPENDENCIES_LIBRARIES} ${
 set(CONTROLS_BUTTON_CHECKANDRADIO_SOURCE_FILES "./Controls.Button.CheckAndRadio/Controls.Button.CheckAndRadio.cpp")
 add_executable(Controls.Button.CheckAndRadio ${CONTROLS_BUTTON_CHECKANDRADIO_SOURCE_FILES})
 target_link_libraries(Controls.Button.CheckAndRadio ${DEPENDENCIES_LIBRARIES} ${GACUI_LIBRARIES})
+
+set(CONTROLS_LISTBOX_VIRTUALMODE_SOURCE_FILES "./Controls.ListBox.VirtualMode/Controls.ListBox.VirtualMode.cpp")
+add_executable(Controls.ListBox.VirtualMode ${CONTROLS_LISTBOX_VIRTUALMODE_SOURCE_FILES})
+target_link_libraries(Controls.ListBox.VirtualMode ${DEPENDENCIES_LIBRARIES} ${GACUI_LIBRARIES})
+
+set(CONTROLS_LISTBOX_NAMESELECTOR_SOURCE_FILES "./Controls.ListBox.NameSelector/Controls.ListBox.NameSelector.cpp")
+add_executable(Controls.ListBox.NameSelector ${CONTROLS_LISTBOX_NAMESELECTOR_SOURCE_FILES})
+target_link_libraries(Controls.ListBox.NameSelector ${DEPENDENCIES_LIBRARIES} ${GACUI_LIBRARIES})
+

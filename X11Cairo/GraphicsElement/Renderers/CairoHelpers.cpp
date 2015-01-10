@@ -43,9 +43,14 @@ namespace vl
 					}
 				}
 
-				void SolidFill(cairo_t* cairoContext, Color color)
+				void ColorSet(cairo_t* cairoContext, Color color)
 				{
 					cairo_set_source_rgba(cairoContext, 1.0 * color.r / 255, 1.0 * color.g / 255, 1.0 * color.b / 255, 1.0 * color.a / 255);
+				}
+
+				void SolidFill(cairo_t* cairoContext, Color color)
+				{
+					ColorSet(cairoContext, color);
 					cairo_fill(cairoContext);
 				}
 
@@ -92,7 +97,9 @@ namespace vl
 
 				void PathStroke(cairo_t* cairoContext, Color color, double thickness)
 				{
-					cairo_set_line_width(cairoContext, 1.0);
+					ColorSet(cairoContext, color);
+
+					cairo_set_line_width(cairoContext, thickness);
 					cairo_stroke(cairoContext);
 				}
 

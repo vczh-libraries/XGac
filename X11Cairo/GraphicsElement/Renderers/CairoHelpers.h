@@ -27,6 +27,8 @@ namespace vl
 
 				void PathStroke(cairo_t* cairoContext, Color color, double thickness = 1.0);
 
+				void ColorSet(cairo_t* cairoContext, Color color);
+
 				void SolidFill(cairo_t* cairoContext, Color color);
 
 				void GradientFill(cairo_t* cairoContext, Color color1, Color color2, Rect bounds, GradientDirection direction, bool smooth = false);
