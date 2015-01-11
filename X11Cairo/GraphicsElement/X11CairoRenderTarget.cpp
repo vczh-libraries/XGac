@@ -88,8 +88,18 @@ namespace vl
 				void PushClipper(Rect clipper)
 				{
 					cairo_save(context);
-					clippers.push_back(clipper);
 
+					if(clippers.size() != 0)
+					{
+						Rect previousClipper=GetClipper();
+
+						clipper.x1=(previousClipper.x1>clipper.x1?previousClipper.x1:clipper.x1);
+						clipper.y1=(previousClipper.y1>clipper.y1?previousClipper.y1:clipper.y1);
+						clipper.x2=(previousClipper.x2<clipper.x2?previousClipper.x2:clipper.x2);
+						clipper.y2=(previousClipper.y2<clipper.y2?previousClipper.y2:clipper.y2);
+					}
+
+					clippers.push_back(clipper);
 					cairo_rectangle(context, clipper.x1, clipper.y1, clipper.Width(), clipper.Height());
 					cairo_reset_clip(context);
 					cairo_clip(context);

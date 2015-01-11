@@ -39,15 +39,19 @@ namespace vl
 				Color bg = element->GetBackgroundColor();
 				Color border = element->GetBorderColor();
 
-				cairo_move_to(cairoContext, element->GetPoint(0).x + 0.5, element->GetPoint(0).y + 0.5);
+				//Actual left-top point of the shape
+				int ptx = bounds.x1 + (bounds.Width() - element->GetSize().x) / 2;
+				int pty = bounds.y1 + (bounds.Height() - element->GetSize().y) / 2;
+
+				cairo_move_to(cairoContext, 0.5 + ptx + element->GetPoint(0).x, 0.5 + pty + element->GetPoint(0).y);
 				for(int i = 1; i < element->GetPointCount(); i++)
 				{
-					cairo_move_to(cairoContext, element->GetPoint(i).x + 0.5, element->GetPoint(i).y + 0.5);
+					cairo_line_to(cairoContext, 0.5 + ptx + element->GetPoint(i).x, 0.5 + pty + element->GetPoint(i).y);
 				}
 				cairo_close_path(cairoContext);
 
 				helpers::ColorSet(cairoContext, bg);
-				//cairo_fill_preserve(cairoContext);
+				cairo_fill_preserve(cairoContext);
 
 				helpers::PathStroke(cairoContext, border, 1.0);
 
