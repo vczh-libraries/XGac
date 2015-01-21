@@ -9,7 +9,7 @@ namespace vl
 	{
 		namespace x11cairo
 		{
-			class IX11CairoWindow: public INativeWindow, public Description<IX11CairoWindow> 
+			class IX11Window: public INativeWindow, public Description<IX11Window> 
 			{
 			public:
 				virtual void SetRenderTarget(elements::IGuiGraphicsRenderTarget*) = 0;

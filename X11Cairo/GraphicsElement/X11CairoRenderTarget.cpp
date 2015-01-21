@@ -9,7 +9,8 @@ using namespace vl::presentation::elements;
 using namespace vl::presentation::elements_x11cairo;
 
 #ifndef GAC_X11_XCB
-#include "../NativeWindow/Xlib/XlibCairoWindow.h"
+#include "../NativeWindow/Xlib/XlibWindow.h"
+
 using namespace vl::presentation::x11cairo::xlib;
 #endif
 
@@ -26,12 +27,12 @@ namespace vl
 			private:
 				cairo_surface_t* surface;
 				cairo_t* context;
-				XlibCairoWindow* window;
+				XlibWindow* window;
 				std::vector<Rect> clippers;
 
 
 			public:
-				X11CairoXlibRenderTarget(XlibCairoWindow* window):
+				X11CairoXlibRenderTarget(XlibWindow* window):
 					window(window)
 				{
 					Size size = window->GetClientSize();
@@ -179,9 +180,9 @@ namespace vl
 
 			};
 
-			IX11CairoRenderTarget* CreateX11CairoRenderTarget(IX11CairoWindow* window)
+			IX11CairoRenderTarget* CreateX11CairoRenderTarget(IX11Window* window)
 			{
-				XlibCairoWindow* xlibWindow = dynamic_cast<XlibCairoWindow*>(window);
+				XlibWindow* xlibWindow = dynamic_cast<XlibWindow*>(window);
 				if(!xlibWindow)
 					throw Exception(L"Invalid window");
 
