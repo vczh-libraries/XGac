@@ -9,7 +9,7 @@
 #ifndef GAC_X11_XCB
 
 #include "NativeWindow/Xlib/XlibNativeController.h"
-#include "NativeWindow/Xlib/XlibCairoWindow.h"
+#include "NativeWindow/Xlib/XlibWindow.h"
 #include "X11CairoSetup.h"
 
 #endif

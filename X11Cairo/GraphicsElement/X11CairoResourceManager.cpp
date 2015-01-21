@@ -1,6 +1,6 @@
 #include "X11CairoRenderTarget.h"
 #include "X11CairoResourceManager.h"
-#include "../NativeWindow/Common/X11CairoWindow.h"
+#include "../NativeWindow/Common/X11Window.h"
 
 using namespace vl::presentation::elements;
 using namespace vl::presentation::elements_x11cairo;
@@ -15,7 +15,7 @@ namespace vl
 			{
 				IGuiGraphicsRenderTarget* GetRenderTarget(INativeWindow* window)
 				{
-					IX11CairoWindow* xWindow = dynamic_cast<IX11CairoWindow*>(window);
+					IX11Window* xWindow = dynamic_cast<IX11Window*>(window);
 					if(!xWindow) throw Exception(L"Invalid Window");
 
 					IX11CairoRenderTarget* renderTarget = dynamic_cast<IX11CairoRenderTarget*>(xWindow->GetRenderTarget());
@@ -29,7 +29,7 @@ namespace vl
 				}
 				void RecreateRenderTarget(INativeWindow* window)
 				{
-					IX11CairoWindow* xWindow = dynamic_cast<IX11CairoWindow*>(window);
+					IX11Window* xWindow = dynamic_cast<IX11Window*>(window);
 					if(!xWindow) throw Exception(L"Invalid Window");
 
 					if(xWindow->GetRenderTarget()) delete xWindow->GetRenderTarget();

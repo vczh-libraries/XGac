@@ -3,7 +3,7 @@
 
 #include <GacUI.h>
 #include "CairoPangoIncludes.h"
-#include "../NativeWindow/Common/X11CairoWindow.h"
+#include "../NativeWindow/Common/X11Window.h"
 
 namespace vl
 {
@@ -18,7 +18,7 @@ namespace vl
 				virtual cairo_t* GetCairoContext() = 0;
 			};
 
-			extern IX11CairoRenderTarget* CreateX11CairoRenderTarget(x11cairo::IX11CairoWindow* window);
+			extern IX11CairoRenderTarget* CreateX11CairoRenderTarget(x11cairo::IX11Window* window);
 			extern void DestroyX11CairoRenderTarget(IX11CairoRenderTarget* target);
 		}
 	}

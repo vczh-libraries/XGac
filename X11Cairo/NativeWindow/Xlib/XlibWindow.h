@@ -3,7 +3,7 @@
 
 #include <GacUI.h>
 #include "XlibIncludes.h"
-#include "../Common/X11CairoWindow.h"
+#include "../Common/X11Window.h"
 
 namespace vl
 {
@@ -13,7 +13,7 @@ namespace vl
 		{
 			namespace xlib
 			{
-				class XlibCairoWindow : public Object, public IX11CairoWindow
+				class XlibWindow : public Object, public IX11Window
 				{
 				protected:
 					Display *display;
@@ -28,9 +28,9 @@ namespace vl
 					void UpdateResizable();
 
 				public:
-					XlibCairoWindow(Display *display);
+					XlibWindow(Display *display);
 
-					virtual ~XlibCairoWindow();
+					virtual ~XlibWindow();
 
 					//Internal methods
 					Display *GetDisplay();

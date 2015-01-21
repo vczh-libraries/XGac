@@ -1,6 +1,6 @@
 #include "XlibNativeScreenService.h"
 #include "../XlibScreen.h"
-#include "../XlibCairoWindow.h"
+#include "../XlibWindow.h"
 
 namespace vl
 {
@@ -27,7 +27,7 @@ namespace vl
 
                 INativeScreen* XlibNativeScreenService::GetScreen(INativeWindow* window)
 				{
-					XlibCairoWindow *actualWindow = dynamic_cast<XlibCairoWindow*>(window);
+					XlibWindow *actualWindow = dynamic_cast<XlibWindow*>(window);
 					if(actualWindow)
 					{
 						XWindowAttributes attr;

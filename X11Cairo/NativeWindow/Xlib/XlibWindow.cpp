@@ -1,5 +1,5 @@
 #include <limits.h>
-#include "XlibCairoWindow.h"
+#include "XlibWindow.h"
 
 using namespace vl::collections;
 
@@ -11,7 +11,7 @@ namespace vl
         {
             namespace xlib
             {
-                XlibCairoWindow::XlibCairoWindow(Display *display):
+                XlibWindow::XlibWindow(Display *display):
                         display(display),
                         title(),
 						renderTarget(nullptr),
@@ -47,13 +47,13 @@ namespace vl
                     XSync(display, false);
                 }
 
-                XlibCairoWindow::~XlibCairoWindow()
+                XlibWindow::~XlibWindow()
                 {
 					delete renderTarget;
                     XDestroyWindow(display, window);
                 }
 
-				void XlibCairoWindow::CheckDoubleBuffer()
+				void XlibWindow::CheckDoubleBuffer()
 				{
 #ifdef GAC_X11_DOUBLEBUFFER
 					int major, minor;
@@ -68,24 +68,24 @@ namespace vl
 #endif
 				}
 
-				void XlibCairoWindow::RebuildDoubleBuffer()
+				void XlibWindow::RebuildDoubleBuffer()
 				{
 					if(backBuffer != XLIB_NONE)
 						XdbeDeallocateBackBufferName(display, backBuffer);
 					backBuffer = XdbeAllocateBackBufferName(display, window, XdbeUndefined);
 				}
 
-				XdbeBackBuffer XlibCairoWindow::GetBackBuffer()
+				XdbeBackBuffer XlibWindow::GetBackBuffer()
 				{
 					return backBuffer;
 				}
 
-				bool XlibCairoWindow::GetDoubleBuffer()
+				bool XlibWindow::GetDoubleBuffer()
 				{
 					return doubleBuffer;
 				}
 
-				void XlibCairoWindow::SwapBuffer()
+				void XlibWindow::SwapBuffer()
 				{
 					if(doubleBuffer)
 					{
@@ -101,7 +101,7 @@ namespace vl
 					}
 				}
 
-				void XlibCairoWindow::UpdateResizable()
+				void XlibWindow::UpdateResizable()
 				{
 					XSizeHints *hints = XAllocSizeHints();
 					Size currentSize = GetClientSize();
@@ -124,33 +124,33 @@ namespace vl
 					XFree(hints);
 				}
 
-                Window XlibCairoWindow::GetWindow()
+                Window XlibWindow::GetWindow()
                 {
                     return window;
                 }
 
-                Display* XlibCairoWindow::GetDisplay()
+                Display* XlibWindow::GetDisplay()
                 {
                     return display;
                 }
 
-				void XlibCairoWindow::SetRenderTarget(elements::IGuiGraphicsRenderTarget* target)
+				void XlibWindow::SetRenderTarget(elements::IGuiGraphicsRenderTarget* target)
 				{
 					renderTarget = target;
 				}
 
-				elements::IGuiGraphicsRenderTarget* XlibCairoWindow::GetRenderTarget()
+				elements::IGuiGraphicsRenderTarget* XlibWindow::GetRenderTarget()
 				{
 					return renderTarget;
 				}
 
-                void XlibCairoWindow::UpdateTitle()
+                void XlibWindow::UpdateTitle()
                 {
                     AString narrow = wtoa(title);
                     XStoreName(display, window, narrow.Buffer());
                 }
 
-				void XlibCairoWindow::ResizeEvent(int width, int height)
+				void XlibWindow::ResizeEvent(int width, int height)
 				{
 					RebuildDoubleBuffer();
 					Rect newBound = GetBounds();
@@ -161,7 +161,7 @@ namespace vl
 					}
 				}
 
-				void XlibCairoWindow::MouseUpEvent(MouseButtons button, Point position)
+				void XlibWindow::MouseUpEvent(MouseButtons button, Point position)
 				{
 					NativeWindowMouseInfo info;
 					{
@@ -190,7 +190,7 @@ namespace vl
 					}
 				}
 
-				void XlibCairoWindow::MouseDownEvent(MouseButtons button, Point position)
+				void XlibWindow::MouseDownEvent(MouseButtons button, Point position)
 				{
 					NativeWindowMouseInfo info;
 					{
@@ -219,7 +219,7 @@ namespace vl
 					}
 				}
 
-				void XlibCairoWindow::MouseMoveEvent(Point position)
+				void XlibWindow::MouseMoveEvent(Point position)
 				{
 					NativeWindowMouseInfo info;
 					{
@@ -233,7 +233,7 @@ namespace vl
 					}
 				}
 				
-				void XlibCairoWindow::MouseEnterEvent()
+				void XlibWindow::MouseEnterEvent()
 				{
 					FOREACH(INativeWindowListener*, i, listeners)
 					{
@@ -241,7 +241,7 @@ namespace vl
 					}
 				}
 
-				void XlibCairoWindow::MouseLeaveEvent()
+				void XlibWindow::MouseLeaveEvent()
 				{
 					FOREACH(INativeWindowListener*, i, listeners)
 					{
@@ -249,17 +249,17 @@ namespace vl
 					}
 				}
 
-                void XlibCairoWindow::Show ()
+                void XlibWindow::Show ()
                 {
                     XMapWindow(display, window);
                 }
 
-                void XlibCairoWindow::Hide ()
+                void XlibWindow::Hide ()
                 {
                     XUnmapWindow(display, window);
                 }
 
-                Rect XlibCairoWindow::GetBounds()
+                Rect XlibWindow::GetBounds()
                 {
                     //TODO
 					XWindowAttributes attr;
@@ -267,315 +267,315 @@ namespace vl
                     return Rect(attr.x, attr.y, attr.x + attr.width, attr.y + attr.height);
                 }
 
-                void XlibCairoWindow::SetBounds(const Rect &bounds)
+                void XlibWindow::SetBounds(const Rect &bounds)
                 {
                     //TODO
 					XMoveResizeWindow(display, window, bounds.x1, bounds.y1, bounds.Width(), bounds.Height());
                 }
 
-                Size XlibCairoWindow::GetClientSize()
+                Size XlibWindow::GetClientSize()
                 {
 					XWindowAttributes attr;
 					XGetWindowAttributes(display, window, &attr);
 					return Size(attr.width, attr.height);
                 }
 
-                void XlibCairoWindow::SetClientSize(Size size)
+                void XlibWindow::SetClientSize(Size size)
                 {
 					XResizeWindow(display, window, size.x, size.y);
                 }
 
-                Rect XlibCairoWindow::GetClientBoundsInScreen()
+                Rect XlibWindow::GetClientBoundsInScreen()
                 {
                     //TODO
                     return Rect();
                 }
 
-                WString XlibCairoWindow::GetTitle()
+                WString XlibWindow::GetTitle()
                 {
                     return title;
                 }
 
-                void XlibCairoWindow::SetTitle(WString title)
+                void XlibWindow::SetTitle(WString title)
                 {
                     this->title = title;
                     UpdateTitle();
                 }
 
-                INativeCursor *XlibCairoWindow::GetWindowCursor()
+                INativeCursor *XlibWindow::GetWindowCursor()
                 {
                     //TODO
                     return NULL;
                 }
 
-                void XlibCairoWindow::SetWindowCursor(INativeCursor *cursor)
+                void XlibWindow::SetWindowCursor(INativeCursor *cursor)
                 {
                     //TODO
                 }
 
-                Point XlibCairoWindow::GetCaretPoint()
+                Point XlibWindow::GetCaretPoint()
                 {
                     //TODO
                     return Point();
                 }
 
-                void XlibCairoWindow::SetCaretPoint(Point point)
+                void XlibWindow::SetCaretPoint(Point point)
                 {
                     //TODO
                 }
 
-                INativeWindow *XlibCairoWindow::GetParent()
+                INativeWindow *XlibWindow::GetParent()
                 {
                     //TODO
                     return NULL;
                 }
 
-                void XlibCairoWindow::SetParent(INativeWindow *parent)
+                void XlibWindow::SetParent(INativeWindow *parent)
                 {
                     //TODO
                 }
 
-                bool XlibCairoWindow::GetAlwaysPassFocusToParent()
-                {
-                    //TODO
-                    return false;
-                }
-
-                void XlibCairoWindow::SetAlwaysPassFocusToParent(bool value)
-                {
-                    //TODO
-                }
-
-                void XlibCairoWindow::EnableCustomFrameMode()
-                {
-                    //TODO
-                }
-
-                void XlibCairoWindow::DisableCustomFrameMode()
-                {
-                    //TODO
-                }
-
-                bool XlibCairoWindow::IsCustomFrameModeEnabled()
+                bool XlibWindow::GetAlwaysPassFocusToParent()
                 {
                     //TODO
                     return false;
                 }
 
-                XlibCairoWindow::WindowSizeState XlibCairoWindow::GetSizeState()
-                {
-                    //TODO
-                    return XlibCairoWindow::WindowSizeState::Restored;
-                }
-
-                void XlibCairoWindow::ShowDeactivated()
+                void XlibWindow::SetAlwaysPassFocusToParent(bool value)
                 {
                     //TODO
                 }
 
-                void XlibCairoWindow::ShowRestored()
+                void XlibWindow::EnableCustomFrameMode()
                 {
                     //TODO
                 }
 
-                void XlibCairoWindow::ShowMaximized()
+                void XlibWindow::DisableCustomFrameMode()
                 {
                     //TODO
                 }
 
-                void XlibCairoWindow::ShowMinimized()
-                {
-                    //TODO
-                }
-
-                bool XlibCairoWindow::IsVisible()
-                {
-                    //TODO
-                    return true;
-                }
-
-                void XlibCairoWindow::Enable()
-                {
-                    //TODO
-                }
-
-                void XlibCairoWindow::Disable()
-                {
-                    //TODO
-                }
-
-                bool XlibCairoWindow::IsEnabled()
-                {
-                    //TODO
-                    return true;
-                }
-
-                void XlibCairoWindow::SetFocus()
-                {
-                    //TODO
-                }
-
-                bool XlibCairoWindow::IsFocused()
-                {
-                    //TODO
-                    return true;
-                }
-
-                void XlibCairoWindow::SetActivate()
-                {
-                    //TODO
-                }
-
-                bool XlibCairoWindow::IsActivated()
-                {
-                    //TODO
-                    return true;
-                }
-
-                void XlibCairoWindow::ShowInTaskBar()
-                {
-                    //TODO
-                }
-
-                void XlibCairoWindow::HideInTaskBar()
-                {
-                    //TODO
-                }
-
-                bool XlibCairoWindow::IsAppearedInTaskBar()
-                {
-                    //TODO
-                    return true;
-                }
-
-                void XlibCairoWindow::EnableActivate()
-                {
-                    //TODO
-                }
-
-                void XlibCairoWindow::DisableActivate()
-                {
-                    //TODO
-                }
-
-                bool XlibCairoWindow::IsEnabledActivate()
-                {
-                    //TODO
-                    return true;
-                }
-
-                bool XlibCairoWindow::RequireCapture()
+                bool XlibWindow::IsCustomFrameModeEnabled()
                 {
                     //TODO
                     return false;
                 }
 
-                bool XlibCairoWindow::ReleaseCapture()
+                XlibWindow::WindowSizeState XlibWindow::GetSizeState()
+                {
+                    //TODO
+                    return XlibWindow::WindowSizeState::Restored;
+                }
+
+                void XlibWindow::ShowDeactivated()
+                {
+                    //TODO
+                }
+
+                void XlibWindow::ShowRestored()
+                {
+                    //TODO
+                }
+
+                void XlibWindow::ShowMaximized()
+                {
+                    //TODO
+                }
+
+                void XlibWindow::ShowMinimized()
+                {
+                    //TODO
+                }
+
+                bool XlibWindow::IsVisible()
                 {
                     //TODO
                     return true;
                 }
 
-                bool XlibCairoWindow::IsCapturing()
-                {
-                    //TODO
-                    return false;
-                }
-
-                bool XlibCairoWindow::GetMaximizedBox()
-                {
-                    //TODO
-                    return false;
-                }
-
-                void XlibCairoWindow::SetMaximizedBox(bool visible)
+                void XlibWindow::Enable()
                 {
                     //TODO
                 }
 
-                bool XlibCairoWindow::GetMinimizedBox()
-                {
-                    //TODO
-                    return false;
-                }
-
-                void XlibCairoWindow::SetMinimizedBox(bool visible)
+                void XlibWindow::Disable()
                 {
                     //TODO
                 }
 
-                bool XlibCairoWindow::GetBorder()
+                bool XlibWindow::IsEnabled()
                 {
                     //TODO
                     return true;
                 }
 
-                void XlibCairoWindow::SetBorder(bool visible)
+                void XlibWindow::SetFocus()
                 {
                     //TODO
                 }
 
-                bool XlibCairoWindow::GetSizeBox()
+                bool XlibWindow::IsFocused()
+                {
+                    //TODO
+                    return true;
+                }
+
+                void XlibWindow::SetActivate()
+                {
+                    //TODO
+                }
+
+                bool XlibWindow::IsActivated()
+                {
+                    //TODO
+                    return true;
+                }
+
+                void XlibWindow::ShowInTaskBar()
+                {
+                    //TODO
+                }
+
+                void XlibWindow::HideInTaskBar()
+                {
+                    //TODO
+                }
+
+                bool XlibWindow::IsAppearedInTaskBar()
+                {
+                    //TODO
+                    return true;
+                }
+
+                void XlibWindow::EnableActivate()
+                {
+                    //TODO
+                }
+
+                void XlibWindow::DisableActivate()
+                {
+                    //TODO
+                }
+
+                bool XlibWindow::IsEnabledActivate()
+                {
+                    //TODO
+                    return true;
+                }
+
+                bool XlibWindow::RequireCapture()
+                {
+                    //TODO
+                    return false;
+                }
+
+                bool XlibWindow::ReleaseCapture()
+                {
+                    //TODO
+                    return true;
+                }
+
+                bool XlibWindow::IsCapturing()
+                {
+                    //TODO
+                    return false;
+                }
+
+                bool XlibWindow::GetMaximizedBox()
+                {
+                    //TODO
+                    return false;
+                }
+
+                void XlibWindow::SetMaximizedBox(bool visible)
+                {
+                    //TODO
+                }
+
+                bool XlibWindow::GetMinimizedBox()
+                {
+                    //TODO
+                    return false;
+                }
+
+                void XlibWindow::SetMinimizedBox(bool visible)
+                {
+                    //TODO
+                }
+
+                bool XlibWindow::GetBorder()
+                {
+                    //TODO
+                    return true;
+                }
+
+                void XlibWindow::SetBorder(bool visible)
+                {
+                    //TODO
+                }
+
+                bool XlibWindow::GetSizeBox()
                 {
                     return resizable;
                 }
 
-                void XlibCairoWindow::SetSizeBox(bool visible)
+                void XlibWindow::SetSizeBox(bool visible)
                 {
 					resizable = visible;
 					UpdateResizable();
                 }
 
-                bool XlibCairoWindow::GetIconVisible()
+                bool XlibWindow::GetIconVisible()
                 {
                     //TODO
                     return true;
                 }
 
-                void XlibCairoWindow::SetIconVisible(bool visible)
+                void XlibWindow::SetIconVisible(bool visible)
                 {
                     //TODO
                 }
 
-                bool XlibCairoWindow::GetTitleBar()
+                bool XlibWindow::GetTitleBar()
                 {
                     //TODO
                     return true;
                 }
 
-                void XlibCairoWindow::SetTitleBar(bool visible)
+                void XlibWindow::SetTitleBar(bool visible)
                 {
                     //TODO
                 }
 
-                bool XlibCairoWindow::GetTopMost()
+                bool XlibWindow::GetTopMost()
                 {
                     //TODO
                     return false;
                 }
 
-                void XlibCairoWindow::SetTopMost(bool topmost)
+                void XlibWindow::SetTopMost(bool topmost)
                 {
                     //TODO
                 }
 
-                void XlibCairoWindow::SupressAlt()
+                void XlibWindow::SupressAlt()
                 {
                     //TODO
                 }
 
-                bool XlibCairoWindow::InstallListener(INativeWindowListener *listener)
+                bool XlibWindow::InstallListener(INativeWindowListener *listener)
                 {
 					listeners.Add(listener);
 					return true;
                 }
 
-                bool XlibCairoWindow::UninstallListener(INativeWindowListener *listener)
+                bool XlibWindow::UninstallListener(INativeWindowListener *listener)
                 {
 					return listeners.Remove(listener);
                 }
 
-                void XlibCairoWindow::RedrawContent()
+                void XlibWindow::RedrawContent()
                 {
                     //TODO
                 }

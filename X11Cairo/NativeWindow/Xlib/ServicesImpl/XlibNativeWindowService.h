@@ -3,7 +3,7 @@
 
 #include <GacUI.h>
 #include "../XlibIncludes.h"
-#include "../XlibCairoWindow.h"
+#include "../XlibWindow.h"
 #include "XlibNativeCallbackService.h"
 #include "../../Common/ServicesImpl/PosixAsyncService.h"
 
@@ -21,10 +21,10 @@ namespace vl
 					Display* display;
 					PosixAsyncService* asyncService;
 					XlibNativeCallbackService* callbackService;
-					vl::collections::List<XlibCairoWindow*> windows;
+					vl::collections::List<XlibWindow*> windows;
 					bool timerFlag;
 
-					XlibCairoWindow* FindWindow(Window win);
+					XlibWindow* FindWindow(Window win);
 
 				public:
 					XlibNativeWindowService (Display* display, PosixAsyncService* asyncService, XlibNativeCallbackService* callbackService);

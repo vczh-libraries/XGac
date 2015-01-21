@@ -27,7 +27,7 @@ namespace vl
 
 				INativeWindow *XlibNativeWindowService::CreateNativeWindow()
 				{
-					XlibCairoWindow *window = new XlibCairoWindow(display);
+					XlibWindow *window = new XlibWindow(display);
 					windows.Add(window);
 
 					return window;
@@ -37,7 +37,7 @@ namespace vl
 				{
 					if (window)
 					{
-						XlibCairoWindow* actualWindow = dynamic_cast<XlibCairoWindow*>(window);
+						XlibWindow* actualWindow = dynamic_cast<XlibWindow*>(window);
 						if(actualWindow)
 						{
 							windows.Remove(actualWindow);
@@ -65,11 +65,11 @@ namespace vl
 					return NULL;
 				}
 
-				XlibCairoWindow* XlibNativeWindowService::FindWindow(Window win)
+				XlibWindow* XlibNativeWindowService::FindWindow(Window win)
 				{
 					if(win == XLIB_NONE)
-						return dynamic_cast<XlibCairoWindow*>(GetMainWindow());
-					FOREACH(XlibCairoWindow*, i, windows)
+						return dynamic_cast<XlibWindow*>(GetMainWindow());
+					FOREACH(XlibWindow*, i, windows)
 					{
 						if(i->GetWindow() == win)
 						{
@@ -83,7 +83,7 @@ namespace vl
 				void XlibNativeWindowService::Run(INativeWindow *window)
 				{
 					XEvent event;
-					XlibCairoWindow* actualWindow = dynamic_cast<XlibCairoWindow*>(window);
+					XlibWindow* actualWindow = dynamic_cast<XlibWindow*>(window);
 
 					if(!window)
 					{
@@ -93,7 +93,7 @@ namespace vl
 					{
 						while(XPending(actualWindow->GetDisplay()))
 						{
-							XlibCairoWindow* evWindow = NULL;
+							XlibWindow* evWindow = NULL;
 							XNextEvent(actualWindow->GetDisplay(), &event);
 							switch(event.type)
 							{
