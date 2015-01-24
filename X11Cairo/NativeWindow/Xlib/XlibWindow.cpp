@@ -160,27 +160,27 @@ namespace vl
 					}
 				}
 
-				void XlibWindow::MouseUpEvent(MouseButtons button, Point position)
+				void XlibWindow::MouseUpEvent(MouseButton button, Point position)
 				{
 					NativeWindowMouseInfo info;
 					{
 						info.x = position.x;
 						info.y = position.y;
-						info.left = (button == X11CAIRO_LBUTTON) ? true : false;
-						info.right = (button == X11CAIRO_RBUTTON) ? true : false;
+						info.left = (button == MouseButton::LBUTTON) ? true : false;
+						info.right = (button == MouseButton::RBUTTON) ? true : false;
 						info.shift = false;
 						info.ctrl = false;
 					}
 					switch(button)
 					{
-						case X11CAIRO_LBUTTON:
+						case MouseButton::LBUTTON:
 							FOREACH(INativeWindowListener*, i, listeners)
 							{
 								i->LeftButtonUp(info);
 							}
 							break;
 
-						case X11CAIRO_RBUTTON:
+						case MouseButton::RBUTTON:
 							FOREACH(INativeWindowListener*, i, listeners)
 							{
 								i->RightButtonUp(info);
@@ -189,27 +189,27 @@ namespace vl
 					}
 				}
 
-				void XlibWindow::MouseDownEvent(MouseButtons button, Point position)
+				void XlibWindow::MouseDownEvent(MouseButton button, Point position)
 				{
 					NativeWindowMouseInfo info;
 					{
 						info.x = position.x;
 						info.y = position.y;
-						info.left = (button == X11CAIRO_LBUTTON) ? true : false;
-						info.right = (button == X11CAIRO_RBUTTON) ? true : false;
+						info.left = (button == MouseButton::LBUTTON) ? true : false;
+						info.right = (button == MouseButton::RBUTTON) ? true : false;
 						info.shift = false;
 						info.ctrl = false;
 					}
 					switch(button)
 					{
-						case X11CAIRO_LBUTTON:
+						case MouseButton::LBUTTON:
 							FOREACH(INativeWindowListener*, i, listeners)
 							{
 								i->LeftButtonDown(info);
 							}
 							break;
 
-						case X11CAIRO_RBUTTON:
+						case MouseButton::RBUTTON:
 							FOREACH(INativeWindowListener*, i, listeners)
 							{
 								i->RightButtonDown(info);

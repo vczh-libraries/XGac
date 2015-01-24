@@ -1,6 +1,7 @@
 #ifndef __GAC_X11CAIRO_XLIB_COMMON_H
 #define __GAC_X11CAIRO_XLIB_COMMON_H
 
+#include <GacUI.h>
 #include "XlibIncludes.h"
 
 namespace vl
@@ -11,10 +12,33 @@ namespace vl
 		{
 			namespace xlib
 			{
-				enum MouseButtons
+				enum class MouseButton
 				{
-					X11CAIRO_LBUTTON,
-					X11CAIRO_RBUTTON
+					LBUTTON,
+					RBUTTON
+				};
+
+				enum class MouseEventType
+				{
+					BUTTONDOWN,
+					BUTTONUP,
+					POINTERMOVE
+				};
+
+				struct MouseEvent
+				{
+					MouseButton button;
+					MouseEventType type;
+					vl::presentation::Point position;
+
+					MouseEvent(MouseButton button, MouseEventType type, int rootX, int rootY)
+						: button(button), type(type), position(rootX, rootY) 
+					{
+					}
+
+					MouseEvent()
+					{
+					}
 				};
 
 				bool CheckXdbeExtension(Display*);

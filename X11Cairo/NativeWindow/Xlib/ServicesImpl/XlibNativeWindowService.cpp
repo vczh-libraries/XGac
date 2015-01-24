@@ -82,6 +82,7 @@ namespace vl
 					return NULL;
 				}
 
+
 				void XlibNativeWindowService::Run(INativeWindow *window)
 				{
 					XEvent event;
@@ -105,7 +106,7 @@ namespace vl
 								case ButtonPress:
 									if((evWindow = FindWindow(event.xbutton.subwindow)) != NULL)
 										evWindow->MouseDownEvent(
-												event.xbutton.button == Button1 ? X11CAIRO_LBUTTON : X11CAIRO_RBUTTON,
+												event.xbutton.button == Button1 ? MouseButton::LBUTTON : MouseButton::RBUTTON,
 												Point(event.xbutton.x, event.xbutton.y)
 												);
 
@@ -114,7 +115,7 @@ namespace vl
 								case ButtonRelease:
 									if((evWindow = FindWindow(event.xbutton.subwindow)) != NULL)
 										evWindow->MouseUpEvent(
-												event.xbutton.button == Button1 ? X11CAIRO_LBUTTON : X11CAIRO_RBUTTON,
+												event.xbutton.button == Button1 ? MouseButton::LBUTTON : MouseButton::RBUTTON,
 												Point(event.xbutton.x, event.xbutton.y)
 												);
 									break;
@@ -151,8 +152,25 @@ namespace vl
 
 						asyncService->ExecuteAsyncTasks();
 						callbackService->CheckTimer();
-
 						recordHelper->Update();
+
+						while(recordHelper->EventCount())
+						{
+							MouseEvent ev = recordHelper->GetEvent();
+							switch(ev.type)
+							{
+								case MouseEventType::BUTTONDOWN:
+									callbackService->MouseDownEvent(ev.button, ev.position);
+									break;
+								case MouseEventType::BUTTONUP:
+									callbackService->MouseUpEvent(ev.button, ev.position);
+									break;
+								case MouseEventType::POINTERMOVE:
+									callbackService->MouseMoveEvent(ev.position);
+									break;
+							}
+						}
+
 						XFlush(actualWindow->GetDisplay());
 
 						pause();

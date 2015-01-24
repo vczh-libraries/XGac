@@ -36,6 +36,52 @@ namespace vl
 						}
 					}
 				}
+				void XlibNativeCallbackService::MouseUpEvent(MouseButton button, Point position)
+				{
+					switch(button)
+					{
+						case MouseButton::LBUTTON:
+							FOREACH( INativeControllerListener*, i, listeners)
+							{
+								i->LeftButtonDown(position);
+							}
+							break;
+
+						case MouseButton::RBUTTON:
+							FOREACH( INativeControllerListener*, i, listeners)
+							{
+								i->RightButtonDown(position);
+							}
+							break;
+					}
+				}
+				void XlibNativeCallbackService::MouseDownEvent(MouseButton button, Point position)
+				{
+					switch(button)
+					{
+						case MouseButton::LBUTTON:
+							FOREACH( INativeControllerListener*, i, listeners)
+							{
+								i->LeftButtonUp(position);
+							}
+							break;
+
+						case MouseButton::RBUTTON:
+							FOREACH( INativeControllerListener*, i, listeners)
+							{
+								i->RightButtonUp(position);
+							}
+							break;
+					}
+
+				}
+				void XlibNativeCallbackService::MouseMoveEvent(Point position)
+				{
+					FOREACH( INativeControllerListener*, i, listeners)
+					{
+						i->MouseMoving(position);
+					}
+				}
 			}
 		}
 	}
