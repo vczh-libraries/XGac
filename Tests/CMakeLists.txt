@@ -4,7 +4,7 @@ find_package(PkgConfig REQUIRED)
 include_directories("../Public/Source")
 include_directories("../X11Cairo")
 
-pkg_check_modules(DEPENDENCIES REQUIRED x11 cairo cairo-xlib pango pangocairo)
+pkg_check_modules(DEPENDENCIES REQUIRED x11 cairo cairo-xlib pango pangocairo recordproto xtst)
 
 include_directories(${DEPENDENCIES_INCLUDE_DIRS})
 link_directories(${DEPENDENCIES_LIBRARY_DIRS})
@@ -19,7 +19,7 @@ if(APPLE)
 	add_definitions(-D__APPLE__)
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-missing-declarations")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 
@@ -44,7 +44,9 @@ set(GACUI_X11CAIRO_COMMON_FILES
 set(GACUI_X11CAIRO_XLIB_FILES
 	"../X11Cairo/NativeWindow/Xlib/XlibNativeController.cpp"
 	"../X11Cairo/NativeWindow/Xlib/XlibWindow.cpp"
+	"../X11Cairo/NativeWindow/Xlib/XlibCommon.cpp"
 	"../X11Cairo/NativeWindow/Xlib/XlibScreen.cpp"
+	"../X11Cairo/NativeWindow/Xlib/XlibMouseRecordHelper.cpp"
 	"../X11Cairo/NativeWindow/Xlib/ServicesImpl/XlibNativeWindowService.cpp"
 	"../X11Cairo/NativeWindow/Xlib/ServicesImpl/XlibNativeScreenService.cpp"
 	"../X11Cairo/NativeWindow/Xlib/ServicesImpl/XlibNativeInputService.cpp"

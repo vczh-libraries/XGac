@@ -4,8 +4,9 @@
 #include <GacUI.h>
 #include "../XlibIncludes.h"
 #include "../XlibWindow.h"
-#include "XlibNativeCallbackService.h"
+#include "../XlibMouseRecordHelper.h"
 #include "../../Common/ServicesImpl/PosixAsyncService.h"
+#include "XlibNativeCallbackService.h"
 
 namespace vl
 {
@@ -21,6 +22,7 @@ namespace vl
 					Display* display;
 					PosixAsyncService* asyncService;
 					XlibNativeCallbackService* callbackService;
+					XlibMouseRecordHelper recordHelper;
 					vl::collections::List<XlibWindow*> windows;
 					bool timerFlag;
 

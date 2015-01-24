@@ -17,7 +17,8 @@ namespace vl
 				XlibNativeWindowService::XlibNativeWindowService(Display* display, PosixAsyncService* asyncService, XlibNativeCallbackService* callbackService):
 					display(display),
 					asyncService(asyncService),
-					callbackService(callbackService)
+					callbackService(callbackService),
+					recordHelper(XDisplayString(display))
 				{
 				}
 
@@ -89,6 +90,9 @@ namespace vl
 					{
 						throw Exception(L"Invalid Window Type");
 					}
+
+					recordHelper.StartCapture();
+
 					while(true)
 					{
 						while(XPending(actualWindow->GetDisplay()))
@@ -132,8 +136,7 @@ namespace vl
 									break;
 
 								case ClientMessage:
-									XFlush(actualWindow->GetDisplay());
-									return;
+									goto Cleanup;
 
 								case ConfigureNotify:
 									if((evWindow = FindWindow(event.xconfigure.window)) != NULL)
@@ -147,10 +150,17 @@ namespace vl
 
 						asyncService->ExecuteAsyncTasks();
 						callbackService->CheckTimer();
+
+						recordHelper.Update();
 						XFlush(actualWindow->GetDisplay());
 
 						pause();
 					}
+
+Cleanup:
+					recordHelper.EndCapture();
+					XFlush(actualWindow->GetDisplay());
+					return;
 				}
 			}
 		}

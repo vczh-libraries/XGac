@@ -1,6 +1,7 @@
-#ifndef __GAC_X11CAIRO_XLIB_COMMONS_H
-#define __GAC_X11CAIRO_XLIB_COMMONS_H
+#ifndef __GAC_X11CAIRO_XLIB_COMMON_H
+#define __GAC_X11CAIRO_XLIB_COMMON_H
 
+#include "XlibIncludes.h"
 
 namespace vl
 {
@@ -15,6 +16,9 @@ namespace vl
 					X11CAIRO_LBUTTON,
 					X11CAIRO_RBUTTON
 				};
+
+				bool CheckXdbeExtension(Display*);
+				bool CheckXRecordExtension(Display*);
 			}
 		}
 	}

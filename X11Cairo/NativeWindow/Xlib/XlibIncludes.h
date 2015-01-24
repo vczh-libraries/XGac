@@ -5,7 +5,10 @@ extern "C"
 {
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <X11/Xlibint.h>
+#include <X11/Xproto.h>
 #include <X11/extensions/Xdbe.h>
+#include <X11/extensions/record.h>
 }
 
 const Bool XLIB_TRUE = True;
@@ -18,6 +21,6 @@ const Status XLIB_NONE = None;
 #undef Success
 #undef None
 
-#include "XlibCommons.h"
+#include "XlibCommon.h"
 
 #endif
