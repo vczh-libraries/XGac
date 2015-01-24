@@ -4,6 +4,10 @@
 #include <GacUI.h>
 #include "XlibIncludes.h"
 
+#include <X11/Xlibint.h>
+#include <X11/Xproto.h>
+#include <X11/extensions/record.h>
+
 namespace vl
 {
 	namespace presentation
@@ -15,20 +19,24 @@ namespace vl
 				class XlibXRecordMouseHookHelper: public Object
 				{
 				protected:
-					vl::collections::List<Point> hookEvents;
+					vl::collections::List<MouseEvent> hookEvents;
 					XRecordContext recordContext;
 					Display *ctrl_display, *data_display;
 					bool capturing;
+
+					MouseEvent DataToEvent(xEvent* ev);
 
 				public:
 					XlibXRecordMouseHookHelper(const char*);
 					~XlibXRecordMouseHookHelper();
 					void Update();
-					Point GetEvent();
+					MouseEvent GetEvent();
 					int EventCount();
 					void StartCapture();
 					void EndCapture();
 					bool IsCapturing();
+
+					void AddData(xEvent* ev);
 				};
 			}
 		}

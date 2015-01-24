@@ -53,16 +53,13 @@ namespace vl
 								if(recorded_data->category == XRecordFromServer)
 								{
 									xEvent *data = (xEvent *) recorded_data->data;
+									XlibXRecordMouseHookHelper* helper = (XlibXRecordMouseHookHelper*) closure;
 									switch(data->u.u.type)
 									{
 									case ButtonPress:
-										printf("ButtonPress: %d %d\n", data->u.keyButtonPointer.rootX, data->u.keyButtonPointer.rootY);
-										break;
 									case ButtonRelease:
-										printf("ButtonRelease: %d %d\n", data->u.keyButtonPointer.rootX, data->u.keyButtonPointer.rootY);
-										break;
 									case MotionNotify:
-										printf("MotionNotify: %d %d\n", data->u.keyButtonPointer.rootX, data->u.keyButtonPointer.rootY);
+										helper->AddData(data);
 										break;
 									}
 								}
@@ -90,14 +87,50 @@ namespace vl
 					return hookEvents.Count();
 				}
 
-				Point XlibXRecordMouseHookHelper::GetEvent()
+				MouseEvent XlibXRecordMouseHookHelper::GetEvent()
 				{
-					return Point();
+					MouseEvent ev = hookEvents[hookEvents.Count() - 1];
+					hookEvents.RemoveAt(hookEvents.Count() - 1);
+					return ev;
 				}
 
 				void XlibXRecordMouseHookHelper::Update()
 				{
 					XRecordProcessReplies(data_display);
+				}
+
+				MouseEvent XlibXRecordMouseHookHelper::DataToEvent(xEvent* ev)
+				{
+					MouseEventType type;
+					MouseButton button;
+					switch(ev->u.u.type)
+					{
+						case ButtonPress:
+							type = MouseEventType::BUTTONDOWN;
+							break;
+						case ButtonRelease:
+							type = MouseEventType::BUTTONUP;
+							break;
+						case MotionNotify:
+							type = MouseEventType::POINTERMOVE;
+							break;
+					}
+
+					if(ev->u.keyButtonPointer.state & Button2Mask)
+					{
+						button = MouseButton::RBUTTON;
+					}
+					else
+					{
+						button = MouseButton::LBUTTON;
+					}
+
+					return MouseEvent(button, type, ev->u.keyButtonPointer.rootX, ev->u.keyButtonPointer.rootY);
+				}
+
+				void XlibXRecordMouseHookHelper::AddData(xEvent* ev)
+				{
+					hookEvents.Add(DataToEvent(ev));
 				}
 			}
 		}

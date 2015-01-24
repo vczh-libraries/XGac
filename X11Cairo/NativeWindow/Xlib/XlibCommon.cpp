@@ -1,4 +1,5 @@
 #include "XlibCommon.h"
+#include <X11/extensions/record.h>
 
 namespace vl
 {

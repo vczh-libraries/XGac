@@ -27,6 +27,7 @@ namespace vl
 					bool timerFlag;
 
 					XlibWindow* FindWindow(Window win);
+					void DispatchGlobalMouseEvent(const MouseEvent& ev);
 
 				public:
 					XlibNativeWindowService (Display* display, PosixAsyncService* asyncService, XlibNativeCallbackService* callbackService);
