@@ -1,4 +1,4 @@
-#include "XlibMouseRecordHelper.h"
+#include "XlibXRecordMouseHookHelper.h"
 
 namespace vl
 {
@@ -8,7 +8,7 @@ namespace vl
 		{
 			namespace xlib
 			{
-				XlibMouseRecordHelper::XlibMouseRecordHelper(const char* connString):
+				XlibXRecordMouseHookHelper::XlibXRecordMouseHookHelper(const char* connString):
 					ctrl_display(NULL), data_display(NULL), capturing(false)
 				{
 					ctrl_display = XOpenDisplay(connString);
@@ -27,14 +27,14 @@ namespace vl
 					XRecordClientSpec recordClientSpec = XRecordAllClients;
 					XRecordRange *recordRange = XRecordAllocRange();
 					recordRange->device_events.first = ButtonPress;
-					recordRange->device_events.last = ButtonPress;
+					recordRange->device_events.last = MotionNotify;
 
 					XSynchronize(ctrl_display, XLIB_TRUE);
 					recordContext = XRecordCreateContext(ctrl_display, XRecordFromClientTime, &recordClientSpec, 1, &recordRange, 1);
 					XFree(recordRange);
 				}
 
-				XlibMouseRecordHelper::~XlibMouseRecordHelper()
+				XlibXRecordMouseHookHelper::~XlibXRecordMouseHookHelper()
 				{
 					if(capturing) EndCapture();
 					XRecordFreeContext(ctrl_display, recordContext);
@@ -43,7 +43,7 @@ namespace vl
 					XCloseDisplay(data_display);
 				}
 
-				void XlibMouseRecordHelper::StartCapture()
+				void XlibXRecordMouseHookHelper::StartCapture()
 				{
 					XRecordEnableContextAsync(
 							data_display, 
@@ -53,9 +53,17 @@ namespace vl
 								if(recorded_data->category == XRecordFromServer)
 								{
 									xEvent *data = (xEvent *) recorded_data->data;
-									if(data->u.u.type == ButtonPress)
+									switch(data->u.u.type)
 									{
-										printf("%d %d\n", data->u.keyButtonPointer.rootX, data->u.keyButtonPointer.rootY);
+									case ButtonPress:
+										printf("ButtonPress: %d %d\n", data->u.keyButtonPointer.rootX, data->u.keyButtonPointer.rootY);
+										break;
+									case ButtonRelease:
+										printf("ButtonRelease: %d %d\n", data->u.keyButtonPointer.rootX, data->u.keyButtonPointer.rootY);
+										break;
+									case MotionNotify:
+										printf("MotionNotify: %d %d\n", data->u.keyButtonPointer.rootX, data->u.keyButtonPointer.rootY);
+										break;
 									}
 								}
 								XRecordFreeData(recorded_data);
@@ -66,28 +74,28 @@ namespace vl
 					capturing = true;
 				}
 
-				void XlibMouseRecordHelper::EndCapture()
+				void XlibXRecordMouseHookHelper::EndCapture()
 				{
 					XRecordDisableContext(ctrl_display, recordContext);
 					capturing = false;
 				}
 
-				bool XlibMouseRecordHelper::IsCapturing()
+				bool XlibXRecordMouseHookHelper::IsCapturing()
 				{
 					return capturing;
 				}
 
-				int XlibMouseRecordHelper::EventCount()
+				int XlibXRecordMouseHookHelper::EventCount()
 				{
 					return hookEvents.Count();
 				}
 
-				Point XlibMouseRecordHelper::GetEvent()
+				Point XlibXRecordMouseHookHelper::GetEvent()
 				{
 					return Point();
 				}
 
-				void XlibMouseRecordHelper::Update()
+				void XlibXRecordMouseHookHelper::Update()
 				{
 					XRecordProcessReplies(data_display);
 				}

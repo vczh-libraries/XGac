@@ -1,5 +1,5 @@
-#ifndef __GAC_X11CAIRO_XLIB_MOUSE_RECORD_HELPER_H
-#define __GAC_X11CAIRO_XLIB_MOUSE_RECORD_HELPER_H
+#ifndef __GAC_X11CAIRO_XLIB_XRECORD_MOUSE_HOOK_HELPER_H
+#define __GAC_X11CAIRO_XLIB_XRECORD_MOUSE_HOOK_HELPER_H
 
 #include <GacUI.h>
 #include "XlibIncludes.h"
@@ -12,7 +12,7 @@ namespace vl
 		{
 			namespace xlib
 			{
-				class XlibMouseRecordHelper: public Object
+				class XlibXRecordMouseHookHelper: public Object
 				{
 				protected:
 					vl::collections::List<Point> hookEvents;
@@ -21,8 +21,8 @@ namespace vl
 					bool capturing;
 
 				public:
-					XlibMouseRecordHelper(const char*);
-					~XlibMouseRecordHelper();
+					XlibXRecordMouseHookHelper(const char*);
+					~XlibXRecordMouseHookHelper();
 					void Update();
 					Point GetEvent();
 					int EventCount();

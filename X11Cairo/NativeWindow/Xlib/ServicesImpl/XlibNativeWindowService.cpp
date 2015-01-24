@@ -17,13 +17,14 @@ namespace vl
 				XlibNativeWindowService::XlibNativeWindowService(Display* display, PosixAsyncService* asyncService, XlibNativeCallbackService* callbackService):
 					display(display),
 					asyncService(asyncService),
-					callbackService(callbackService),
-					recordHelper(XDisplayString(display))
+					callbackService(callbackService)
 				{
+					recordHelper = new XlibXRecordMouseHookHelper(XDisplayString(display));
 				}
 
 				XlibNativeWindowService::~XlibNativeWindowService()
 				{
+					delete recordHelper;
 				}
 
 				INativeWindow *XlibNativeWindowService::CreateNativeWindow()
@@ -91,7 +92,7 @@ namespace vl
 						throw Exception(L"Invalid Window Type");
 					}
 
-					recordHelper.StartCapture();
+					recordHelper->StartCapture();
 
 					while(true)
 					{
@@ -151,14 +152,14 @@ namespace vl
 						asyncService->ExecuteAsyncTasks();
 						callbackService->CheckTimer();
 
-						recordHelper.Update();
+						recordHelper->Update();
 						XFlush(actualWindow->GetDisplay());
 
 						pause();
 					}
 
 Cleanup:
-					recordHelper.EndCapture();
+					recordHelper->EndCapture();
 					XFlush(actualWindow->GetDisplay());
 					return;
 				}
