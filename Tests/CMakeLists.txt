@@ -84,3 +84,7 @@ set(CONTROLS_SCROLL_COLORPICKER_SOURCE_FILES "./Controls.Scroll.ColorPicker/Cont
 add_executable(Controls.Scroll.ColorPicker ${CONTROLS_SCROLL_COLORPICKER_SOURCE_FILES})
 target_link_libraries(Controls.Scroll.ColorPicker ${DEPENDENCIES_LIBRARIES} ${GACUI_LIBRARIES})
 
+set(CONTROLS_DATEPICKER_DATEANDLOCALE_SOURCE_FILES "./Controls.DatePicker.DateAndLocale/Controls.DatePicker.DateAndLocale.cpp")
+add_executable(Controls.DatePicker.DateAndLocale ${CONTROLS_DATEPICKER_DATEANDLOCALE_SOURCE_FILES})
+target_link_libraries(Controls.DatePicker.DateAndLocale ${DEPENDENCIES_LIBRARIES} ${GACUI_LIBRARIES})
+

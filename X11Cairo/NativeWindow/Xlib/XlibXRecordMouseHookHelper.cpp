@@ -2,6 +2,7 @@
 
 namespace vl
 {
+	using namespace collections;
 	namespace presentation
 	{
 		namespace x11cairo
@@ -9,16 +10,19 @@ namespace vl
 			namespace xlib
 			{
 				XlibXRecordMouseHookHelper::XlibXRecordMouseHookHelper(const char* connString):
-					ctrl_display(NULL), data_display(NULL), capturing(false)
+					ctrlDisplay(NULL), dataDisplay(NULL), capturing(false)
 				{
-					ctrl_display = XOpenDisplay(connString);
-					data_display = XOpenDisplay(connString);
-					if(!ctrl_display || !data_display)
+					hookEvents.SetLessMemoryMode(false);
+
+					ctrlDisplay = XOpenDisplay(connString);
+					dataDisplay = XOpenDisplay(connString);
+
+					if(!ctrlDisplay || !dataDisplay)
 					{
 						throw Exception(L"Cannot connect to X server.");
 					}
 
-					if(!CheckXRecordExtension(ctrl_display) || !CheckXRecordExtension(data_display))
+					if(!CheckXRecordExtension(ctrlDisplay) || !CheckXRecordExtension(dataDisplay))
 					{
 						throw Exception(L"Record Extension is required for GacUI/X11.");
 					}
@@ -29,24 +33,24 @@ namespace vl
 					recordRange->device_events.first = ButtonPress;
 					recordRange->device_events.last = MotionNotify;
 
-					XSynchronize(ctrl_display, XLIB_TRUE);
-					recordContext = XRecordCreateContext(ctrl_display, XRecordFromClientTime, &recordClientSpec, 1, &recordRange, 1);
+					XSynchronize(ctrlDisplay, XLIB_TRUE);
+					recordContext = XRecordCreateContext(ctrlDisplay, XRecordFromClientTime, &recordClientSpec, 1, &recordRange, 1);
 					XFree(recordRange);
 				}
 
 				XlibXRecordMouseHookHelper::~XlibXRecordMouseHookHelper()
 				{
 					if(capturing) EndCapture();
-					XRecordFreeContext(ctrl_display, recordContext);
-					XFlush(data_display);
-					XCloseDisplay(ctrl_display);
-					XCloseDisplay(data_display);
+					XRecordFreeContext(ctrlDisplay, recordContext);
+					XFlush(dataDisplay);
+					XCloseDisplay(ctrlDisplay);
+					XCloseDisplay(dataDisplay);
 				}
 
 				void XlibXRecordMouseHookHelper::StartCapture()
 				{
 					XRecordEnableContextAsync(
-							data_display, 
+							dataDisplay, 
 							recordContext, 
 							[](XPointer closure, XRecordInterceptData *recorded_data)
 							{
@@ -67,13 +71,13 @@ namespace vl
 							}, 
 							(XPointer) this);
 
-					XFlush(data_display);
+					XFlush(dataDisplay);
 					capturing = true;
 				}
 
 				void XlibXRecordMouseHookHelper::EndCapture()
 				{
-					XRecordDisableContext(ctrl_display, recordContext);
+					XRecordDisableContext(ctrlDisplay, recordContext);
 					capturing = false;
 				}
 
@@ -96,7 +100,7 @@ namespace vl
 
 				void XlibXRecordMouseHookHelper::Update()
 				{
-					XRecordProcessReplies(data_display);
+					XRecordProcessReplies(dataDisplay);
 				}
 
 				MouseEvent XlibXRecordMouseHookHelper::DataToEvent(xEvent* ev)
@@ -131,6 +135,19 @@ namespace vl
 				void XlibXRecordMouseHookHelper::AddData(xEvent* ev)
 				{
 					hookEvents.Add(DataToEvent(ev));
+				}
+
+				void XlibXRecordMouseHookHelper::ProcessEvents(Func<void(MouseEvent)> handler)
+				{
+					Array<MouseEvent> currentEvents(hookEvents.Count());
+				   	CopyFrom(currentEvents, hookEvents);
+
+					FOREACH(MouseEvent, i, currentEvents)
+					{
+						handler(i);
+					}
+
+					hookEvents.Clear();
 				}
 			}
 		}

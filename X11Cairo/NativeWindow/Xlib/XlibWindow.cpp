@@ -17,7 +17,12 @@ namespace vl
 					renderTarget(nullptr),
 					resizable (false),
 					doubleBuffer(false),
-					backBuffer(XLIB_NONE)
+					customFrameMode(false),
+					visible(false),
+					backBuffer(XLIB_NONE),
+					parentWindow(NULL),
+					bounds(0, 0, 400, 200),
+					clientSize(400, 200)
 				{
 					this->display = display;
 					window = XCreateWindow(
@@ -42,8 +47,8 @@ namespace vl
 
 					CheckDoubleBuffer();
 
-					Show();
 					UpdateTitle();
+					Show();
 					XSync(display, false);
 				}
 
@@ -158,6 +163,9 @@ namespace vl
 						i->Moving(newBound, true);
 						i->Moved();
 					}
+
+					GetBounds();
+					GetClientSize();
 				}
 
 				void XlibWindow::MouseUpEvent(MouseButton button, Point position)
@@ -248,46 +256,70 @@ namespace vl
 					}
 				}
 
-				void XlibWindow::Show ()
+				void XlibWindow::Show()
 				{
 					XMapWindow(display, window);
+
+					visible = true;
+					SetBounds(bounds);
+					GetClientSize();
 				}
 
-				void XlibWindow::Hide ()
+				void XlibWindow::Hide()
 				{
 					XUnmapWindow(display, window);
+
+					visible = false;
 				}
 
 				Rect XlibWindow::GetBounds()
 				{
 					//TODO
-					XWindowAttributes attr;
-					XGetWindowAttributes(display, window, &attr);
-					return Rect(attr.x, attr.y, attr.x + attr.width, attr.y + attr.height);
+					if(visible)
+					{
+						int x, y;
+						Window child;
+						XWindowAttributes attr;
+						XGetWindowAttributes(display, window, &attr);
+						XTranslateCoordinates(display, window, XDefaultRootWindow(display), 0, 0, &x, &y, &child);
+						
+						bounds = Rect(x, y, x + attr.width, y + attr.height);
+					}
+
+					return bounds;
 				}
 
 				void XlibWindow::SetBounds(const Rect &bounds)
 				{
 					//TODO
-					XMoveResizeWindow(display, window, bounds.x1, bounds.y1, bounds.Width(), bounds.Height());
+					this->bounds = bounds;
+					if(visible)
+						XMoveResizeWindow(display, window, bounds.x1, bounds.y1, bounds.Width(), bounds.Height());
 				}
 
 				Size XlibWindow::GetClientSize()
 				{
-					XWindowAttributes attr;
-					XGetWindowAttributes(display, window, &attr);
-					return Size(attr.width, attr.height);
+					if(visible)
+					{
+						XWindowAttributes attr;
+						XGetWindowAttributes(display, window, &attr);
+						clientSize = Size(attr.width, attr.height);
+					}
+
+					return clientSize;
 				}
 
 				void XlibWindow::SetClientSize(Size size)
 				{
-					XResizeWindow(display, window, size.x, size.y);
+					clientSize = size;
+					if(visible)
+						XResizeWindow(display, window, size.x, size.y);
 				}
 
 				Rect XlibWindow::GetClientBoundsInScreen()
 				{
 					//TODO
-					return Rect();
+					return GetBounds();
 				}
 
 				WString XlibWindow::GetTitle()
@@ -325,13 +357,18 @@ namespace vl
 
 				INativeWindow *XlibWindow::GetParent()
 				{
-					//TODO
-					return NULL;
+					return parentWindow;
 				}
 
 				void XlibWindow::SetParent(INativeWindow *parent)
 				{
-					//TODO
+					parentWindow = dynamic_cast<XlibWindow*>(parent);
+					/*
+					if(parentWindow)
+						XReparentWindow(display, window, parentWindow->GetWindow(), 0, 0);
+					else
+						XReparentWindow(display, window, XRootWindow(display, 0), 0, 0);
+						*/
 				}
 
 				bool XlibWindow::GetAlwaysPassFocusToParent()
@@ -347,18 +384,33 @@ namespace vl
 
 				void XlibWindow::EnableCustomFrameMode()
 				{
-					//TODO
+					MotifWmHints hints;
+					Atom _MOTIF_WM_HINTS = XInternAtom(display, "_MOTIF_WM_HINTS", 0);
+
+					hints.flags = 1 << 1;
+					hints.decorations = 0;
+					
+					XChangeProperty(display, window, _MOTIF_WM_HINTS, _MOTIF_WM_HINTS, 32, PropModeReplace, (unsigned char*) &hints, sizeof(hints));
+
+					customFrameMode = true;
 				}
 
 				void XlibWindow::DisableCustomFrameMode()
 				{
-					//TODO
+					MotifWmHints hints;
+					Atom _MOTIF_WM_HINTS = XInternAtom(display, "_MOTIF_WM_HINTS", 0);
+
+					hints.flags = 1 << 1;
+					hints.decorations = 1;
+					
+					XChangeProperty(display, window, _MOTIF_WM_HINTS, _MOTIF_WM_HINTS, 32, PropModeReplace, (unsigned char*) &hints, sizeof(hints));
+
+					customFrameMode = false;
 				}
 
 				bool XlibWindow::IsCustomFrameModeEnabled()
 				{
-					//TODO
-					return false;
+					return customFrameMode;
 				}
 
 				XlibWindow::WindowSizeState XlibWindow::GetSizeState()
@@ -370,27 +422,30 @@ namespace vl
 				void XlibWindow::ShowDeactivated()
 				{
 					//TODO
+					Show();
 				}
 
 				void XlibWindow::ShowRestored()
 				{
 					//TODO
+					Show();
 				}
 
 				void XlibWindow::ShowMaximized()
 				{
 					//TODO
+					Show();
 				}
 
 				void XlibWindow::ShowMinimized()
 				{
 					//TODO
+					Show();
 				}
 
 				bool XlibWindow::IsVisible()
 				{
-					//TODO
-					return true;
+					return visible;
 				}
 
 				void XlibWindow::Enable()
@@ -539,12 +594,13 @@ namespace vl
 				bool XlibWindow::GetTitleBar()
 				{
 					//TODO
-					return true;
+					return IsCustomFrameModeEnabled();
 				}
 
 				void XlibWindow::SetTitleBar(bool visible)
 				{
 					//TODO
+					visible ? DisableCustomFrameMode() : EnableCustomFrameMode();
 				}
 
 				bool XlibWindow::GetTopMost()

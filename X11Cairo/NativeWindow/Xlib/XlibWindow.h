@@ -20,9 +20,12 @@ namespace vl
 					Window window;
 					WString title;
 					elements::IGuiGraphicsRenderTarget* renderTarget;
-					bool resizable, doubleBuffer;
+					bool resizable, doubleBuffer, customFrameMode, visible;
 					collections::List<INativeWindowListener*> listeners;
 					XdbeBackBuffer backBuffer;
+					XlibWindow* parentWindow;
+					Rect bounds;
+					Size clientSize;
 
 					void UpdateTitle();
 					void UpdateResizable();

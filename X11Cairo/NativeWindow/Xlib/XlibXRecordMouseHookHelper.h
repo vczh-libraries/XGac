@@ -21,7 +21,7 @@ namespace vl
 				protected:
 					vl::collections::List<MouseEvent> hookEvents;
 					XRecordContext recordContext;
-					Display *ctrl_display, *data_display;
+					Display *ctrlDisplay, *dataDisplay;
 					bool capturing;
 
 					MouseEvent DataToEvent(xEvent* ev);
@@ -30,6 +30,7 @@ namespace vl
 					XlibXRecordMouseHookHelper(const char*);
 					~XlibXRecordMouseHookHelper();
 					void Update();
+					void ProcessEvents(Func<void(MouseEvent)>);
 					MouseEvent GetEvent();
 					int EventCount();
 					void StartCapture();

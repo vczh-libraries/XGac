@@ -41,6 +41,15 @@ namespace vl
 					}
 				};
 
+				struct MotifWmHints
+				{
+					int flags;
+					int functions;
+					int decorations;
+					int input_mode;
+					int status;
+				} ;
+
 				bool CheckXdbeExtension(Display*);
 				bool CheckXRecordExtension(Display*);
 			}
