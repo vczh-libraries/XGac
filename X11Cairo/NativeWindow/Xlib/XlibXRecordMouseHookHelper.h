@@ -4,6 +4,7 @@
 #include <GacUI.h>
 #include "XlibIncludes.h"
 
+#include <X11/Xmd.h>
 #include <X11/Xlibint.h>
 #include <X11/Xproto.h>
 #include <X11/extensions/record.h>
