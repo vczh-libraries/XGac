@@ -48,7 +48,6 @@ namespace vl
 					CheckDoubleBuffer();
 
 					UpdateTitle();
-					Show();
 					XSync(display, false);
 				}
 

@@ -23,6 +23,7 @@ namespace vl
 					PosixAsyncService* asyncService;
 					XlibNativeCallbackService* callbackService;
 					XlibXRecordMouseHookHelper* recordHelper;
+					XlibWindow* mainWindow;
 					vl::collections::List<XlibWindow*> windows;
 					bool timerFlag;
 
