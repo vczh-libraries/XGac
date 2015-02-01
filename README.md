@@ -26,7 +26,9 @@ XDBE (Double Buffer Extension) is used for double buffering. Without this extens
 
 ## Build instructions
 
-TBD
+Included CMake makefiles can be used to build the examples on Linux/OSX systems.
+
+Instructions on how to use XGac in production will be given once XGac reaches stable.
 
 ## TODOs
 
