@@ -97,65 +97,7 @@ namespace vl
 
 					while(true)
 					{
-						while(XPending(actualWindow->GetDisplay()))
-						{
-							XlibWindow* evWindow = NULL;
-							XNextEvent(actualWindow->GetDisplay(), &event);
-							switch(event.type)
-							{
-								case ButtonPress:
-									if((evWindow = FindWindow(event.xbutton.subwindow)) != NULL)
-										evWindow->MouseDownEvent(
-												event.xbutton.button == Button1 ? MouseButton::LBUTTON : MouseButton::RBUTTON,
-												Point(event.xbutton.x, event.xbutton.y),
-												event.xbutton.state & ControlMask,
-												event.xbutton.state & ShiftMask
-												);
-
-									break;
-
-								case ButtonRelease:
-									if((evWindow = FindWindow(event.xbutton.subwindow)) != NULL)
-										evWindow->MouseUpEvent(
-												event.xbutton.button == Button1 ? MouseButton::LBUTTON : MouseButton::RBUTTON,
-												Point(event.xbutton.x, event.xbutton.y),
-												event.xbutton.state & ControlMask,
-												event.xbutton.state & ShiftMask
-												);
-									break;
-
-								case MotionNotify:
-									if((evWindow = FindWindow(event.xmotion.subwindow)) != NULL)
-										evWindow->MouseMoveEvent( 
-												Point(event.xmotion.x, event.xmotion.y)
-												);
-									break;
-
-								case EnterNotify:
-									if((evWindow = FindWindow(event.xcrossing.subwindow)) != NULL)
-										evWindow->MouseEnterEvent();
-									break;
-
-								case LeaveNotify:
-									if((evWindow = FindWindow(event.xcrossing.subwindow)) != NULL)
-										evWindow->MouseEnterEvent();
-									break;
-
-								case ClientMessage:
-									goto Cleanup;
-
-								case ConfigureNotify:
-									if((evWindow = FindWindow(event.xconfigure.window)) != NULL)
-										evWindow->ResizeEvent(event.xconfigure.width, event.xconfigure.height);
-									break;
-
-								default:
-									break;
-							}
-						}
-
-						asyncService->ExecuteAsyncTasks();
-						callbackService->CheckTimer();
+	
 						recordHelper->Update();
 
 						recordHelper->ProcessEvents(
@@ -174,7 +116,69 @@ namespace vl
 										break;
 									}
 								});
+								
 
+						while(XPending(actualWindow->GetDisplay()))
+						{
+							XlibWindow* evWindow = NULL;
+							XNextEvent(actualWindow->GetDisplay(), &event);
+							switch(event.type)
+							{
+								case ButtonPress:
+									if((evWindow = FindWindow(event.xbutton.window)) != NULL)
+										evWindow->MouseDownEvent(
+												event.xbutton.button == Button1 ? MouseButton::LBUTTON : MouseButton::RBUTTON,
+												Point(event.xbutton.x, event.xbutton.y),
+												event.xbutton.state & ControlMask,
+												event.xbutton.state & ShiftMask
+												);
+
+									break;
+
+								case ButtonRelease:
+									if((evWindow = FindWindow(event.xbutton.window)) != NULL)
+										evWindow->MouseUpEvent(
+												event.xbutton.button == Button1 ? MouseButton::LBUTTON : MouseButton::RBUTTON,
+												Point(event.xbutton.x, event.xbutton.y),
+												event.xbutton.state & ControlMask,
+												event.xbutton.state & ShiftMask
+												);
+									break;
+
+								case MotionNotify:
+									if((evWindow = FindWindow(event.xmotion.window)) != NULL)
+										evWindow->MouseMoveEvent( 
+												Point(event.xmotion.x, event.xmotion.y)
+												);
+									break;
+
+								case EnterNotify:
+									if((evWindow = FindWindow(event.xcrossing.window)) != NULL)
+										evWindow->MouseEnterEvent();
+									break;
+
+								case LeaveNotify:
+									if((evWindow = FindWindow(event.xcrossing.window)) != NULL)
+										evWindow->MouseEnterEvent();
+									break;
+
+								case ClientMessage:
+									// TODO: Handle different client messages
+									goto Cleanup;
+
+								case ConfigureNotify:
+									if((evWindow = FindWindow(event.xconfigure.window)) != NULL)
+										evWindow->ResizeEvent(event.xconfigure.width, event.xconfigure.height);
+									break;
+
+								default:
+									break;
+							}
+						}
+
+						asyncService->ExecuteAsyncTasks();
+						callbackService->CheckTimer();
+					
 						XFlush(actualWindow->GetDisplay());
 
 						pause();
