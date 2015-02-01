@@ -64,14 +64,33 @@ namespace vl
 
 				INativeWindow* XlibNativeWindowService::GetWindow(Point location)
 				{
-					//TODO
+					// Find the top-most window
+					Window seekWindow = XDefaultRootWindow(display);
+					Window resultWindow = seekWindow;
+					int x = 0, y = 0;
+
+					while(true)
+					{
+						if(XTranslateCoordinates(display, XDefaultRootWindow(display), seekWindow,
+							   location.x, location.y, &x, &y, &resultWindow) == XLIB_TRUE)
+						{
+							if(resultWindow != XLIB_NONE)
+							{
+								seekWindow = resultWindow;
+							}
+							else
+							{
+								return FindWindow(seekWindow);
+							}
+						}
+						else break;
+					}
+
 					return NULL;
 				}
 
 				XlibWindow* XlibNativeWindowService::FindWindow(Window win)
 				{
-					if(win == XLIB_NONE)
-						return dynamic_cast<XlibWindow*>(GetMainWindow());
 					FOREACH(XlibWindow*, i, windows)
 					{
 						if(i->GetWindow() == win)
