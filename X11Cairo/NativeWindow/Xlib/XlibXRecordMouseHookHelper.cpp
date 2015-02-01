@@ -86,18 +86,6 @@ namespace vl
 					return capturing;
 				}
 
-				int XlibXRecordMouseHookHelper::EventCount()
-				{
-					return hookEvents.Count();
-				}
-
-				MouseEvent XlibXRecordMouseHookHelper::GetEvent()
-				{
-					MouseEvent ev = hookEvents[hookEvents.Count() - 1];
-					hookEvents.RemoveAt(hookEvents.Count() - 1);
-					return ev;
-				}
-
 				void XlibXRecordMouseHookHelper::Update()
 				{
 					XRecordProcessReplies(dataDisplay);

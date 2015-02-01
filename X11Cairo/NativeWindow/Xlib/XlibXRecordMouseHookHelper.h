@@ -32,8 +32,6 @@ namespace vl
 					~XlibXRecordMouseHookHelper();
 					void Update();
 					void ProcessEvents(Func<void(MouseEvent)>);
-					MouseEvent GetEvent();
-					int EventCount();
 					void StartCapture();
 					void EndCapture();
 					bool IsCapturing();

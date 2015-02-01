@@ -168,7 +168,7 @@ namespace vl
 					GetClientSize();
 				}
 
-				void XlibWindow::MouseUpEvent(MouseButton button, Point position)
+				void XlibWindow::MouseUpEvent(MouseButton button, Point position, bool ctrl, bool shift)
 				{
 					NativeWindowMouseInfo info;
 					{
@@ -176,8 +176,8 @@ namespace vl
 						info.y = position.y;
 						info.left = (button == MouseButton::LBUTTON) ? true : false;
 						info.right = (button == MouseButton::RBUTTON) ? true : false;
-						info.shift = false;
-						info.ctrl = false;
+						info.shift = shift;
+						info.ctrl = ctrl;
 					}
 					switch(button)
 					{
@@ -197,7 +197,7 @@ namespace vl
 					}
 				}
 
-				void XlibWindow::MouseDownEvent(MouseButton button, Point position)
+				void XlibWindow::MouseDownEvent(MouseButton button, Point position, bool ctrl, bool shift)
 				{
 					NativeWindowMouseInfo info;
 					{
@@ -205,8 +205,8 @@ namespace vl
 						info.y = position.y;
 						info.left = (button == MouseButton::LBUTTON) ? true : false;
 						info.right = (button == MouseButton::RBUTTON) ? true : false;
-						info.shift = false;
-						info.ctrl = false;
+						info.shift = shift;
+						info.ctrl = ctrl;
 					}
 					switch(button)
 					{

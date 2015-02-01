@@ -107,7 +107,9 @@ namespace vl
 									if((evWindow = FindWindow(event.xbutton.subwindow)) != NULL)
 										evWindow->MouseDownEvent(
 												event.xbutton.button == Button1 ? MouseButton::LBUTTON : MouseButton::RBUTTON,
-												Point(event.xbutton.x, event.xbutton.y)
+												Point(event.xbutton.x, event.xbutton.y),
+												event.xbutton.state & ControlMask,
+												event.xbutton.state & ShiftMask
 												);
 
 									break;
@@ -116,7 +118,9 @@ namespace vl
 									if((evWindow = FindWindow(event.xbutton.subwindow)) != NULL)
 										evWindow->MouseUpEvent(
 												event.xbutton.button == Button1 ? MouseButton::LBUTTON : MouseButton::RBUTTON,
-												Point(event.xbutton.x, event.xbutton.y)
+												Point(event.xbutton.x, event.xbutton.y),
+												event.xbutton.state & ControlMask,
+												event.xbutton.state & ShiftMask
 												);
 									break;
 
@@ -154,22 +158,22 @@ namespace vl
 						callbackService->CheckTimer();
 						recordHelper->Update();
 
-						while(recordHelper->EventCount())
-						{
-							MouseEvent ev = recordHelper->GetEvent();
-							switch(ev.type)
-							{
-								case MouseEventType::BUTTONDOWN:
-									callbackService->MouseDownEvent(ev.button, ev.position);
-									break;
-								case MouseEventType::BUTTONUP:
-									callbackService->MouseUpEvent(ev.button, ev.position);
-									break;
-								case MouseEventType::POINTERMOVE:
-									callbackService->MouseMoveEvent(ev.position);
-									break;
-							}
-						}
+						recordHelper->ProcessEvents(
+								[this](MouseEvent ev)
+								{
+									switch(ev.type)
+									{
+									case MouseEventType::BUTTONDOWN:
+										callbackService->MouseDownEvent(ev.button, ev.position);
+										break;
+									case MouseEventType::BUTTONUP:
+										callbackService->MouseUpEvent(ev.button, ev.position);
+										break;
+									case MouseEventType::POINTERMOVE:
+										callbackService->MouseMoveEvent(ev.position);
+										break;
+									}
+								});
 
 						XFlush(actualWindow->GetDisplay());
 
