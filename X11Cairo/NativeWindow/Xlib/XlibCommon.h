@@ -43,12 +43,12 @@ namespace vl
 
 				struct MotifWmHints
 				{
-					int flags;
-					int functions;
-					int decorations;
-					int input_mode;
-					int status;
-				} ;
+					long flags;
+					long functions;
+					long decorations;
+					long input_mode;
+					long status;
+				};
 
 				bool CheckXdbeExtension(Display*);
 				bool CheckXRecordExtension(Display*);

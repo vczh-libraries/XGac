@@ -362,12 +362,6 @@ namespace vl
 				void XlibWindow::SetParent(INativeWindow *parent)
 				{
 					parentWindow = dynamic_cast<XlibWindow*>(parent);
-					/*
-					if(parentWindow)
-						XReparentWindow(display, window, parentWindow->GetWindow(), 0, 0);
-					else
-						XReparentWindow(display, window, XRootWindow(display, 0), 0, 0);
-						*/
 				}
 
 				bool XlibWindow::GetAlwaysPassFocusToParent()
@@ -389,7 +383,7 @@ namespace vl
 					hints.flags = 1 << 1;
 					hints.decorations = 0;
 					
-					XChangeProperty(display, window, _MOTIF_WM_HINTS, _MOTIF_WM_HINTS, 32, PropModeReplace, (unsigned char*) &hints, sizeof(hints));
+					XChangeProperty(display, window, _MOTIF_WM_HINTS, _MOTIF_WM_HINTS, 32, PropModeReplace, (unsigned char*) &hints, 5);
 
 					customFrameMode = true;
 				}
@@ -402,7 +396,7 @@ namespace vl
 					hints.flags = 1 << 1;
 					hints.decorations = 1;
 					
-					XChangeProperty(display, window, _MOTIF_WM_HINTS, _MOTIF_WM_HINTS, 32, PropModeReplace, (unsigned char*) &hints, sizeof(hints));
+					XChangeProperty(display, window, _MOTIF_WM_HINTS, _MOTIF_WM_HINTS, 32, PropModeReplace, (unsigned char*) &hints, 5);
 
 					customFrameMode = false;
 				}
