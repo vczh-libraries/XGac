@@ -45,6 +45,7 @@ set(GACUI_X11CAIRO_XLIB_FILES
 	"../X11Cairo/NativeWindow/Xlib/XlibNativeController.cpp"
 	"../X11Cairo/NativeWindow/Xlib/XlibWindow.cpp"
 	"../X11Cairo/NativeWindow/Xlib/XlibCommon.cpp"
+	"../X11Cairo/NativeWindow/Xlib/XlibAtoms.cpp"
 	"../X11Cairo/NativeWindow/Xlib/XlibScreen.cpp"
 	"../X11Cairo/NativeWindow/Xlib/XlibXRecordMouseHookHelper.cpp"
 	"../X11Cairo/NativeWindow/Xlib/ServicesImpl/XlibNativeWindowService.cpp"

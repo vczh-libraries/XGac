@@ -1,4 +1,5 @@
 #include <limits.h>
+#include "XlibAtoms.h"
 #include "XlibWindow.h"
 
 using namespace vl::collections;
@@ -40,10 +41,9 @@ namespace vl
 							NULL                     //Attributes
 							);
 
-					Atom WM_DELETE_WINDOW = XInternAtom(display, "WM_DELETE_WINDOW", XLIB_FALSE);
 
-					XSelectInput(display, window, PointerMotionMask | ButtonPressMask | ButtonReleaseMask | KeyPressMask | KeyReleaseMask | StructureNotifyMask | SubstructureNotifyMask);
-					XSetWMProtocols(display, window, &WM_DELETE_WINDOW, 1);
+					XSelectInput(display, window, PointerMotionMask | ButtonPressMask | ButtonReleaseMask | KeyPressMask | KeyReleaseMask | StructureNotifyMask | SubstructureNotifyMask | VisibilityChangeMask);
+					XSetWMProtocols(display, window, &XlibAtoms::WM_DELETE_WINDOW, 1);
 
 					CheckDoubleBuffer();
 
@@ -125,6 +125,17 @@ namespace vl
 					}
 					XSetNormalHints(display, window, hints);
 					XFree(hints);
+				}
+
+				void XlibWindow::GetParentList(vl::collections::List<Window>& result)
+				{
+					XlibWindow* win = this;
+
+					while(win)
+					{
+						result.Add(win->GetWindow());
+						win = dynamic_cast<XlibWindow*>(win->GetParent());
+					}
 				}
 
 				Window XlibWindow::GetWindow()
@@ -255,6 +266,16 @@ namespace vl
 					}
 				}
 
+				void XlibWindow::VisibilityEvent(Window window)
+				{
+					if(visible && parentWindow)
+					{
+						collections::List<Window> windows;
+						GetParentList(windows);
+						XRestackWindows(display, &windows[0], windows.Count());
+					}
+				}
+
 				void XlibWindow::Show()
 				{
 					XMapWindow(display, window);
@@ -362,6 +383,12 @@ namespace vl
 				void XlibWindow::SetParent(INativeWindow *parent)
 				{
 					parentWindow = dynamic_cast<XlibWindow*>(parent);
+
+					if(parentWindow)
+					{
+						XChangeProperty(display, window, XlibAtoms::_NET_WM_WINDOW_TYPE, XlibAtoms::_NET_WM_WINDOW_TYPE, 32, PropModeReplace,
+								(unsigned char*)&XlibAtoms::_NET_WM_WINDOW_TYPE_POPUP_MENU, 1);
+					}
 				}
 
 				bool XlibWindow::GetAlwaysPassFocusToParent()
@@ -378,12 +405,11 @@ namespace vl
 				void XlibWindow::EnableCustomFrameMode()
 				{
 					MotifWmHints hints;
-					Atom _MOTIF_WM_HINTS = XInternAtom(display, "_MOTIF_WM_HINTS", 0);
 
 					hints.flags = 1 << 1;
 					hints.decorations = 0;
 					
-					XChangeProperty(display, window, _MOTIF_WM_HINTS, _MOTIF_WM_HINTS, 32, PropModeReplace, (unsigned char*) &hints, 5);
+					XChangeProperty(display, window, XlibAtoms::_MOTIF_WM_HINTS, XlibAtoms::_MOTIF_WM_HINTS, 32, PropModeReplace, (unsigned char*) &hints, 5);
 
 					customFrameMode = true;
 				}
@@ -391,12 +417,11 @@ namespace vl
 				void XlibWindow::DisableCustomFrameMode()
 				{
 					MotifWmHints hints;
-					Atom _MOTIF_WM_HINTS = XInternAtom(display, "_MOTIF_WM_HINTS", 0);
 
 					hints.flags = 1 << 1;
 					hints.decorations = 1;
 					
-					XChangeProperty(display, window, _MOTIF_WM_HINTS, _MOTIF_WM_HINTS, 32, PropModeReplace, (unsigned char*) &hints, 5);
+					XChangeProperty(display, window, XlibAtoms::_MOTIF_WM_HINTS, XlibAtoms::_MOTIF_WM_HINTS, 32, PropModeReplace, (unsigned char*) &hints, 5);
 
 					customFrameMode = false;
 				}

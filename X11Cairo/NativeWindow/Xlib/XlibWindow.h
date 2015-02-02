@@ -29,6 +29,7 @@ namespace vl
 
 					void UpdateTitle();
 					void UpdateResizable();
+					void GetParentList(collections::List<Window>&);
 
 				public:
 					XlibWindow(Display *display);
@@ -54,6 +55,7 @@ namespace vl
 					void MouseEnterEvent();
 					void MouseLeaveEvent();
 					void ResizeEvent(int width, int height);
+					void VisibilityEvent(Window window);
 
 					//GacUI Implementations
 					virtual Rect GetBounds();

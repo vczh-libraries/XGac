@@ -192,6 +192,15 @@ namespace vl
 										evWindow->ResizeEvent(event.xconfigure.width, event.xconfigure.height);
 									break;
 
+								case VisibilityNotify:
+									if(event.xvisibility.state != VisibilityUnobscured)
+									{
+										FOREACH(XlibWindow*, i, windows)
+										{
+											i->VisibilityEvent(event.xvisibility.window);
+										}
+									}
+
 								default:
 									break;
 							}

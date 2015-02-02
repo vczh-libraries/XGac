@@ -1,5 +1,6 @@
 #include <signal.h>
 
+#include "XlibAtoms.h"
 #include "XlibNativeController.h"
 #include "ServicesImpl/XlibNativeWindowService.h"
 #include "ServicesImpl/XlibNativeScreenService.h"
@@ -53,6 +54,8 @@ namespace vl
 						callbackService = new XlibNativeCallbackService();
 						windowService = new XlibNativeWindowService(display, asyncService, callbackService);
 						resourceService = new XlibNativeResourceService();
+
+						XlibAtoms::Initialize(display);
 
 						if(signal(SIGALRM, XlibNativeController::TimerSignalHandler))
 						{
