@@ -119,8 +119,8 @@ namespace vl
 #define INCRC(x)	(_InterlockedIncrement64(x))
 #define DECRC(x)	(_InterlockedDecrement64(x))
 #elif defined VCZH_GCC
-#define INCRC(x)	(__sync_fetch_and_add(x, 1))
-#define DECRC(x)	(__sync_fetch_and_sub(x, 1))
+#define INCRC(x)	(__sync_add_and_fetch(x, 1))
+#define DECRC(x)	(__sync_sub_and_fetch(x, 1))
 #endif
 #else
 #define ITOA_S		_itoa_s
