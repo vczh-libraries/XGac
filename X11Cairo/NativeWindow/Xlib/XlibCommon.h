@@ -15,7 +15,8 @@ namespace vl
 				enum class MouseButton
 				{
 					LBUTTON,
-					RBUTTON
+					RBUTTON,
+					MBUTTON
 				};
 
 				enum class MouseEventType

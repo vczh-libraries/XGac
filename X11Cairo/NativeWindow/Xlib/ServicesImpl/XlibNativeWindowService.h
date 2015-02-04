@@ -29,6 +29,8 @@ namespace vl
 
 					XlibWindow* FindWindow(Window win);
 					void DispatchGlobalMouseEvent(const MouseEvent& ev);
+					NativeWindowMouseInfo MouseStateMaskToInfo(int x, int y, unsigned int state);
+					MouseButton XButtonCodeToButton(unsigned int button);
 
 				public:
 					XlibNativeWindowService (Display* display, PosixAsyncService* asyncService, XlibNativeCallbackService* callbackService);

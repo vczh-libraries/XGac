@@ -53,6 +53,10 @@ namespace vl
 								i->RightButtonDown(position);
 							}
 							break;
+
+						default:
+							break;
+
 					}
 				}
 				void XlibNativeCallbackService::MouseDownEvent(MouseButton button, Point position)
@@ -71,6 +75,9 @@ namespace vl
 							{
 								i->RightButtonUp(position);
 							}
+							break;
+
+						default:
 							break;
 					}
 

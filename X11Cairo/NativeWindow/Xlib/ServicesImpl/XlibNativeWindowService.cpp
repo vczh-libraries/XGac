@@ -103,6 +103,38 @@ namespace vl
 				}
 
 
+				NativeWindowMouseInfo XlibNativeWindowService::MouseStateMaskToInfo(int x, int y, unsigned int state)
+				{
+					NativeWindowMouseInfo result;
+					{
+						result.x = x;
+						result.y = y;
+						result.left = state & Button1Mask;
+						result.right = state & Button2Mask;
+						result.middle = state & Button3Mask;
+						result.ctrl = state & ControlMask;
+						result.shift = state & ShiftMask;
+						result.wheel = 0; // TODO
+						result.nonClient = false;
+					}
+
+					return result;
+				}
+
+				MouseButton XlibNativeWindowService::XButtonCodeToButton(unsigned int button)
+				{
+					switch(button)
+					{
+						default:
+						case Button1:
+							return MouseButton::LBUTTON;
+						case Button2:
+							return MouseButton::RBUTTON;
+						case Button3:
+							return MouseButton::MBUTTON;
+					}
+				}
+
 				void XlibNativeWindowService::Run(INativeWindow *window)
 				{
 					XEvent event;
@@ -148,10 +180,8 @@ namespace vl
 								case ButtonPress:
 									if((evWindow = FindWindow(event.xbutton.window)) != NULL)
 										evWindow->MouseDownEvent(
-												event.xbutton.button == Button1 ? MouseButton::LBUTTON : MouseButton::RBUTTON,
-												Point(event.xbutton.x, event.xbutton.y),
-												event.xbutton.state & ControlMask,
-												event.xbutton.state & ShiftMask
+													XButtonCodeToButton(event.xbutton.button),
+													MouseStateMaskToInfo(event.xbutton.x, event.xbutton.y, event.xbutton.state)
 												);
 
 									break;
@@ -159,17 +189,15 @@ namespace vl
 								case ButtonRelease:
 									if((evWindow = FindWindow(event.xbutton.window)) != NULL)
 										evWindow->MouseUpEvent(
-												event.xbutton.button == Button1 ? MouseButton::LBUTTON : MouseButton::RBUTTON,
-												Point(event.xbutton.x, event.xbutton.y),
-												event.xbutton.state & ControlMask,
-												event.xbutton.state & ShiftMask
+													XButtonCodeToButton(event.xbutton.button),
+													MouseStateMaskToInfo(event.xbutton.x, event.xbutton.y, event.xbutton.state)
 												);
 									break;
 
 								case MotionNotify:
 									if((evWindow = FindWindow(event.xmotion.window)) != NULL)
 										evWindow->MouseMoveEvent( 
-												Point(event.xmotion.x, event.xmotion.y)
+													MouseStateMaskToInfo(event.xmotion.x, event.xmotion.y, event.xbutton.state)
 												);
 									break;
 

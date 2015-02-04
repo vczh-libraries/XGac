@@ -178,17 +178,8 @@ namespace vl
 					GetClientSize();
 				}
 
-				void XlibWindow::MouseUpEvent(MouseButton button, Point position, bool ctrl, bool shift)
+				void XlibWindow::MouseUpEvent(MouseButton button, NativeWindowMouseInfo info)
 				{
-					NativeWindowMouseInfo info;
-					{
-						info.x = position.x;
-						info.y = position.y;
-						info.left = (button == MouseButton::LBUTTON) ? true : false;
-						info.right = (button == MouseButton::RBUTTON) ? true : false;
-						info.shift = shift;
-						info.ctrl = ctrl;
-					}
 					switch(button)
 					{
 						case MouseButton::LBUTTON:
@@ -204,20 +195,18 @@ namespace vl
 								i->RightButtonUp(info);
 							}
 							break;
+							
+						case MouseButton::MBUTTON:
+							FOREACH(INativeWindowListener*, i, listeners)
+							{
+								i->MiddleButtonUp(info);
+							}
+							break;
 					}
 				}
 
-				void XlibWindow::MouseDownEvent(MouseButton button, Point position, bool ctrl, bool shift)
+				void XlibWindow::MouseDownEvent(MouseButton button, NativeWindowMouseInfo info)
 				{
-					NativeWindowMouseInfo info;
-					{
-						info.x = position.x;
-						info.y = position.y;
-						info.left = (button == MouseButton::LBUTTON) ? true : false;
-						info.right = (button == MouseButton::RBUTTON) ? true : false;
-						info.shift = shift;
-						info.ctrl = ctrl;
-					}
 					switch(button)
 					{
 						case MouseButton::LBUTTON:
@@ -233,17 +222,19 @@ namespace vl
 								i->RightButtonDown(info);
 							}
 							break;
+
+						case MouseButton::MBUTTON:
+							FOREACH(INativeWindowListener*, i, listeners)
+							{
+								i->MiddleButtonDown(info);
+							}
+							break;
+
 					}
 				}
 
-				void XlibWindow::MouseMoveEvent(Point position)
+				void XlibWindow::MouseMoveEvent(NativeWindowMouseInfo info)
 				{
-					NativeWindowMouseInfo info;
-					{
-						info.x = position.x;
-						info.y = position.y;
-					}
-
 					FOREACH(INativeWindowListener*, i, listeners)
 					{
 						i->MouseMoving(info);

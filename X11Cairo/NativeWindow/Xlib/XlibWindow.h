@@ -49,9 +49,9 @@ namespace vl
 
 					elements::IGuiGraphicsRenderTarget* GetRenderTarget();
 
-					void MouseUpEvent(MouseButton button, Point position, bool ctrl = false, bool shift = false);
-					void MouseDownEvent(MouseButton button, Point position, bool ctrl = false, bool shift = false);
-					void MouseMoveEvent(Point position);
+					void MouseUpEvent(MouseButton button, NativeWindowMouseInfo info);
+					void MouseDownEvent(MouseButton button, NativeWindowMouseInfo info);
+					void MouseMoveEvent(NativeWindowMouseInfo info);
 					void MouseEnterEvent();
 					void MouseLeaveEvent();
 					void ResizeEvent(int width, int height);
