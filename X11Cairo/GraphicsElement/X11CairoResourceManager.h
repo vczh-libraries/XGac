@@ -13,6 +13,7 @@ namespace vl
 			};
 
 			extern void RegisterX11CairoResourceManager();
+			extern void UnregisterX11CairoResourceManager();
 		}
 	}
 }

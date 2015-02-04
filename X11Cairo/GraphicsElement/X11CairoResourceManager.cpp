@@ -47,6 +47,13 @@ namespace vl
 			{
 				SetGuiGraphicsResourceManager(new X11CairoResourceManager());
 			}
+
+			void UnregisterX11CairoResourceManager()
+			{
+				if(GetGuiGraphicsResourceManager())
+					delete GetGuiGraphicsResourceManager();
+				SetGuiGraphicsResourceManager(NULL);
+			}
 		}
 	}
 }

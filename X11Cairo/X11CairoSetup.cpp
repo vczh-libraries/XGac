@@ -18,6 +18,7 @@ void SetupX11CairoRenderer(const char* displayname)
 
 	vl::presentation::x11cairo::xlib::X11CairoMain();
 
+	vl::presentation::x11cairo::UnregisterX11CairoResourceManager();
 	SetCurrentController(NULL);
 	vl::presentation::x11cairo::xlib::DestroyXlibCairoNativeController(controller);
 }
