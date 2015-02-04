@@ -23,6 +23,7 @@ namespace vl
 			void GuiSolidLabelElementRenderer::FinalizeInternal()
 			{
 				pango_font_description_free(pangoFontDesc);
+				g_object_unref(layout);
 				if(attrList)
 					pango_attr_list_unref(attrList);
 			}
