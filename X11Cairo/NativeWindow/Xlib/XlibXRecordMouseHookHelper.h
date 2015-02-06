@@ -4,10 +4,17 @@
 #include <GacUI.h>
 #include "XlibIncludes.h"
 
+extern "C"
+{
 #include <X11/Xmd.h>
+#undef override
+#define override override_var
 #include <X11/Xlibint.h>
 #include <X11/Xproto.h>
+#undef override
+#define override
 #include <X11/extensions/record.h>
+}
 
 namespace vl
 {
