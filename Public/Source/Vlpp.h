@@ -43,7 +43,6 @@ Macros:
 #include <stdint.h>
 #include <stddef.h>
 #include <wchar.h>
-#define override
 #define abstract
 #define __thiscall
 #define __forceinline inline
