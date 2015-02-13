@@ -220,6 +220,12 @@ namespace vl
 										evWindow->ResizeEvent(event.xconfigure.width, event.xconfigure.height);
 									break;
 
+								case Expose:
+								case GraphicsExpose:
+									if((evWindow = FindWindow(event.xexpose.window)) != NULL)
+										evWindow->RedrawContent();
+									break;
+
 								case VisibilityNotify:
 									if(event.xvisibility.state != VisibilityUnobscured)
 									{
@@ -228,6 +234,7 @@ namespace vl
 											i->VisibilityEvent(event.xvisibility.window);
 										}
 									}
+									break;
 
 								default:
 									break;

@@ -42,7 +42,7 @@ namespace vl
 							);
 
 
-					XSelectInput(display, window, PointerMotionMask | ButtonPressMask | ButtonReleaseMask | KeyPressMask | KeyReleaseMask | StructureNotifyMask | SubstructureNotifyMask | VisibilityChangeMask);
+					XSelectInput(display, window, PointerMotionMask | ButtonPressMask | ButtonReleaseMask | KeyPressMask | KeyReleaseMask | StructureNotifyMask | SubstructureNotifyMask | VisibilityChangeMask | ExposureMask);
 					XSetWMProtocols(display, window, &XlibAtoms::WM_DELETE_WINDOW, 1);
 
 					CheckDoubleBuffer();
@@ -96,7 +96,7 @@ namespace vl
 						XdbeSwapInfo info;
 						{
 							info.swap_window = window;
-							info.swap_action = XdbeUndefined;
+							info.swap_action = XdbeCopied;
 						}
 
 						XdbeSwapBuffers(display, &info, 1);
@@ -176,6 +176,7 @@ namespace vl
 
 					GetBounds();
 					GetClientSize();
+					RedrawContent();
 				}
 
 				void XlibWindow::MouseUpEvent(MouseButton button, NativeWindowMouseInfo info)
@@ -641,7 +642,10 @@ namespace vl
 
 				void XlibWindow::RedrawContent()
 				{
-					//TODO
+					FOREACH(INativeWindowListener*, i, listeners)
+					{
+						i->Paint();
+					}
 				}
 			}
 		}
