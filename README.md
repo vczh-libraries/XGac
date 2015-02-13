@@ -1,5 +1,7 @@
 # XGac: a X11/Cairo/Pango port of GacLib
 
+[![Build Status](https://travis-ci.org/milizhang/XGac.svg?branch=master)](https://travis-ci.org/milizhang/XGac)
+
 ## License
 
 XGac is distributed under [Microsoft Public License (MS-PL)](http://www.microsoft.com/en-us/openness/licenses.aspx#MPL).
