@@ -17,6 +17,6 @@ install:
 
 
 script:
-    - cmake --build
+    - cmake --build ../xgac-build
 
 
