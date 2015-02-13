@@ -63,29 +63,29 @@ set(GACUI_LIBRARIES "GacUI" "GacUIX11Cairo")
 
 set(HELLOWORLD_SOURCE_FILES "HelloWorld/HelloWorld.cpp")
 add_executable(HelloWorld ${HELLOWORLD_SOURCE_FILES})
-target_link_libraries(HelloWorld ${DEPENDENCIES_LIBRARIES} ${GACUI_LIBRARIES})
+target_link_libraries(HelloWorld ${GACUI_LIBRARIES} ${DEPENDENCIES_LIBRARIES})
 
 set(CONTROLS_BUTTON_ENABLEDISABLE_SOURCE_FILES "./Controls.Button.EnableDisable/Controls.Button.EnableDisable.cpp")
 add_executable(Controls.Button.EnableDisable ${CONTROLS_BUTTON_ENABLEDISABLE_SOURCE_FILES})
-target_link_libraries(Controls.Button.EnableDisable ${DEPENDENCIES_LIBRARIES} ${GACUI_LIBRARIES})
+target_link_libraries(Controls.Button.EnableDisable ${GACUI_LIBRARIES} ${DEPENDENCIES_LIBRARIES})
 
 set(CONTROLS_BUTTON_CHECKANDRADIO_SOURCE_FILES "./Controls.Button.CheckAndRadio/Controls.Button.CheckAndRadio.cpp")
 add_executable(Controls.Button.CheckAndRadio ${CONTROLS_BUTTON_CHECKANDRADIO_SOURCE_FILES})
-target_link_libraries(Controls.Button.CheckAndRadio ${DEPENDENCIES_LIBRARIES} ${GACUI_LIBRARIES})
+target_link_libraries(Controls.Button.CheckAndRadio ${GACUI_LIBRARIES} ${DEPENDENCIES_LIBRARIES})
 
 set(CONTROLS_LISTBOX_VIRTUALMODE_SOURCE_FILES "./Controls.ListBox.VirtualMode/Controls.ListBox.VirtualMode.cpp")
 add_executable(Controls.ListBox.VirtualMode ${CONTROLS_LISTBOX_VIRTUALMODE_SOURCE_FILES})
-target_link_libraries(Controls.ListBox.VirtualMode ${DEPENDENCIES_LIBRARIES} ${GACUI_LIBRARIES})
+target_link_libraries(Controls.ListBox.VirtualMode ${GACUI_LIBRARIES} ${DEPENDENCIES_LIBRARIES})
 
 set(CONTROLS_LISTBOX_NAMESELECTOR_SOURCE_FILES "./Controls.ListBox.NameSelector/Controls.ListBox.NameSelector.cpp")
 add_executable(Controls.ListBox.NameSelector ${CONTROLS_LISTBOX_NAMESELECTOR_SOURCE_FILES})
-target_link_libraries(Controls.ListBox.NameSelector ${DEPENDENCIES_LIBRARIES} ${GACUI_LIBRARIES})
+target_link_libraries(Controls.ListBox.NameSelector ${GACUI_LIBRARIES} ${DEPENDENCIES_LIBRARIES})
 
 set(CONTROLS_SCROLL_COLORPICKER_SOURCE_FILES "./Controls.Scroll.ColorPicker/Controls.Scroll.ColorPicker.cpp")
 add_executable(Controls.Scroll.ColorPicker ${CONTROLS_SCROLL_COLORPICKER_SOURCE_FILES})
-target_link_libraries(Controls.Scroll.ColorPicker ${DEPENDENCIES_LIBRARIES} ${GACUI_LIBRARIES})
+target_link_libraries(Controls.Scroll.ColorPicker ${GACUI_LIBRARIES} ${DEPENDENCIES_LIBRARIES})
 
 set(CONTROLS_DATEPICKER_DATEANDLOCALE_SOURCE_FILES "./Controls.DatePicker.DateAndLocale/Controls.DatePicker.DateAndLocale.cpp")
 add_executable(Controls.DatePicker.DateAndLocale ${CONTROLS_DATEPICKER_DATEANDLOCALE_SOURCE_FILES})
-target_link_libraries(Controls.DatePicker.DateAndLocale ${DEPENDENCIES_LIBRARIES} ${GACUI_LIBRARIES})
+target_link_libraries(Controls.DatePicker.DateAndLocale ${GACUI_LIBRARIES} ${DEPENDENCIES_LIBRARIES})
 
