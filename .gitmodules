@@ -1,0 +1,3 @@
+[submodule "GacLib"]
+	path = GacLib
+	url = https://github.com/vczh/gac
