@@ -1,6 +1,6 @@
 # XGac: a X11/Cairo/Pango port of GacLib
 
-[![Build Status](https://travis-ci.org/milizhang/XGac.svg?branch=master)](https://travis-ci.org/milizhang/XGac)
+[![Build Status](https://travis-ci.org/vczh-libraries/XGac.svg?branch=master)](https://travis-ci.org/milizhang/XGac)
 
 ## License
 
