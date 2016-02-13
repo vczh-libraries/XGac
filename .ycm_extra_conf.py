@@ -43,7 +43,7 @@ flags = [
 '-isystem',
 '/usr/include/cairo',
 '-I',
-'./Public/Source',
+'./GacLib/Import',
 '-I',
 './X11Cairo',
 ]

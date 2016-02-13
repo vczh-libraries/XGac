@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.7)
 project(XGacTests)
 find_package(PkgConfig REQUIRED)
-include_directories("../GacLib/Public/Source")
+include_directories("../GacLib/Import")
 include_directories("../X11Cairo")
 
 pkg_check_modules(DEPENDENCIES REQUIRED x11 cairo cairo-xlib pango pangocairo recordproto xtst)
@@ -12,7 +12,7 @@ link_directories(${DEPENDENCIES_LIBRARY_DIRS})
 set(OS_LIBRARIES "pthread")
 if(APPLE)
     link_directories("/opt/X11/lib")
-    link_directories("/usr/local/Cellar/gettext/0.19.3_1/lib")
+    link_directories("/usr/local/Cellar/gettext/0.19.6/lib")
     include_directories("/opt/X11/include")
 	find_library(COREFOUNDATION_LIBRARIES CoreFoundation)
 	set(OS_LIBRARIES ${COREFOUNDATION_LIBRARIES} ${OS_LIBRARIES})
@@ -25,7 +25,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 
 add_definitions(-DGAC_X11_DOUBLEBUFFER)
 
-set(GACUI_COMMON_FILES "../GacLib/Public/Source/Vlpp.cpp" "../GacLib/Public/Source/VlppWorkflow.cpp" "../GacLib/Public/Source/GacUI.cpp" "../GacLib/Public/Source/GacUIReflection.cpp")
+set(GACUI_COMMON_FILES "../GacLib/Import/Vlpp.cpp" "../GacLib/Import/VlppWorkflow.cpp" "../GacLib/Import/GacUI.cpp" "../GacLib/Import/GacUIReflection.cpp")
 
 set(GACUI_X11CAIRO_COMMON_FILES
 	"../X11Cairo/X11CairoSetup.cpp"
