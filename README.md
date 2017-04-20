@@ -4,7 +4,7 @@
 
 ## License
 
-XGac is distributed under [Microsoft Public License (MS-PL)](http://www.microsoft.com/en-us/openness/licenses.aspx#MPL).
+**Read the [LICENSE](https://github.com/vczh-libraries/Workflow/blob/master/LICENSE.md) first.**
 
 Rendering components of XGac depends on [Cairo](http://cairographics.org/) and [Pango](http://www.pango.org/), which are licensed under the GNU Lesser General Public License (LGPL). Please follow the requirements of these libraries when distributing your application.
 
